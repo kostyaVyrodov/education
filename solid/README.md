@@ -50,11 +50,21 @@ Rule:
 
 ### Techniques that allows writing better code
 
+Programmers spend a lot of time reading the code and trying to figure out what it does. 
+Good code base allows to read less and write more.
+
 ##### CQS (command query separation)
 Your operations should be commands or queries but not both.
+
 This principle allow a programmer to trust a code
 - Commands have side effects (mutate state; can invoke queries);
-- Queries return data (returns something, can't invoke commands, idempotent - same result every time);
+- Queries return data (returns something, can't invoke commands, idempotent - same result every time).
+
+CQS should have clear boundaries and whole team should understand them. It will increase trusting to your code.
+Because the main goal is not to use CSQ, the main goal is increase productivity.\
 
 ##### Postel's law
-> 
+You should be very conservative in what you send, but you should be liberal in what you accept.
+1. Check everything that you accept;
+2. Try to accept even extreme arguments. If argument is not valid return informative response;
+3. Return only expected value;
