@@ -68,3 +68,6 @@ You should be very conservative in what you send, but you should be liberal in w
 1. Check everything that you accept;
 2. Try to accept even extreme arguments. If argument is not valid return informative response;
 3. Return only expected value;
+
+Invariant is property of programs state that always is true.
+> For instance, a binary search tree might have the invariant that for every node, the key of the node's left child is less than the node's own key. A correctly written insertion function for this tree will maintain that invariant.

@@ -1,16 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SolidOod
+namespace Module1.SolidOod
 {
     public class FileStore
     {
-        public string WorkingDirectory { get; set; }
+        public FileStore(string workingDirectory)
+        {
+            if(workingDirectory == null) 
+                throw new ArgumentNullException("workingDirectory");
+
+            this.WorkingDirectory = workingDirectory;
+        }
+
+        // It's easy to create instance with null property. The GetFileName won't work.
+        public string WorkingDirectory { get; private set; }
 
         public void Save(int id, string message)
         {
