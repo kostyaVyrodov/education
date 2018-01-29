@@ -3,6 +3,11 @@
 ### Course goal:
 Learn how to write more maintainable and readable code.
 
+### High cohesion and low coupling
+**Cohesion** refers to the degree to which the elements of a module/class belong together, suggestion is all the related code should be close to each other, so we should strive for high cohesion and bind all related code together as far as possible. It has to do with the elements within the module/class.
+
+**Coupling** refers to the degree to which the different modules/classes depend on each other, suggestion is all modules should be independent as far as possible, that's why low coupling. It has to do with the elements among different modules/classes.
+
 ### Encapsulation
 What's encapsulation about?
 The encapsulation describes how to write reusable code, reusable components where you can reuse them without fully understanding all implementation details.
@@ -23,7 +28,7 @@ public class FileStore
 
     public event EventHandler<MessageEventArgs> MessageRead;
 
-    // Why does read returns void?
+    // Why does read return void?
     public void Read(int id);
 }
 ```
