@@ -8,7 +8,6 @@ Learn how to write more maintainable and readable code.
 
 **Coupling** refers to the degree to which the different modules/classes depend on each other, suggestion is all modules should be independent as far as possible, that's why low coupling. It has to do with the elements among different modules/classes.
 
-> Null reference is my billion-dollar mistake - Tony Hoare
 
 ### Encapsulation
 What's encapsulation about?
@@ -28,6 +27,7 @@ public class FileStore
     // Why does save return string? What is that string?
     public string Save(int id, string message);
 
+    // What does MessageRead do here?
     public event EventHandler<MessageEventArgs> MessageRead;
 
     // Why does read return void?
@@ -74,3 +74,21 @@ You should be very conservative in what you send, but you should be liberal in w
 Invariant is property of programs state that always is true.
 > For instance, a binary search tree might have the invariant that for every node, the key of the node's left child is less than the node's own key. A correctly written insertion function for this tree will maintain that invariant.
 
+##### Returning null 
+> Null reference is my billion-dollar mistake - Tony Hoare
+
+```
+public string Read(int id)
+{
+    var path = GetFileName(id);
+    var msg = File.ReadAllText(path);
+    return msg;
+}
+```
+
+Read method can return null or string. A class user has to go to the implementation fo read method to understand it. 
+It's bad because our design forces developers to waste time by reading our code instead of just checking implementation and fastly figure out how to work with our types.
+
+How to avoid returning null?
+- Add an bool Exists(int id) method (not thread safe); 
+- bool TryRead(int id, out string message) (not convenient);
