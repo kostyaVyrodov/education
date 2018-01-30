@@ -8,6 +8,8 @@ Learn how to write more maintainable and readable code.
 
 **Coupling** refers to the degree to which the different modules/classes depend on each other, suggestion is all modules should be independent as far as possible, that's why low coupling. It has to do with the elements among different modules/classes.
 
+> Null reference is my billion-dollar mistake - Tony Hoare
+
 ### Encapsulation
 What's encapsulation about?
 The encapsulation describes how to write reusable code, reusable components where you can reuse them without fully understanding all implementation details.
@@ -71,3 +73,4 @@ You should be very conservative in what you send, but you should be liberal in w
 
 Invariant is property of programs state that always is true.
 > For instance, a binary search tree might have the invariant that for every node, the key of the node's left child is less than the node's own key. A correctly written insertion function for this tree will maintain that invariant.
+

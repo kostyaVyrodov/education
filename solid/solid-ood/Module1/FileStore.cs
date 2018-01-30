@@ -9,6 +9,8 @@ namespace Module1.SolidOod
         {
             if(workingDirectory == null) 
                 throw new ArgumentNullException("workingDirectory");
+            if(!Directory.Exists(workingDirectory))
+                throw new ArgumentException("Boo", "workingDirectory");
 
             this.WorkingDirectory = workingDirectory;
         }
