@@ -93,4 +93,10 @@ How to avoid returning null?
 - bool TryRead(int id, out string message) (not convenient);
 - Maybe
 
-It's okay to make types public if they protect invariants. 
+**Summary:**
+- We spend more time reading then writing -> make code easier to read;
+- It's okay to make types public if they protect invariants;
+- Fail fast when something goes wrong, but only with noticeable message;
+- Never return null;
+- Don't forget about Postel's law and CQS;
+- Write for stupid programmers.

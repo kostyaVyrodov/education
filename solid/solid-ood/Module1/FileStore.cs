@@ -63,7 +63,6 @@ namespace Module1.SolidOod
             return new Maybe<string>(message);
         }
 
-
         public string GetFileName(int id)
         {
             return Path.Combine(this.WorkingDirectory, id + ".txt");
