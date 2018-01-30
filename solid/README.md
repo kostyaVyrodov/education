@@ -92,3 +92,4 @@ It's bad because our design forces developers to waste time by reading our code 
 How to avoid returning null?
 - Add an bool Exists(int id) method (not thread safe); 
 - bool TryRead(int id, out string message) (not convenient);
+- Maybe
