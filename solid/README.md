@@ -8,7 +8,6 @@ Learn how to write more maintainable and readable code.
 
 **Coupling** refers to the degree to which the different modules/classes depend on each other, suggestion is all modules should be independent as far as possible, that's why low coupling. It has to do with the elements among different modules/classes.
 
-
 ### Encapsulation
 What's encapsulation about?
 The encapsulation describes how to write reusable code, reusable components where you can reuse them without fully understanding all implementation details.
@@ -93,3 +92,5 @@ How to avoid returning null?
 - Add an bool Exists(int id) method (not thread safe); 
 - bool TryRead(int id, out string message) (not convenient);
 - Maybe
+
+It's okay to make types public if they protect invariants. 
