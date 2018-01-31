@@ -130,3 +130,13 @@ The purpose of SOLID is to make code more productive, by making your code more m
 - Immobility. The design is difficult to reuse;
 - Viscosity. It's difficult to do the right thing;
 - Needless complexity. Overdesign.
+
+##### Single responsibility principle
+
+How to define single responsibility?
+> A class should have only one reason to change.
+
+How to process every 'reason for change'? 
+> It should be extracted into separate type.
+Example: extracting of logging, storing and caching into separate classes.
+You'll get 4 classes: 3 specific and 1 class-manager.
