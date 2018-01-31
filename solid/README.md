@@ -100,3 +100,33 @@ How to avoid returning null?
 - Never return null;
 - Don't forget about Postel's law and CQS;
 - Write for stupid programmers.
+
+### SOLID
+
+Why do we need SOLID?
+To write maintainable code
+Soft should adaptable for new requirements, because it always changes
+
+What's solid? It's acronym of design principles.
+**S**ingle Responsibility Principle - every type should have only one responsibility;
+**O**pen Close Principle - class should be opened for extensibility but closed for modification;
+**L**iskov Substitution Principle - explains how to polymorphism should work; 
+**I**nterface Segregation Principle - describes how to interface should be design;
+**D**ependency Inversion Principle - describes the relationships between abstractions and concrete types.
+
+**What solid is not:**
+- Not a framework or library, not a specific technology;
+- It's not a goal;
+- Not a pattern.
+
+> If you write code using object oriented language it doesn't mean that code is written in OO styles. In most cases it's written in procedural style.
+> SOLID principles lift your code to OO style.
+
+The purpose of SOLID is to make code more productive, by making your code more maintainable through decomposition and decoupling.
+
+**Design smells:**
+- Rigidity. Means that design is difficult to change;
+- Fragility. The design is easy to break;
+- Immobility. The design is difficult to reuse;
+- Viscosity. It's difficult to do the right thing;
+- Needless complexity. Overdesign.
