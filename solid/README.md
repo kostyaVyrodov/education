@@ -108,11 +108,11 @@ To write maintainable code
 Soft should adaptable for new requirements, because it always changes
 
 What's solid? It's acronym of design principles.
-**S**ingle Responsibility Principle - every type should have only one responsibility;
-**O**pen Close Principle - class should be opened for extensibility but closed for modification;
-**L**iskov Substitution Principle - explains how to polymorphism should work; 
-**I**nterface Segregation Principle - describes how to interface should be design;
-**D**ependency Inversion Principle - describes the relationships between abstractions and concrete types.
+- **S**ingle Responsibility Principle - every type should have only one responsibility;
+- **O**pen Close Principle - class should be opened for extensibility but closed for modification;
+- **L**iskov Substitution Principle - explains how to polymorphism should work; 
+- **I**nterface Segregation Principle - describes how to interface should be design;
+- **D**ependency Inversion Principle - describes the relationships between abstractions and concrete types.
 
 **What solid is not:**
 - Not a framework or library, not a specific technology;
