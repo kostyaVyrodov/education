@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SolidOod.Module2
+namespace SolidOod.Module3
 {
     public class MessageStore
     {

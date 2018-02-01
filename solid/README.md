@@ -8,6 +8,8 @@ Learn how to write more maintainable and readable code.
 
 **Coupling** refers to the degree to which the different modules/classes depend on each other, suggestion is all modules should be independent as far as possible, that's why low coupling. It has to do with the elements among different modules/classes.
 
+> Abstraction is the elimination of the irrelevant and the amplification of the essential (R. Martin)
+
 ### Encapsulation
 What's encapsulation about?
 The encapsulation describes how to write reusable code, reusable components where you can reuse them without fully understanding all implementation details.
@@ -131,7 +133,13 @@ The purpose of SOLID is to make code more productive, by making your code more m
 - Viscosity. It's difficult to do the right thing;
 - Needless complexity. Overdesign.
 
+> Abstraction is not designed, it's discovered. 
+Try to implement concrete behavior and then discover common abstraction.
+Follow to the rule of three. 
+
 ##### Single responsibility principle
+
+A type should do only on thing and do it well.
 
 How to define single responsibility?
 > A class should have only one reason to change.
@@ -140,3 +148,14 @@ How to process every 'reason for change'?
 > It should be extracted into separate type.
 Example: extracting of logging, storing and caching into separate classes.
 You'll get 4 classes: 3 specific and 1 class-manager.
+
+> Developer have a tendency to attempt to solve specific problems with general solution.
+
+
+##### Open Closed Principle
+
+A type should be opened for extensibility and closed for modification
+
+This principle was discovered basing on inheritance
+
+Inheritance way to open class for extensibility is to add `virtual` keyword.

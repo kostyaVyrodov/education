@@ -58,6 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Module3\FileStore.cs" />
+    <Compile Include="Module3\MessageStore.cs" />
+    <Compile Include="Module3\StoreCache.cs" />
+    <Compile Include="Module3\StoreLogger.cs" />
     <Compile Include="Module2\FileStore.cs" />
     <Compile Include="Module2\StoreCache.cs" />
     <Compile Include="Module2\StoreLogger.cs" />

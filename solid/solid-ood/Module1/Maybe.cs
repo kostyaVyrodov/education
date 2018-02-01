@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SolidOod.Module1
+namespace SolidOod
 {
     public class Maybe<T> : IEnumerable<T>
     {

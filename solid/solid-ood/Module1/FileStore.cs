@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Net.Http.Headers;
-using SolidOod.Module1;
 
-namespace Module1.SolidOod
+namespace SolidOod
 {
     public class FileStore
     {
