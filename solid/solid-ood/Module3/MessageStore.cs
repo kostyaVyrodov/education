@@ -27,28 +27,34 @@ namespace SolidOod.Module3
 
         public void Save(int id, string message)
         {
-            log.Saving(id);
-            var fileInfo = fileStore.GetFileInfo(id, WorkingDirectory);
-            fileStore.WriteAllText(fileInfo.FullName, message);
-            cache.AddOrUpdate(id, message);
-            log.Saved(id);
+            Log.Saving(id);
+            var fileInfo = Store.GetFileInfo(id, WorkingDirectory);
+            Store.WriteAllText(fileInfo.FullName, message);
+            Cache.AddOrUpdate(id, message);
+            Log.Saved(id);
         }
 
         // var message = fileStore.Read(49).DefaultIfEmpty("").Single();
         public Maybe<string> Read(int id)
         {
-            log.Reading(id);
-            var fileInfo = fileStore.GetFileInfo(id, WorkingDirectory);
+            Log.Reading(id);
+            var fileInfo = Store.GetFileInfo(id, WorkingDirectory);
 
             if (!fileInfo.Exists)
             {
-                log.DidNotFind(id);
+                Log.DidNotFind(id);
                 return new Maybe<string>();
             }
 
-            var message = cache.GetOrAdd(id, _ => fileStore.ReadAllText(fileInfo.FullName));
-            log.Returning(id);
+            var message = Cache.GetOrAdd(id, _ => Store.ReadAllText(fileInfo.FullName));
+            Log.Returning(id);
             return new Maybe<string>(message);
         }
+
+        protected virtual FileStore Store => fileStore;
+
+        protected virtual StoreCache Cache => cache;
+
+        protected virtual StoreLogger Log => log;
     }
 }
