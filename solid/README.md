@@ -154,8 +154,8 @@ You'll get 4 classes: 3 specific and 1 class-manager.
 
 ##### Open Closed Principle
 
-A type should be opened for extensibility and closed for modification
+A type should be opened for extensibility and closed for modification.
 
-This principle was discovered basing on inheritance
+This principle was discovered basing on inheritance. If you want to extend a type derive it.
 
 Inheritance way to open class for extensibility is to add `virtual` keyword.
