@@ -28,3 +28,10 @@ If a user lose his private key he will lose his money. Nobody can reset his pass
  - Less efficient - high value transactions require 1 hours;
  - Proof of work burn energy by design;
  - Changing more difficult - widespread agreement needed.
+
+ ## Bitcoin under the hood
+
+ ### Bitcoin software universe
+ - Software for creating private keys and addresses. Create and sign transactions (wallets/thin clients); 
+ - Software for booking keeper tasks: wallet functionality, check and relay transactions, maintain full ledger (full node/ bitcoin core);
+ - Solving proof of work puzzle in voting process (voter/miners);
