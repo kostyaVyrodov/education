@@ -10,3 +10,5 @@ The language has about 25 keywords ant it's compiled language without virtual ru
 ## Project structure
 
 The Go need 3 specific folders for storing source code, packages, and any compiled binaries.
+
+`package main` tells that code is executable module, not a shared library
