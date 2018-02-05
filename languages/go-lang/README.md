@@ -12,3 +12,15 @@ The language has about 25 keywords ant it's compiled language without virtual ru
 The Go need 3 specific folders for storing source code, packages, and any compiled binaries.
 
 `package main` tells that code is executable module, not a shared library
+
+## Constants and variables
+
+- Go passes arguments by value. Arguments of functions are copied;
+- & gets memory address;
+- * gets value of memory address;
+- = assign a value to an existing variable;
+- := init a new value;
+- module 'os' allows set and get environment variables;
+- Go supports type inference;
+- const, var - on module level;
+- := - on function level
