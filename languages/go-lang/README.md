@@ -24,3 +24,8 @@ The Go need 3 specific folders for storing source code, packages, and any compil
 - Go supports type inference;
 - const, var - on module level;
 - := - on function level
+
+## Conditions
+- Idiomatic to return an error as the last return from functions and methods;
+- nil value indicates success;
+- error checking via if. No monads or staff like that;
