@@ -29,3 +29,8 @@ The Go need 3 specific folders for storing source code, packages, and any compil
 - Idiomatic to return an error as the last return from functions and methods;
 - nil value indicates success;
 - error checking via if. No monads or staff like that;
+
+## Arrays and slices
+- Slice is part of array; It's a reference to array items;
+- Making a slice doesn't return a new object; It's part of array;
+- Always use slice in your code; It has flexible length and it's more convenient;
