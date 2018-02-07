@@ -42,3 +42,7 @@ The Go need 3 specific folders for storing source code, packages, and any compil
 - Go iterates maps randomly in `for range` loop;
 - Map is reference type. Same as slices;
 - It's unsafe for concurrency;
+
+## Structs
+- Struct is custom data type;
+- Go doesn't support class, objects and inheritance;
