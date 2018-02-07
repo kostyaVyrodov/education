@@ -34,3 +34,11 @@ The Go need 3 specific folders for storing source code, packages, and any compil
 - Slice is part of array; It's a reference to array items;
 - Making a slice doesn't return a new object; It's part of array;
 - Always use slice in your code; It has flexible length and it's more convenient;
+
+## Maps
+- Maps are unordered collection;
+- Maps are key-value pairs - it's a just hashtable;
+- Syntax of map declaration: `map[keyType]valueType`;
+- Go iterates maps randomly in `for range` loop;
+- Map is reference type. Same as slices;
+- It's unsafe for concurrency;
