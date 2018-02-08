@@ -139,7 +139,7 @@ Follow to the rule of three.
 
 ##### Single responsibility principle
 
-A type should do only on thing and do it well.
+> A type should do only on thing and do it well.
 
 How to define single responsibility?
 > A class should have only one reason to change.
@@ -154,11 +154,37 @@ You'll get 4 classes: 3 specific and 1 class-manager.
 
 ##### Open Closed Principle
 
-A type should be opened for extensibility and closed for modification.
+> A type should be opened for extensibility and closed for modification.
 
 This principle was discovered basing on inheritance. If you want to extend a type derive it.
 
 Inheritance way to open class for extensibility is to add `virtual` keyword.
 
+> Programmers create, read, update, delete code. According to the OCP a developer can only read or create code.
+
 ##### Liskov Substitution Principle
 
+> Subtypes must be substitutable for their base types.
+
+A client should consume any implementation without changing the correctness of the system.
+
+**Signs of LSP violation:**
+- NotSupportedException. Sample: ICollection<T> - Support all List<T>, Add, Remove, Clear are not supported ReadOnlyCollection<T>;
+- A lot of downcasts;
+- Extracting of interface.
+
+Implementation of type should work on one level of abstraction.
+
+`
+public virtual string ReadAllText(string path)
+{
+    return File.ReadAllText(path);
+}
+
+public virtual FileInfo GetFileInfo(int id, string workingDir)
+{
+    return new FileInfo(Path.Combine(workingDir, id + ".txt"));
+}
+`
+
+`ReadAllText` works with a 'path' and the `GetFileInfo` works with id;
