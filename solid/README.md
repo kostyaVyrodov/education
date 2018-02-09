@@ -175,7 +175,7 @@ A client should consume any implementation without changing the correctness of t
 
 Implementation of type should work on one level of abstraction.
 
-`
+```
 public virtual string ReadAllText(string path)
 {
     return File.ReadAllText(path);
@@ -185,6 +185,22 @@ public virtual FileInfo GetFileInfo(int id, string workingDir)
 {
     return new FileInfo(Path.Combine(workingDir, id + ".txt"));
 }
-`
+```
 
-`ReadAllText` works with a 'path' and the `GetFileInfo` works with id;
+```ReadAllText``` works with a 'path' and the ```GetFileInfo``` works with id;
+
+##### Interface Segregation Principle
+
+> Clients should not be forced to depend on methods they do not use
+
+Clients are owners of interfaces. They define what they need, so an interface is defined by a class that will use interface.
+
+> Favour Role Interface over Header Interfaces
+
+Header interface is extracted from a class and has useless members for other clients. It's just a big interface with a lot of members.
+
+ISP helps you to resolve LSP issues.
+
+Smell of ISP: When you have a client that uses an interface and there are some unused members from the interface. It's violation of ISP.
+
+Contract of type may help you to find an abstraction not a name of type or type members.
