@@ -1,24 +1,23 @@
 # SOLID course notes
 
-### Course goal:
-Learn how to write more maintainable and readable code.
+Course goal: Learn how to write more maintainable and readable code.
 
-### High cohesion and low coupling
+## High cohesion and low coupling
 **Cohesion** refers to the degree to which the elements of a module/class belong together, suggestion is all the related code should be close to each other, so we should strive for high cohesion and bind all related code together as far as possible. It has to do with the elements within the module/class.
 
 **Coupling** refers to the degree to which the different modules/classes depend on each other, suggestion is all modules should be independent as far as possible, that's why low coupling. It has to do with the elements among different modules/classes.
 
 > Abstraction is the elimination of the irrelevant and the amplification of the essential (R. Martin)
 
-### Encapsulation
+## Encapsulation
 What's encapsulation about?
-The encapsulation describes how to write reusable code, reusable components where you can reuse them without fully understanding all implementation details.
-Right encapsulation makes your code simpler. It allows other programmers to avoid wasting time on searching and figuring out with details of implementation.
+- The encapsulation describes how to write reusable code, reusable components where you can reuse them without fully understanding all implementation details.
+- Right encapsulation makes your code simpler. It allows other programmers to avoid wasting time on searching and figuring out with details of implementation.
 
-##### A symptom of code smell
+### A symptom of code smell
 When you need to go to source code or read the documentation in order to understand what a code does.
 
-##### Sample sucks code
+### Sample sucks code
 
 ```C#
 public class FileStore 
@@ -36,17 +35,17 @@ public class FileStore
 }
 ```
 
-##### Negative side effects of sucks code?
+### Negative side effects of sucks code?
 - Reducing of long-term productivity (not years)
 - Reducing of maintainability 
 
-Fact: 
+**Fact:**
 > Code is read more than written. 
 
-Rule:
+**Rule:**
 > Write for stupid programmers. Just KISS.
 
-##### Classic definition of encapsulation
+### Classic definition of encapsulation
 - Information hiding (private properties)
 - Implementation hiding (user class -> arrays of passwords -> get a password = last item via property. It allow to make validation)
 - Protection of invariants (checking precondition and guarantee post condition)
@@ -78,6 +77,9 @@ Invariant is property of programs state that always is true.
 ##### Returning null 
 > Null reference is my billion-dollar mistake - Tony Hoare
 
+Read method can return null or string. A class user has to go to the implementation fo read method to understand it. 
+It's bad because our design forces developers to waste time by reading our code instead of just checking implementation and fastly figure out how to work with our types.
+
 ```
 public string Read(int id)
 {
@@ -87,13 +89,10 @@ public string Read(int id)
 }
 ```
 
-Read method can return null or string. A class user has to go to the implementation fo read method to understand it. 
-It's bad because our design forces developers to waste time by reading our code instead of just checking implementation and fastly figure out how to work with our types.
-
 How to avoid returning null?
 - Add an bool Exists(int id) method (not thread safe); 
 - bool TryRead(int id, out string message) (not convenient);
-- Maybe
+- 'Maybe'.
 
 **Summary:**
 - We spend more time reading then writing -> make code easier to read;
@@ -103,7 +102,7 @@ How to avoid returning null?
 - Don't forget about Postel's law and CQS;
 - Write for stupid programmers.
 
-### SOLID
+## SOLID
 
 Why do we need SOLID?
 To write maintainable code
@@ -137,12 +136,12 @@ The purpose of SOLID is to make code more productive, by making your code more m
 Try to implement concrete behavior and then discover common abstraction.
 Follow to the rule of three. 
 
-##### Objects, function and closures
+### Objects, function and closures
 - Object are data with behavior;
 - Functions are pure behavior;
 - Closures are behavior with data.
 
-##### Single responsibility principle
+### Single responsibility principle
 
 > A type should do only on thing and do it well.
 
@@ -156,8 +155,7 @@ You'll get 4 classes: 3 specific and 1 class-manager.
 
 > Developer have a tendency to attempt to solve specific problems with general solution.
 
-
-##### Open Closed Principle
+### Open Closed Principle
 
 > A type should be opened for extensibility and closed for modification.
 
@@ -167,7 +165,7 @@ Inheritance way to open class for extensibility is to add `virtual` keyword.
 
 > Programmers create, read, update, delete code. According to the OCP a developer can only read or create code.
 
-##### Liskov Substitution Principle
+### Liskov Substitution Principle
 
 > Subtypes must be substitutable for their base types.
 
@@ -194,7 +192,7 @@ public virtual FileInfo GetFileInfo(int id, string workingDir)
 
 ```ReadAllText``` works with a 'path' and the ```GetFileInfo``` works with id;
 
-##### Interface Segregation Principle
+### Interface Segregation Principle
 
 > Clients should not be forced to depend on methods they do not use
 
@@ -210,7 +208,7 @@ Smell of ISP: When you have a client that uses an interface and there are some u
 
 Contract of type may help you to find an abstraction not a name of type or type members.
 
-###### Dependency Inversion Principle
+### Dependency Inversion Principle
 
 High-level modules should not depend on low-level modules. Both should depend on abstractions.
 Abstraction should not depend upon details. Details should depend upon abstractions.
