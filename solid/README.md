@@ -137,6 +137,11 @@ The purpose of SOLID is to make code more productive, by making your code more m
 Try to implement concrete behavior and then discover common abstraction.
 Follow to the rule of three. 
 
+##### Objects, function and closures
+- Object are data with behavior;
+- Functions are pure behavior;
+- Closures are behavior with data.
+
 ##### Single responsibility principle
 
 > A type should do only on thing and do it well.
@@ -204,3 +209,8 @@ ISP helps you to resolve LSP issues.
 Smell of ISP: When you have a client that uses an interface and there are some unused members from the interface. It's violation of ISP.
 
 Contract of type may help you to find an abstraction not a name of type or type members.
+
+###### Dependency Inversion Principle
+
+High-level modules should not depend on low-level modules. Both should depend on abstractions.
+Abstraction should not depend upon details. Details should depend upon abstractions.

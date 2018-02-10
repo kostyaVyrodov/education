@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace SolidOod
+namespace SolidOod.Module1
 {
     public class Maybe<T> : IEnumerable<T>
     {

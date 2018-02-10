@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace SolidOod
+namespace SolidOod.Module1
 {
     public class FileStore
     {
