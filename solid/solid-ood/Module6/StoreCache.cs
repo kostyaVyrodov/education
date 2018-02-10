@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using SolidOod.Module6.Interfaces;
 
-namespace SolidOod.Module4
+namespace SolidOod.Module6
 {
-    public class StoreCache
+    public class StoreCache : IStoreCache
     {
         private readonly ConcurrentDictionary<int, Maybe<string>> cache;
 
@@ -12,7 +13,7 @@ namespace SolidOod.Module4
             this.cache = new ConcurrentDictionary<int, Maybe<string>>();
         }
 
-        public void AddOrUpdate(int id, string message)
+        public void Save(int id, string message)
         {
             var m = new Maybe<string>(message);
             this.cache.AddOrUpdate(id, m, (i, s) => m);

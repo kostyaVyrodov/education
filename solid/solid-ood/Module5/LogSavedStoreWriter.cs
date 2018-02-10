@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SolidOod.Module4;
-using SolidOod.Module5.Interfaces;
+using SolidOod.Module6.Interfaces;
 
 namespace SolidOod.Module5
 {
-    public class LogSavedStoreWriter:IStoreWriter
+    public class LogSavedStoreWriter : IStoreWriter
     {
         public void Save(int id, string message)
         {

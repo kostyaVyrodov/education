@@ -1,7 +1,7 @@
 ﻿using System;
 using SolidOod.Module6.Interfaces;
 
-namespace SolidOod.Module5
+namespace SolidOod.Module6
 {
     public class LogSavingStoreWriter: IStoreWriter
     {

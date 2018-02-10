@@ -1,4 +1,4 @@
-﻿namespace SolidOod.Module5.Interfaces
+﻿namespace SolidOod.Module6.Interfaces
 {
     public interface IStoreLogger
     {

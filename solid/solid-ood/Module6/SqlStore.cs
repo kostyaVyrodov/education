@@ -1,21 +1,16 @@
 ﻿using System;
-using System.IO;
+using SolidOod.Module6.Interfaces;
 
-namespace SolidOod.Module4
+namespace SolidOod.Module6
 {
     public class SqlStore: IStore
     {
-        public FileInfo GetFileInfo(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Maybe<string> ReadAllText(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void WriteAllText(int id, string message)
+        public void Save(int id, string message)
         {
             throw new NotImplementedException();
         }
