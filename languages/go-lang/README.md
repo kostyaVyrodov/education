@@ -52,3 +52,7 @@ The Go need 3 specific folders for storing source code, packages, and any compil
 - Goroutine is special thread inside go runtime; It has lighter weight; Less switching (because it's on the level of golang runtime);
 - Go implements and actor model;
 - Channel is tool for communication of two goroutine.
+
+## Methods
+- ```func (p person) updateAge(newAge int)``` updates a new Person struct
+- ```func (p *person) updateAge(newAge int)``` updates passed Person struct
