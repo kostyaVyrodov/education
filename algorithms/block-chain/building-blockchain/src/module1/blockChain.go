@@ -1,4 +1,4 @@
-package module2
+package module1
 
 type Blockchain struct {
 	Blocks []*Block
