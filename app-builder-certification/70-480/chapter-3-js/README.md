@@ -45,3 +45,9 @@ JS 'features':
 - ```while``` is used when you have a conditional expression that indicates when the loop should stop;
 - ```do\while``` is used in the same way as 'while' AND when you need to execute it at least once;
 - ```for``` is used when you know length of a collection and you need to iterate through it.
+
+## Troubleshooting 
+
+- JS string are immutable;
+- the ```-``` casts string to numbers;
+- ```navigator``` allows to check which browser is used by a user;
