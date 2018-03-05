@@ -1,6 +1,10 @@
 # JS notes
 
-## Introducing JS
+```'use strict'``` disables deprecated JS features. 
+
+IE9- ignore such directive and client's code which calls libraries can work incorrectly (Some of libraries are written without 'use strict')
+
+## Lesson 1: Introducing JS
 
 JS defines a value as an object, function or primitive type.
 
@@ -19,6 +23,8 @@ Build-in object types:
 - the String object;
 - the RegExp object;
 - and other.
+
+```typeOf``` returns a string that corresponds to the name of type
 
 Difference between 'argument' and 'parameter': 
 > Arguments represent the values you pass to the function, whereas the parameters represent the values received from the caller.
@@ -40,11 +46,51 @@ Difference between 'argument' and 'parameter':
 JS 'features':
 ```null == undefined; false == 0; '' == 0; '123' == 123```
 
+```-, /, *``` + string with number => number
+
+```+``` string with number => string
+
+#### ToString
+```String(null)``` => ```'null'```
+
+```String(undefined)``` => ```'undefined'```
+
+#### ToNumber
+```+'123'``` => ```123```
+```+undefined``` => ```NaN```
+```+null``` => ```0```
+```+true``` => ```````
+```+false``` => ```0```
+```+'\n 123  '``` => ```123``` and ```+'\n 123x  '``` => ```NaN```
+
+Comparing different types is equal transforming to a Number:
+```"1" == true``` => ```true```
+
+```NaN == null```
+
 ### Loops
 
 - ```while``` is used when you have a conditional expression that indicates when the loop should stop;
 - ```do\while``` is used in the same way as 'while' AND when you need to execute it at least once;
 - ```for``` is used when you know length of a collection and you need to iterate through it.
+
+## Lesson 2: Debugging JS
+
+> The <script> element can define a JavaScript code block or load an external JavaScript file, but not both.
+```<script src="some-script.js" />``` or ```<script></script>``` but not both.
+
+```<script async>``` - the script is executed asynchronously while the page continues the parsing.
+
+```<script defer>``` - the script is executed after the page has finished parsing.
+
+```<noscript>The text</noscript>``` is shown when a browser doesn't support JS.
+
+> Tip: 
+> For best performance, place the <script> elements at the bottom of the HTML document, before the </body> tag
+
+## Lesson 3: Working with objects
+
+### Creating array
 
 ## Troubleshooting 
 
