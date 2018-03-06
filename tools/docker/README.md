@@ -31,3 +31,6 @@ Using Compose is basically a three-step process.
 
 - Images - read-only template of container. (It's a class if to compare it with classes and objects)
 - Container is instance of an image. It likes a directory and every container is isolated.
+
+## Docker commands
+- ```docker -it ubuntu bash``` - download ubuntu image, run it and connect to it through terminal
