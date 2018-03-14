@@ -92,6 +92,16 @@ Comparing different types is equal transforming to a Number:
 
 ### Creating array
 
+Creating and populating array 
+- inserting with the index: ```const arr = new Array(); arr[0] = 1;```  and etc;
+- inserting via ctor: ```const arr = new Array(1, 2, 3)```;
+- literal array: ```const arr = [1, 2, 3]```;
+
+### Array functions
+
+- ```pop()``` returns the last item and removes it from the array;
+- ```push()``` returns new length and adds new item to the end of an array;
+
 ## Troubleshooting 
 
 - JS string are immutable;
