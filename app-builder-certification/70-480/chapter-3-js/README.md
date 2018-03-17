@@ -102,6 +102,25 @@ Creating and populating array
 - ```pop()``` returns the last item and removes it from the array;
 - ```push()``` returns new length and adds new item to the end of an array;
 
+### windows hierarchy 
+
+window - on the top of hierarchy
+
+- window.JS (object, array, fnc and etc)
+- window.BOM (navigator, screen, location end etc) allow to work with everything except page
+- window.DOM (document and etc) allows to interact with page content
+
+### Working with DOM
+
+DOM functions can return live collection or static one. The live collection (NodeList) updates is synced with actual DOM. So when something is added to the DOM the live collection is also updated. It's similar to reference.
+
+```getElementById``` a reference to the first object with specified id;
+```getElementsByTagName``` a live NodeList of elements with such tag name;
+```getElementsByName``` a live NodeList of elements with such attribute name;
+```getElementsByClass``` a live NodeList of elements with such class name;
+```querySelector``` accepts css selector and returns first matched node;
+```querySelectorAll``` accepts css selector and returns all matched nodes.
+
 ## Troubleshooting 
 
 - JS string are immutable;
