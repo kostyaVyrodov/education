@@ -121,6 +121,9 @@ DOM functions can return live collection or static one. The live collection (Nod
 ```querySelector``` accepts css selector and returns first matched node;
 ```querySelectorAll``` accepts css selector and returns all matched nodes.
 
+```btn.addEventListener('click', saveData, false);``` - last argument specifies when to call callBack (on bubble or on capturing)
+> Note: when you subscribe on event in a tag you've to use 'on' prefix (onClick, onBlur)
+
 ## Troubleshooting 
 
 - JS string are immutable;
