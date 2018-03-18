@@ -6,7 +6,3 @@ function add(x1, x2) {
 	}
 	return x1 + x2;
 }
-
-var t
-
-console.log(t + 'EBANIY JS')
