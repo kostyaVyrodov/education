@@ -15,7 +15,7 @@ A browser ignores all unknown tags;
 - ```disabled``` indicates disabling of UI controls;
 - ```readonly``` prevents the user from typing data into a text box.
 
-### HTML5 global attribute
+### HTML5 global attributes
 
 - ```dir``` enables RTL or LTR text direction;
 - ```hidden``` hides element;
@@ -51,7 +51,6 @@ Link's targets:
 - ```target="blank"``` opens the link in a new window;
 - ```target="parent"``` opens the link in a parent frame;
 - ```target="self"``` opens the link in the current window (default);
-- ```target="self"``` opens the link in the in the topmost frame;
 
 Sending email with hyperlink: 
 
