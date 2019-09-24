@@ -3,6 +3,7 @@
 Course goal: Learn how to write more maintainable and readable code.
 
 ## High cohesion and low coupling
+
 **Cohesion** refers to the degree to which the elements of a module/class belong together, suggestion is all the related code should be close to each other, so we should strive for high cohesion and bind all related code together as far as possible. It has to do with the elements within the module/class.
 
 **Coupling** refers to the degree to which the different modules/classes depend on each other, suggestion is all modules should be independent as far as possible, that's why low coupling. It has to do with the elements among different modules/classes.
@@ -10,17 +11,20 @@ Course goal: Learn how to write more maintainable and readable code.
 > Abstraction is the elimination of the irrelevant and the amplification of the essential (R. Martin)
 
 ## Encapsulation
+
 What's encapsulation about?
+
 - The encapsulation describes how to write reusable code, reusable components where you can reuse them without fully understanding all implementation details.
 - Right encapsulation makes your code simpler. It allows other programmers to avoid wasting time on searching and figuring out with details of implementation.
 
 ### A symptom of code smell
+
 When you need to go to source code or read the documentation in order to understand what a code does.
 
 ### Sample sucks code
 
 ```C#
-public class FileStore 
+public class FileStore
 {
     public string WorkingDirectory { get; set; }
 
@@ -36,29 +40,33 @@ public class FileStore
 ```
 
 ### Negative side effects of sucks code?
+
 - Reducing of long-term productivity (not years)
-- Reducing of maintainability 
+- Reducing of maintainability
 
 **Fact:**
-> Code is read more than written. 
+> Code is read more than written.
 
 **Rule:**
 > Write for stupid programmers. Just KISS.
 
 ### Classic definition of encapsulation
+
 - Information hiding (private properties)
 - Implementation hiding (user class -> arrays of passwords -> get a password = last item via property. It allow to make validation)
 - Protection of invariants (checking precondition and guarantee post condition)
 
 ### Techniques that allows writing better code
 
-Programmers spend a lot of time reading the code and trying to figure out what it does. 
+Programmers spend a lot of time reading the code and trying to figure out what it does.
 Good code base allows to read less and write more.
 
 ##### CQS (command query separation)
+
 Your operations should be commands or queries but not both.
 
 This principle allow a programmer to trust a code
+
 - Commands have side effects (mutate state; can invoke queries);
 - Queries return data (returns something, can't invoke commands, idempotent - same result every time).
 
@@ -66,7 +74,9 @@ CQS should have clear boundaries and whole team should understand them. It will 
 Because the main goal is not to use CSQ, the main goal is increase productivity.\
 
 ##### Postel's law
+
 You should be very conservative in what you send, but you should be liberal in what you accept.
+
 1. Check everything that you accept;
 2. Try to accept even extreme arguments. If argument is not valid return informative response;
 3. Return only expected value;
@@ -74,10 +84,11 @@ You should be very conservative in what you send, but you should be liberal in w
 Invariant is property of programs state that always is true.
 > For instance, a binary search tree might have the invariant that for every node, the key of the node's left child is less than the node's own key. A correctly written insertion function for this tree will maintain that invariant.
 
-##### Returning null 
+##### Returning null
+
 > Null reference is my billion-dollar mistake - Tony Hoare
 
-Read method can return null or string. A class user has to go to the implementation fo read method to understand it. 
+Read method can return null or string. A class user has to go to the implementation fo read method to understand it.
 It's bad because our design forces developers to waste time by reading our code instead of just checking implementation and fastly figure out how to work with our types.
 
 ```
@@ -90,11 +101,13 @@ public string Read(int id)
 ```
 
 How to avoid returning null?
+
 - Add an bool Exists(int id) method (not thread safe); 
 - bool TryRead(int id, out string message) (not convenient);
 - 'Maybe'.
 
 **Summary:**
+
 - We spend more time reading then writing -> make code easier to read;
 - It's okay to make types public if they protect invariants;
 - Fail fast when something goes wrong, but only with noticeable message;
@@ -111,11 +124,12 @@ Soft should adaptable for new requirements, because it always changes
 What's solid? It's acronym of design principles.
 - **S**ingle Responsibility Principle - every type should have only one responsibility;
 - **O**pen Close Principle - class should be opened for extensibility but closed for modification;
-- **L**iskov Substitution Principle - explains how to polymorphism should work; 
+- **L**iskov Substitution Principle - explains how to polymorphism should work;
 - **I**nterface Segregation Principle - describes how to interface should be design;
 - **D**ependency Inversion Principle - describes the relationships between abstractions and concrete types.
 
 **What solid is not:**
+
 - Not a framework or library, not a specific technology;
 - It's not a goal;
 - Not a pattern.
@@ -126,6 +140,7 @@ What's solid? It's acronym of design principles.
 The purpose of SOLID is to make code more productive, by making your code more maintainable through decomposition and decoupling.
 
 **Design smells:**
+
 - Rigidity. Means that design is difficult to change;
 - Fragility. The design is easy to break;
 - Immobility. The design is difficult to reuse;
@@ -212,3 +227,15 @@ Contract of type may help you to find an abstraction not a name of type or type 
 
 High-level modules should not depend on low-level modules. Both should depend on abstractions.
 Abstraction should not depend upon details. Details should depend upon abstractions.
+
+Dependency Injection and Inversion of Control are not DIP Implementations.
+
+The DIP is neither dependency injection (**DI**) nor inversion of control (**IoC**). Even so, they all work great together.
+
+**DI** is about making software components to explicitly declare their dependencies or collaborators through their APIs, instead of acquiring them by themselves.
+
+With **DI**, the responsibility of providing the component dependencies and wiring object graphs is transferred from the components to the underlying injection framework. From that perspective, DI is just a way to achieve **IoC**.
+
+**IoC** is a pattern in which the control of the flow of an application is reversed. With traditional programming methodologies, our custom code has the control of the flow of an application. Conversely, with **IoC**, the control is transferred to an external framework or container. The framework is an extendable codebase, which defines hook points for plugging in our own code.
+
+In turn, the framework calls back our code through one or more specialized subclasses, using interfaces' implementations, and via annotations. The ASP.NET framework is a nice example of this last approach.

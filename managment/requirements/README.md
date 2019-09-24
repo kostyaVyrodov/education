@@ -1,3 +1,3 @@
-# Notes about requirements 
+# Notes about requirements
 
 ## Requirements
