@@ -52,3 +52,22 @@ Patterns:
 - Transaction Script. **Transaction Script is a procedure** that takes the input from the presentation, processes it with validations and calculations, stores data in the database, and invokes any operations from other systems. It then replies with more data to the presentation, perhaps doing more calculation to help organize and format the reply;
 - Domain Model. **Domain Model is an object** model of the domain that incorporates both behavior and data;
 - Table Module. A Table Module organizes domain logic with one class per table in the database, and a single instance of a class contains the various procedures that will act on the data. The primary distinction with Domain Model is that, if you have many orders, a Domain Model will have one order object per order while a Table Module will have one object to handle all orders.
+
+Domain model can be split on service layer and bussiness logic.
+
+## Domain logic patterns
+
+### Transaction script
+
+It's a pattern to organizes logic as a single procedure, making calls directly to the database or through a thin database wrapper. Each transaction will have its own Transaction Script, although common subtasks can be broken into subprocedures.
+
+#### How it works?
+
+With Transaction Script the domain logic is primarily organized by the transactions that you carry out with the system. If your need is to book a hotel room, the logic to check room availability, calculate rates, and update the database is found inside the Book Hotel Room procedure.
+
+Implementations:
+
+- One class several transaction scripts. A class defines subject of TS;
+- One class per transaction script, using command pattern;
+
+
