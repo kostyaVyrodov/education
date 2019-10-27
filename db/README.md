@@ -1,6 +1,6 @@
 # Databases
 
-Database is an organized collection of data. More about [SQL databases](./relational-databases/README.md) and NoSQL databases.
+Database is an organized collection of data. More about [relational databases](./relational-databases/README.md) and [NoSQL databases](./non-relational-databases/README.md).
 
 ## SQL vs NoSQL
 
