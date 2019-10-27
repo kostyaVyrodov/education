@@ -1,3 +1,3 @@
 # Programming notes
 
-- 🧠[Algorithms](./algorithms)
+🧠[Algorithms](./algorithms)
