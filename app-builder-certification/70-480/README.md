@@ -1,3 +1,0 @@
-# Exam notes
-
-## HTML
