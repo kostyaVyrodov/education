@@ -13,3 +13,8 @@ Cohesion is the indication of the relationship within a module.
 Coupling is the indication of the relationships between modules.
 
 Rule: all code that does a thing should be as close as possible and shouldn't know details of other parts of solution.
+
+## Useful links
+
+https://sourcemaking.com/
+https://refactoring.guru
