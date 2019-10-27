@@ -1,1 +1,3 @@
-# Just a repository for notes written during studying
+# Programming notes
+
+- 🧠[Algorithms](./algorithms)
