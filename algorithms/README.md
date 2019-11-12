@@ -23,3 +23,12 @@ Non-primitives:
 - graph;
 
 List of data structures is [here](https://en.wikipedia.org/wiki/List_of_data_structures)
+
+## Recursion
+
+
+
+Properties of recursion:
+- same operations is performed multiple times with different inputs;
+- in every step we try to make the problem smaller;
+- we mandatorily need to have a base condition which tells system when to stop the recursion;
