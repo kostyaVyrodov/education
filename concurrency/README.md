@@ -52,6 +52,40 @@ Weaknesses:
 
 ## Actors
 
+(Explanation)[https://www.youtube.com/watch?v=ELwEdb_pD0k]
+
+Conceptual model of concurrent computation. Actor is fundamental unit of computation.
+
+Operations of actors:
+1. Create another actor;
+2. Send a message;
+3. Designate how to handle internal state and next message;
+
+Actors are lightweight so we can produce thousands of actors. This is because they require fewer resources.
+
+Actors are isolated from each other and they don't share memory. Actors are waiting for new messages and receive them in their mailbox.
+The only one way to communicate with each other is only messages. Actor can handle only one message at once and they don't wait for response to each other.
+
+If a child actor finishes something, then it sends another message to notify a parent. 
+
+An actor has address only of child actors and the actors that sent messages to him. 
+
+Actors can be distributed between several machines (remote, local)
+
+Pros:
+- Easy to scale;
+- Fault tolerance;
+- Geographical distribution;
+- No shared state;
+
+Cons:
+- Deadlocks;
+- Mailbox overflow;
+
+Implementation:
+- Akka;
+- Elixir;
+
 ## Communicating Sequential Processes
 
 ## Data parallelism
