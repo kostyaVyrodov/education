@@ -62,3 +62,25 @@ When to use:
 
 When not to use:
 - if the response to any of the above statements is NO, we should not go with recursion;
+
+
+## Algorithm runtime analysis
+
+3 types of notations to measure algorithm:
+- Omega (Ω) - lower bound of an algorithm. Means that algorithm won't be 'less than' given time.
+- Big O (O) - upper bound of an algorithm. Means than algorithm won't be 'more then' given time.
+- Theta (θ) - average bound of an algorithm. Decided whether upper bound and lower bound of a given algorithm are same or not.
+
+### Algorithm complexities table
+
+| Time complexity | Name               | Example                                   |
+| --------------- |:------------------:| -----------------------------------------:|
+| O(1)            | Constant           | Adding an element at front of linked list |
+| O(Log n)        | Logarithmic        | Finding an element in sorted array        |
+| O(n)            | Linear             | Finding an element in unsorted array      |
+| O(n * log n)    | Linear Logarithmic | Merge sort                                |
+| O(n^2)          | Quadratic          | Shortest path between 2 nodes in a graph  |
+| O(n^3)          | Cubic              | Matrix multiplication                     |
+| O(2^n)          | Exponential        | Tower of Hanoi problem                    |
+
+Complexity of recursive algorithm
