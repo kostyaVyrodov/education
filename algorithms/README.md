@@ -83,4 +83,16 @@ When not to use:
 | O(n^3)          | Cubic              | Matrix multiplication                     |
 | O(2^n)          | Exponential        | Tower of Hanoi problem                    |
 
-Complexity of recursive algorithm
+## Data structures
+
+List of data structures and their properties
+
+### Arrays
+
+When to use?
+- All items in an array have the same type (otherwise different arrays )
+- When we know total amount of items
+
+## Interesting notes
+
+- In low level languages like C, an array is a pointer to memory cell where array starts. When you access an index, you just do 'memory address' + i';
