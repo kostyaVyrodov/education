@@ -31,3 +31,29 @@ TLS (transport security protocol) is a child of SSL protocol that's used for pro
 TLS lives on 'session' layer.
 
 TLS is hybrid cryptography system using asymmetric(for key exchanging and proofing of identity) and symmetric(for encrypting data) encrypting. TLS uses Diffie-Hellman algorithm to exchange keys.
+
+## Security testing
+
+There are 3 types of security testing:
+- Static application security testing - analyzing of source codes to find vulnerabilities;
+- Dynamic application security testing - trying to hack a running program to find vulnerabilities;
+- Interactive application security testing - combination of the both above.
+
+Main types of dynamic security testing:
+- Vulnerability assessment (finding issues without exploiting);
+- Penetration testing (find one vulnerability and exploit it to obtain the goal);
+
+### Risks
+
+Top 10 risks according to OWASP
+
+1. Injections (OS commands, SQL, etc.);
+2. Broken auth and session management;
+3. Sensitive data exposures (like api secrets, rsa keys);
+4. XML external entities (vulnerable XML processors);
+5. Broken access control (when application has bad access control);
+6. Security misconfiguration (of a server for example);
+7. XSS (JS injecting to pages);
+8. Insecure Deserialization (lead to remote code execution attacks);
+9. Components with known vulnerabilities (just using components that have vulnerabilities);
+10. Insufficient Logging & Monitoring (allows a hacker to be undetected);
