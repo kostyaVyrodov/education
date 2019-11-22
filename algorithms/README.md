@@ -93,6 +93,14 @@ When to use?
 - All items in an array have the same type (otherwise different arrays )
 - When we know total amount of items
 
+### Lists
+
+Types of lists:
+- single linked list;
+- circular Single linked list (use case: a board game where it's necessary to pick next user and after last one you choose the first);
+- double linked list;
+- circular double linked list (implementing repeatable play list for player with option to go back or further);
+
 ## Interesting notes
 
 - In low level languages like C, an array is a pointer to memory cell where array starts. When you access an index, you just do 'memory address' + i';
