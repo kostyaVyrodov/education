@@ -31,6 +31,3 @@ More details about the [life cycle](https://opdhsblobprod04.blob.core.windows.ne
     - Controller.EndExecute();
     - ResultFiler.OnActionExecuted();
     - Controller.OnResultExecuted;
-
-### Interesting notes
-
