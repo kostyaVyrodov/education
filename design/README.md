@@ -1,5 +1,9 @@
 # Object oriented design
 
+Useful links:
+- https://sourcemaking.com/
+- https://refactoring.guru
+
 ## Cohesion (high) and coupling (low)
 
 [Read more here](https://enterprisecraftsmanship.com/posts/cohesion-coupling-difference/)
@@ -31,10 +35,36 @@ public interface IEntity
 }
 ```
 
-### Base class as a base entity
+## About REST
 
+REST (REpresentational State Transfer) is a design concept for managing state of information
 
-## Useful links
+The basic idea of REST is treating objects on the server-side (as in rows in a database table) as resources than can be created or destroyed. REST describes the location of something anywhere in the world from anywhere in the world.
 
-https://sourcemaking.com/
-https://refactoring.guru
+> If we access a web page then we get a representation of a resource
+
+**Terms:**
+- Client - the client is the person or software who uses the API;
+- Resource - a resource can be any of object the API can provide information about;
+
+REST exposes information about information it has. It allows clients to take some actions on those resources
+
+An identifiers of a resource is URL or endpoint. An operations is a HTTP method of verb
+
+Properties of RESTful services:
+- the request to the server hast include an ID;
+- the response returns enough information to allow a client to modify the resource;
+- The client and the server act independently;
+- the interaction between them is only in the form of requests, initiated by the client only;
+- servers don't send requests to client on its own;
+- The server is stateless. It means the server does not remember anything about the user who uses the API;
+
+### Idempotent REST APIs
+
+REST API is called idempotent when making multiple identical requests has the same effect as making a single request
+
+POST is NOT idempotent. It's used to create resources on a server. When you invoke the same POST request N times, you will have N new resources on the server.
+
+GET, PUT, DELETE, HEAD, OPTIONS and TRACE are idempotent.
+
+PUT and DELETE allows to modify a resource only once, unless DELETE looks like this ```/resourceId/last```
