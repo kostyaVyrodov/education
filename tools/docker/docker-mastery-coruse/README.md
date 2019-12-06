@@ -65,6 +65,26 @@ Docker command line structure:
 
 **docker network disconnect** detach a network from container
 
+### Image commands
+
+**docker image history <image-tag>** allows to see history of each layer in image
+
+**docker image inspect <image-tag>** returns JSON metadata about the image
+
+**docker image tag <source-image-tag> <target-image-tag>** assigns one or more tags to an image
+
+**docker build -f <dockerfile-path>** build a specific docker file
+
+### Prune
+
+**docker image prune** to clean up just "dangling" images
+
+**docker system prune** will clean up everything
+
+**docker image prune -a** will remove all images you're not using
+
+**docker system df** to see space usage
+
 ## Image vs Container
 
 An image is the application we want to run (similar to exe file)
@@ -80,4 +100,41 @@ When a developer runs `docker container run`
 1. Gives it a virtual IP on a private network inside docker engine
 1. Start container by using the commands in the image
 
-A container is just process running on a machine. They limited to what resources they can access.
+A container is just process running on a machine. They limited to what resources they can ac cess.
+
+## Image
+
+Image is app binaries and dependencies of your app. Also it contains metadata about the image data and how to run the image 
+
+A docker image consists of layers containing changes. It means, that docker doesn't store an information twice. If one layer used for 2 other images, then base layer exists in file system only as a single copy.
+
+> When you log in to docker hub on someone's machine, then your token is stored in the local docker profile of that machine. Don't forget to log out if you don't trust that machine
+
+### Dockerfile
+
+`FROM` specify base image
+
+`ENV` specify environment variable
+
+`RUN` execute a command inside container itself
+
+`EXPOSE` expose a port on the docker virtual network. It doesn't forward ports to the host
+
+`CMD` is the last command that will be used to launch a container. It's   required
+
+`WORKDIR` change working dir to root of a webhost. Using WORKDIR is preferred to using 'RUN cd /some/path'
+
+> Tip: Combine several related to each other shell commands in a single command inside Dockerfile to prevent creating not useful layers and etc.
+
+> Tip: Less changeable commands should be in the top inside Dockerfile
+
+## Networks
+
+Networks configuration of docker: bridge, 
+
+### Bridge
+
+
+> Tip: Static IP's and using IP's for talking to containers is an anti-pattern. Do your best to avoid it. IP can be changed
+
+> Tip: Default DNS name of a container is the name of the container
