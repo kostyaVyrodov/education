@@ -29,6 +29,7 @@ Docker command line structure:
     - --name - specifies name of container
     - -t pseudo-tty - simulates a real terminal, like what ssh does
     - -i interactive - keep STDIN open even if not attached
+    - -v - create a named volume (-v mysql-db:/var/lib/mysql)
 
 `docker container ls` returns a list of running container
 
@@ -41,9 +42,12 @@ Docker command line structure:
 `docket container top <container_name>` list of started processes inside container
 
 `docket container rm <container_id>` remove a container
-    - `--force` - allows to rm a running container
+
+    - --force allows to rm a running container
 
 `docker container logs <container_id>` returns logs from stdout of a container
+
+    - -f watch logs output
 
 `docker container inspect <container_id>` returns detailed information 
 
@@ -54,9 +58,10 @@ Docker command line structure:
 ### Network commands
 
 `docker network ls` - show networks
-    - `host` network skips virtual network of docker, but sacrifices security of container model
-    - `none` removes eth0 and only leaves you with localhost interface in container
-    - `bridge` built-in or 3rd party extensions that give you virtual network features
+
+    - 'host' network skips virtual network of docker, but sacrifices security of container model
+    - 'none' removes eth0 and only leaves you with localhost interface in container
+    - 'bridge' built-in or 3rd party extensions that give you virtual network features
 
 `docker network inspect` inspect a network
 
@@ -128,6 +133,16 @@ A docker image consists of layers containing changes. It means, that docker does
 > Tip: Combine several related to each other shell commands in a single command inside Dockerfile to prevent creating not useful layers and etc.
 
 > Tip: Less changeable commands should be in the top inside Dockerfile
+
+## Persistent Data
+
+Volumes make special location outside of container inside host file system
+
+> Tip: Use volumes to persist databases of a mysql or psql server
+
+Bind mounts link container path to host path. Mounts maps a host file or directory to a container file or directory. Basically just two locations pointing to the same file(s). Bounds are possible to specify only during running a container
+
+> Tip: Use bind mounts for files that often is changed like index.html for nginx
 
 ## Networks
 
