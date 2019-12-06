@@ -154,3 +154,23 @@ Networks configuration of docker: bridge,
 > Tip: Static IP's and using IP's for talking to containers is an anti-pattern. Do your best to avoid it. IP can be changed
 
 > Tip: Default DNS name of a container is the name of the container
+
+## Docker compose
+
+It allows to configure relationships between containers and save our docker container run setting in easy-to-read file
+
+```yaml
+version: '3.1'
+
+services: # containers. same as docker run
+  servicename: # a friendly name. This is also DNS name inside network
+    image: # Optional if you use build
+    command: # Optional, replace the default CMD specified by the image
+    volumes: # optional, same as -v in docker run
+  servicename2:
+
+volumes: # Optional, same as docker volume create
+
+networks: # Optional, same as docker network create
+```
+ 
