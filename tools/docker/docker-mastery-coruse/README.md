@@ -24,11 +24,11 @@ Docker command line structure:
 
 `docker container run <image>` runs an image
 
-    - `--publish 80:80` - exposes ports
-    - `--detach` - prevents blocking of terminal
-    - `--name` - specifies name of container
-    - `-t pseudo-tty` - simulates a real terminal, like what ssh does
-    - `-i interactive` - keep STDIN open even if not attached
+    - --publish 80:80 - exposes ports
+    - --detach - prevents blocking of terminal
+    - --name - specifies name of container
+    - -t pseudo-tty - simulates a real terminal, like what ssh does
+    - -i interactive - keep STDIN open even if not attached
 
 `docker container ls` returns a list of running container
 
