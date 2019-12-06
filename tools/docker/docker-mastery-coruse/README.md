@@ -11,8 +11,8 @@ Docker allows to deploy an application to various different environments easily.
 ## Commands
 
 Docker command line structure:
-- old: docker <command> (options)
-- new: docker <command> <sub-command> (option)
+- old: `docker <command> (options)`
+- new: `docker <command> <sub-command> (option)`
 
 `docker version` allows to verify if cli can talk to engine
 
@@ -23,6 +23,7 @@ Docker command line structure:
 ### Container commands
 
 `docker container run <image>` runs an image
+
     - `--publish 80:80` - exposes ports
     - `--detach` - prevents blocking of terminal
     - `--name` - specifies name of container
