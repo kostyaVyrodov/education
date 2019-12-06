@@ -14,76 +14,76 @@ Docker command line structure:
 - old: docker <command> (options)
 - new: docker <command> <sub-command> (option)
 
-**docker version** allows to verify if cli can talk to engine
+`docker version` allows to verify if cli can talk to engine
 
-**docker info** returns most values of engine
+`docker info` returns most values of engine
 
-**docker exec <container_id> <command>** runs specified command
+`docker exec <container_id> <command>` runs specified command
 
 ### Container commands
 
-**docker container run <image>** runs an image
+`docker container run <image>` runs an image
     - `--publish 80:80` - exposes ports
     - `--detach` - prevents blocking of terminal
     - `--name` - specifies name of container
     - `-t pseudo-tty` - simulates a real terminal, like what ssh does
     - `-i interactive` - keep STDIN open even if not attached
 
-**docker container ls** returns a list of running container
+`docker container ls` returns a list of running container
 
-**docker container stop <container_id>** stops a container with specified id
+`docker container stop <container_id>` stops a container with specified id
 
-**docker container run <image_name>** always starts a new container
+`docker container run <image_name>` always starts a new container
 
-**docker container start <container_id>** starts an existing stopped container
+`docker container start <container_id>` starts an existing stopped container
 
-**docket container top <container_name>** list of started processes inside container
+`docket container top <container_name>` list of started processes inside container
 
-**docket container rm <container_id>** remove a container
+`docket container rm <container_id>` remove a container
     - `--force` - allows to rm a running container
 
-**docker container logs <container_id>** returns logs from stdout of a container
+`docker container logs <container_id>` returns logs from stdout of a container
 
-**docker container inspect <container_id>** returns detailed information 
+`docker container inspect <container_id>` returns detailed information 
 
-**docker container stats** returns performance stats for all containers
+`docker container stats` returns performance stats for all containers
 
-**docker container port <container>** returns a list of opened container 
+`docker container port <container>` returns a list of opened container 
 
 ### Network commands
 
-**docker network ls** - show networks
+`docker network ls` - show networks
     - `host` network skips virtual network of docker, but sacrifices security of container model
     - `none` removes eth0 and only leaves you with localhost interface in container
     - `bridge` built-in or 3rd party extensions that give you virtual network features
 
-**docker network inspect** inspect a network
+`docker network inspect` inspect a network
 
-**docker network create --driver** create a network
+`docker network create --driver` create a network
 
-**docker network connect** attach a network to container
+`docker network connect` attach a network to container
 
-**docker network disconnect** detach a network from container
+`docker network disconnect` detach a network from container
 
 ### Image commands
 
-**docker image history <image-tag>** allows to see history of each layer in image
+`docker image history <image-tag>` allows to see history of each layer in image
 
-**docker image inspect <image-tag>** returns JSON metadata about the image
+`docker image inspect <image-tag>` returns JSON metadata about the image
 
-**docker image tag <source-image-tag> <target-image-tag>** assigns one or more tags to an image
+`docker image tag <source-image-tag> <target-image-tag>` assigns one or more tags to an image
 
-**docker build -f <dockerfile-path>** build a specific docker file
+`docker build -f <dockerfile-path>` build a specific docker file
 
 ### Prune
 
-**docker image prune** to clean up just "dangling" images
+`docker image prune` to clean up just "dangling" images
 
-**docker system prune** will clean up everything
+`docker system prune` will clean up everything
 
-**docker image prune -a** will remove all images you're not using
+`docker image prune -a` will remove all images you're not using
 
-**docker system df** to see space usage
+`docker system df` to see space usage
 
 ## Image vs Container
 
