@@ -173,4 +173,18 @@ volumes: # Optional, same as docker volume create
 
 networks: # Optional, same as docker network create
 ```
- 
+
+## Docker swarm
+
+Docker swarm is orchestration tool allowing to manage docker container
+
+Orchestration tool allows to:
+
+1. automate container lifecycle;
+1. easily scale up\down;
+1. ensure containers are re-crated if they fail;
+1. replace containers without downtime (blue\green) deploy;
+1. control where containers get started;
+1. create cross-node virtual networks;
+1. ensure only trusted servers can run our container;
+1. store secrets and get them to the right container;
