@@ -319,3 +319,5 @@ volumes:
 `docker stack services <stack-name>` shows list of running replicas for specific stack
 
 `docker stack ps <stack-name>` shows list of running services on nodes for specific stack
+
+> Tip: Don't store secrets in files or in any other way allowing to reveal them
