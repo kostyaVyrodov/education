@@ -20,6 +20,12 @@ Docker command line structure:
 
 `docker exec <container_id> <command>` runs specified command
 
+`docker node ls` show list of swarm nodes
+
+`docker service <command>` replaces docker run in swarm
+
+`docker swarm join-token manager` get a join token for the current node
+
 ### Container commands
 
 `docker container run <image>` runs an image
@@ -176,7 +182,7 @@ networks: # Optional, same as docker network create
 
 ## Docker swarm
 
-Docker swarm is orchestration tool allowing to manage docker container
+Docker swarm is orchestration tool allowing to manage docker container. One of responsibilities of the orchestration tool is to make that started services still work
 
 Orchestration tool allows to:
 
@@ -188,3 +194,27 @@ Orchestration tool allows to:
 1. create cross-node virtual networks;
 1. ensure only trusted servers can run our container;
 1. store secrets and get them to the right container;
+
+`docker swarm init` initialize swarm
+
+What happens during `docker swarm init`:
+
+- root Signing Certificate created for our swarm;
+- certificate is issued for first manager node;
+- join tokens are created
+- raft database create to store root CA, config and secrets (everything is encrypted)
+
+### Manager node and worked node features
+
+Manager node:
+
+1. Accepts command form client and creates service object;
+1. Reconciliation loop for service objects and creates tasks;
+1. Allocates IP addresses to tasks;
+1. Assigns nodes to tasks;
+1. Checks in on workers;
+
+Worker node:
+
+1. Connects to dispatcher to check on assigned tasks;
+1. Executes the tasks assigned to worker node;
