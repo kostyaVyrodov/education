@@ -8,6 +8,12 @@ Docker allows to deploy an application to various different environments easily.
 
 ![The matrix from hell](./images/the-matrix-from-hell.png)
 
+> Tips: 
+> - use volumes to keep persistent data on production env
+> - use secrets to pass secret variables
+> - don't use docker-compose on production, use swarm or stack for this purpose
+> - have different compose files for dev, prod and test
+
 ## Commands
 
 Docker command line structure:
