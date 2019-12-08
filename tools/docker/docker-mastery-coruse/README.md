@@ -26,6 +26,8 @@ Docker command line structure:
 
 `docker swarm join-token manager` get a join token for the current node
 
+`docker stack deploy` deploy swarm based on stack (compose) file
+
 ### Container commands
 
 `docker container run <image>` runs an image
@@ -218,3 +220,102 @@ Worker node:
 
 1. Connects to dispatcher to check on assigned tasks;
 1. Executes the tasks assigned to worker node;
+
+### Load balancing
+
+Swarm provides load balancing feature out of box
+
+![Load balancing](./images/load-balancing.png)
+
+By default swarm uses round robin algorithm to get next instance to process a request. It's stateless and doesn't bind a client to specific server
+
+### Stacks
+
+Stacks is compose file for production swarms. Stack manage all deployment objects for us, including overlay network per stack. Adds stack name to start of their name
+
+![Swarm stack](./images/swarm-stack.png)
+
+Example of stack config
+
+```yaml
+version: "3"
+services:
+  redis: 
+    image: redis:alpine
+    ports:
+      - "6379"
+    networks:
+      - frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+  db: 
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+      - 5000:80
+    networks:
+      - frontend
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    ports:
+      - 5001:80
+    networks:
+      - backend
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    networks:
+      - frontend
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=VOTING]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+networks:
+  frontend:
+  backend:
+volumes:
+  db-data
+```
+
+**Useful commands:**
+
+`docker stack services <stack-name>` shows list of running replicas for specific stack
+
+`docker stack ps <stack-name>` shows list of running services on nodes for specific stack
