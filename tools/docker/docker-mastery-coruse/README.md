@@ -15,6 +15,8 @@ Docker allows to deploy an application to various different environments easily.
 > - have different compose files for dev, prod and test
 > - docker hub allows to build images too
 > - it's possible to run docker registry locally (only webapi written in go)
+> - it's not easy to deal with persistent data with docker
+> - production image first after that adapt it for development (? not sure about this tip :) )
 
 ## Commands
 
@@ -139,6 +141,10 @@ A docker image consists of layers containing changes. It means, that docker does
 `ENV` specify environment variable
 
 `RUN` execute a command inside container itself
+
+`COPY` copy new files from <src> and add them to the container's filesystem at path <dest>
+
+`ADD` copy new files from <src> (including URL) and add them to the container's filesystem at path <dest>
 
 `EXPOSE` expose a port on the docker virtual network. It doesn't forward ports to the host
 
@@ -418,3 +424,11 @@ $ docker pull 127.0.0.1:5000/hello-world
 # Re-create registry using a bind mount to see how it stores data
 $ docker container run -d -p 5000:5000 --name registry -v $(pwd)/registry-data:/var/lib/registry registry
 ```
+
+## Docker in production
+
+1. Define volumes to store unique data
+1. Always specify version for docker image
+1. Put ENV to the top of Dockerfile
+1. Don't leave default config in the Dockerfile
+1. Don't copy app specific environment variables to Dockerfile
