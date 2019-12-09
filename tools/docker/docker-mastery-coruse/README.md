@@ -1,6 +1,6 @@
 # Docker Mastery: with Kubernetes + Swarm from a Docker Captain
 
-Notes written during [this course](https://www.udemy.com/course/docker-mastery/)
+Notes written during watching [this course](https://www.udemy.com/course/docker-mastery/)
 
 **Why do we need a docker?**
 
@@ -13,6 +13,8 @@ Docker allows to deploy an application to various different environments easily.
 > - use secrets to pass secret variables
 > - don't use docker-compose on production, use swarm or stack for this purpose
 > - have different compose files for dev, prod and test
+> - docker hub allows to build images too
+> - it's possible to run docker registry locally (only webapi written in go)
 
 ## Commands
 
@@ -394,4 +396,25 @@ FROM postgres
 
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD pg_isready -U postgres || exit 1
+```
+
+## Docker registry
+
+It's possible to run a docker registry locally. Here's sample
+
+```sh
+# Run the registry image
+$ docker container run -d -p 5000:5000 --name registry registry
+
+# Re-tag an existing image and push it to your new registry
+$ docker tag hello-world 127.0.0.1:5000/hello-world
+$ docker push 127.0.0.1:5000/hello-world
+
+# Remove that image local cache and pull it from new registry
+$ docker image remove hello-world
+$ docker image remove 127.0.0.1:5000/hello-world
+$ docker pull 127.0.0.1:5000/hello-world
+
+# Re-create registry using a bind mount to see how it stores data
+$ docker container run -d -p 5000:5000 --name registry -v $(pwd)/registry-data:/var/lib/registry registry
 ```
