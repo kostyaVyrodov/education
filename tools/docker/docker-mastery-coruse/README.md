@@ -327,3 +327,71 @@ volumes:
 `docker stack ps <stack-name>` shows list of running services on nodes for specific stack
 
 > Tip: Don't store secrets in files or in any other way allowing to reveal them
+
+### Service update
+
+Samples of commands updating a service:
+
+- `docker service update --image myapp:1.2.1 <service-name>` just update the image used to a newer version
+- `docker service update --env-add NODE_ENV=production --publish-rm 8080` adding an environment variable and remove a port
+- `docker service scale web=8 api=6` change number of replicas of two services
+- `docker stack deploy -c file.yml <stack-name>` update compose file and just run deploy
+
+### Docker health check
+
+`HEALTHCHECK` command was added in 1.12 and it doesn't replace any monitoring tool. It's a basic check to make sure a container is OK
+
+Container states: starting, healthy, unhealthy
+
+`docker container ls` show up status of healthcheck
+
+`docker container inspect` check last 5 healthchecks
+
+What happens if healthcheck is not 0: 
+- `docker run` does nothing;
+- `docker service` will replace tasks if they fail healthcheck
+
+Example of health check via cmd:
+
+```sh
+docker run \
+  --health-cmd="curl -f localhost:9200/_cluster/health || false" \
+  --health-interval=5s \
+  --health-retries=3 \
+  --health-timeout=2s \
+  --health-start-period=15s \
+  elasticsearch:2
+```
+
+Example of health check in docker-compose:
+
+```sh
+version: "2.1"
+services:
+  web:
+    image: nginx
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+```
+
+Example of health check inside Dockerfile:
+
+```sh
+FROM nginx:latest
+
+HEALTHCHECK --interval=5s --timeout=3s \
+  CMD curl -f http://localhost/ping || exit 1
+```
+
+or
+
+```sh
+FROM postgres
+
+HEALTHCHECK --interval=5s --timeout=3s \
+  CMD pg_isready -U postgres || exit 1
+```
