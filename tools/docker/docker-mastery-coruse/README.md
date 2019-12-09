@@ -18,7 +18,9 @@ Docker allows to deploy an application to various different environments easily.
 > - it's not easy to deal with persistent data with docker
 > - production image first after that adapt it for development (? not sure about this tip :) )
 
-## Commands
+## Docker
+
+### Commands
 
 Docker command line structure:
 - old: `docker <command> (options)`
@@ -38,7 +40,7 @@ Docker command line structure:
 
 `docker stack deploy` deploy swarm based on stack (compose) file
 
-### Container commands
+#### Container commands
 
 `docker container run <image>` runs an image
 
@@ -73,7 +75,7 @@ Docker command line structure:
 
 `docker container port <container>` returns a list of opened container 
 
-### Network commands
+#### Network commands
 
 `docker network ls` - show networks
 
@@ -89,7 +91,7 @@ Docker command line structure:
 
 `docker network disconnect` detach a network from container
 
-### Image commands
+#### Image commands
 
 `docker image history <image-tag>` allows to see history of each layer in image
 
@@ -99,7 +101,7 @@ Docker command line structure:
 
 `docker build -f <dockerfile-path>` build a specific docker file
 
-### Prune
+#### Prune
 
 `docker image prune` to clean up just "dangling" images
 
@@ -109,7 +111,7 @@ Docker command line structure:
 
 `docker system df` to see space usage
 
-## Image vs Container
+### Image vs Container
 
 An image is the application we want to run (similar to exe file)
 
@@ -126,7 +128,7 @@ When a developer runs `docker container run`
 
 A container is just process running on a machine. They limited to what resources they can ac cess.
 
-## Image
+### Image
 
 Image is app binaries and dependencies of your app. Also it contains metadata about the image data and how to run the image 
 
@@ -134,7 +136,7 @@ A docker image consists of layers containing changes. It means, that docker does
 
 > When you log in to docker hub on someone's machine, then your token is stored in the local docker profile of that machine. Don't forget to log out if you don't trust that machine
 
-### Dockerfile
+#### Dockerfile
 
 `FROM` specify base image
 
@@ -152,11 +154,13 @@ A docker image consists of layers containing changes. It means, that docker does
 
 `WORKDIR` change working dir to root of a webhost. Using WORKDIR is preferred to using 'RUN cd /some/path'
 
+`USER` select a user to run an app
+
 > Tip: Combine several related to each other shell commands in a single command inside Dockerfile to prevent creating not useful layers and etc.
 
 > Tip: Less changeable commands should be in the top inside Dockerfile
 
-## Persistent Data
+### Persistent Data
 
 Volumes make special location outside of container inside host file system
 
@@ -166,11 +170,11 @@ Bind mounts link container path to host path. Mounts maps a host file or directo
 
 > Tip: Use bind mounts for files that often is changed like index.html for nginx
 
-## Networks
+### Networks
 
 Networks configuration of docker: bridge, 
 
-### Bridge
+#### Bridge
 
 
 > Tip: Static IP's and using IP's for talking to containers is an anti-pattern. Do your best to avoid it. IP can be changed
@@ -432,3 +436,79 @@ $ docker container run -d -p 5000:5000 --name registry -v $(pwd)/registry-data:/
 1. Put ENV to the top of Dockerfile
 1. Don't leave default config in the Dockerfile
 1. Don't copy app specific environment variables to Dockerfile
+1. Limit how much resources a container can get
+1. Use docker bench security
+1. Don't run the app as root inside container (use `USER` to change a user)
+1. Enable user namespaces for container. In this case a root user inside container won't be a root user inside host
+1. Use [Snyc](https://github.com/snyk/) to scan your dependencies as early as possible. Do it during CI before building an image
+1. Use image scanning to find CVE (common vulnerability and exploits)
+
+## Docker security
+
+[Security guide](https://github.com/BretFisher/ama/issues/17)
+
+**Kernel namespaces is  and cgroup**
+
+Kernel namespaces is a way limiting programs to get access to any resource of OS. For example one process can't get access to memory of another program. So it's not possible to see anything else outside of container. That's how a docker can run and don't see anything else inside the system
+
+Control groups allow to limit usage of resources. It means you can specify how much memory or CPU a container can use. But by default any container gets everything it wants
+
+**Don't run other people's images unless you trust the source**. Otherwise you can accidentally run an image that does something else. For example, mines a crypto currency :)
+
+**A container a docker enables a bunch of Linux security features that are not enabled by default for a process**. For example: Seccomp, AppArmor, SELinux and kernel capabilities
+
+Use **Docker Bench, The host Configuration Scanner**
+
+**Create a user for a container. Don't run the app as root inside container**. `top <container-id>` to check if application is running as root. If somebody is root inside container, a user can do whatever he wants, even install a miner
+
+**Use snyc to scan your dependencies**
+
+**Use runtime Bad Behavior Monitor** like Sysdic Falco. It checks if somebody starts copying or stealing any data from container or somewhere else
+
+**Content Trust**. A tool checks that your images are signed correctly by your team
+
+Use **Docker root-less**. This is an option for running the dockerd deamon as a normal user. But it doesn't allow to create networks. It's mostly used for CI, for example
+
+## Kubernetes
+
+Kubernetes is popular container orchestrator that allows to many servers act like one. Release by Google in 2015. It runs on top of Docker as a set of APIs in containers. Provides API/CLI to manage containers across server
+
+Terms:
+
+- **kubernetes** is whole orchestration system;
+- **kubectl** is CLI to configure and manage apps;
+- **node** is a single service in the kubernetes cluster;
+- **kubelet** is agent running on nodes (slave nodes);
+- **control plane** is set of container that manage the cluster (master nodes). Includes API server, scheduler, controller manager, etcd and more;
+- **pod** is one or more containers running together on one node. It's a basic unit of deployment. Containers are always in pods;
+- **controller** is an object used for creating\updating pods and other objects. You manipulate the pods via controllers, not directly;
+- **service** is network endpoint to connect to a pod;
+- **namespace** is filtered group of objects in cluster;
+
+Base commands:
+
+- `kubectl run` change to be only for pod creation (similar to docker run);
+- `kubectl create` create some resources via CLI or YAML (similar to docker create);
+- `kubectl run` create or update anything via YAML (similar to docker stack deploy);
+
+### Kubernetes vs Swarm
+
+Both solutions are orchestration tools. Swarm is easier to deploy and manage, but kubernetes has more flexibility
+
+Swarm:
+
+- comes with Docker, single vendor container platform;
+- easiest orchestrator to deploy/manage yourself;
+- follows 80/20 rule, 20% of features for 80% of use case;
+- runs anywhere Docker does: local, cloud, data center, arm, Windows, 32 bit;
+- secure by default;
+- easier to troubleshoot;
+
+Kubernetes: 
+
+- it's very popular on clouds, so it will be there out of box;
+- covers widest set of use cases;
+
+### Kubernetes services
+
+**Exposing containers** 
