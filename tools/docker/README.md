@@ -6,7 +6,7 @@ Notes written during watching [this course](https://www.udemy.com/course/docker-
 
 **Why do we need a docker?**
 
-Docker allows to deploy an application to various different environments easily. It allows to prevent wasting time for maintenance and solving issues related to specific OS
+Docker allows to deploy an application to various of environments easily. It allows to prevent wasting time for maintenance and solving issues related to specific OS
 
 ![The matrix from hell](./images/the-matrix-from-hell.png)
 
@@ -162,11 +162,11 @@ A docker image consists of layers containing changes. It means, that docker does
 
 ## Persistent Data
 
-Volumes make special location outside of container inside host file system
+**Volumes** make special location outside of container inside host file system
 
 > Tip: Use volumes to persist databases of a mysql or psql server
 
-Bind mounts link container path to host path. Mounts maps a host file or directory to a container file or directory. Basically just two locations pointing to the same file(s). Bounds are possible to specify only during running a container
+**Bind mounts** link container path to host path. Mounts maps a host file or directory to a container file or directory. Basically just two locations pointing to the same file(s). Bounds are possible to specify only during running a container
 
 > Tip: Use bind mounts for files that often is changed like index.html for nginx
 
