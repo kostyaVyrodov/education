@@ -8,5 +8,5 @@ insert_final_newline = true
 charset = utf-8
 indent_style = space
 
-[{*.ts, *.js, package.json}]
+[{*.ts, *.js, package.json, *.md}]
 indent_size = 2
