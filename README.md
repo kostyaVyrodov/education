@@ -1,6 +1,6 @@
 # Programming notes
 
-Topics that I'm discovering:
+Topics that I discover:
 * 🧠[Algorithms](./algorithms)
 * 🤹‍♀️[Concurrency](./concurrency)
 * 💾[Databases](./db)
