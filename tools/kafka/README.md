@@ -2,6 +2,8 @@
 
 Kafka is stream processing software for storing events
 
+Use cases: Messaging, Website Activity Tracking, Metrics, Log Aggregation, Stream Processing, Event Sourcing, Commit Log
+
 ## Overview
 
 Communication between in Kafka is done with TCP protocol
@@ -52,7 +54,14 @@ A `Producer` publishes data to a Kafka instance. The `Producer` must prepare a r
 
 `Consumers` label them selves with a 'consumer group' name. Each message is delivered to one of service of a 'consumer group'. Each group is composed of many consumer instances for scalability and fault tolerance.
 
-Kafka provides a total order over records within a partition, not between different partition in a topic.
+Kafka provides a total order over records within a partition, not between different partition in a topic
+
+Messaging traditionally has two models: queuing and publish-subscribe:
+
+- In a queue model, a pool of consumers may read from a server and each record goe to one of them;
+- In publish-subscribe model goes to each subscriber;
+
+Queuing model scales better, but it's not possible to notify other listeners. For the publish-subscribe model it's vise versa. To combine both approaches the Kafka has consumer groups. A consumer group contains set of listeners that can subscribe to specific partition
 
 ### Guarantees
 
