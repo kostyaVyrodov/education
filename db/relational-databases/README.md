@@ -41,7 +41,7 @@ A relation is in 1NF if it contains an atomic value. If 1 cell contains several 
 A relation will be in 2NF if:
 
 - it is in 1NF and
-- all non-key attributes are fully functional dependent on the primary key.
+- all non-key attributes are fully functional dependent on the primary key, so there is no partial dependency
 
 **Violation of 2NF.** Non-prime attribute TEACHER_AGE is dependent on TEACHER_ID which is a proper subset of a candidate key.
 
@@ -73,7 +73,7 @@ A relation will be in 2NF if:
 
 Relation will be in 3NF if it is in 2NF and no transition dependency exists.
 
-3NF is used to reduce the data duplication. It is also used to achieve the data integrity. If there is no transitive dependency for non-prime attributes, then the relation must be in third normal form.
+3NF is used to reduce the data duplication. It is also used to achieve the data integrity. If there is no transitive dependency for non-prime attributes, then the relation must be in third normal form. For example you have table called: 'Reviews'. Columns: ReviewId, ReviewText, Star, Star_Meaning, User_Id. If start is changed then Star_Meaning should be changed too. Star_Meaning depends on Star and Star depends on Id
 
 ### 4NF
 
@@ -84,6 +84,17 @@ A relation will be in 4NF if it is in Boyce Codd normal form and has no multi-va
 A relation is in 5NF if it is in 4NF and not contains any join dependency and joining should be lossless
 
 ## Indexes
+
+Index is basically a list of where certain data points are
+
+An index can be **clustered** or **non clustered**:
+- A clustered index organizes data. An item of index contains data;
+- A non clustered index points to concrete data. An item of index has a link to data;
+
+In addition there is a clustered index that just combines 2 columns
+
+Usually a primary key is a clustered index
+
 
 [Source of information](https://habr.com/ru/post/247373/)
 
