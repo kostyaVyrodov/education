@@ -18,7 +18,7 @@ Core APIs:
 
 - Producer API that allows an app to publish a stream of records to a Kafka topic;
 - Consumer API that allows to subscribe to one or more topics to process the stream of records;
-- Streams API that allows an app to act as a stream processor. An ap can input stream from one or more topics and produce an output stream to one or more output topics;
+- Streams API that allows an app to act as a stream processor. An app can input stream from one or more topics and produce an output stream to one or more output topics;
 - Connector API that allows, for example, to connect to a relation database and capture every change in database;
 
 

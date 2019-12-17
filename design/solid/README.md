@@ -125,7 +125,7 @@ What's solid? It's acronym of design principles.
 - **S**ingle Responsibility Principle - every type should have only one responsibility;
 - **O**pen Close Principle - class should be opened for extensibility but closed for modification;
 - **L**iskov Substitution Principle - explains how to polymorphism should work;
-- **I**nterface Segregation Principle - describes how to interface should be design;
+- **I**nterface Segregation Principle - says that clients shouldn't depend on functionality that they don't use;
 - **D**ependency Inversion Principle - describes the relationships between abstractions and concrete types.
 
 **What solid is not:**
