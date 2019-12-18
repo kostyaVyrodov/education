@@ -37,4 +37,4 @@ DataAdapter is used to connect DataSets to databases. It's most useful when usin
 
 **Is it safe to keep database connections open for long time?**
 
-Open and close your connection per business operation
+Open and close your connection per business operation. Also there is no need to create a connection for each query. A connection should be wrapped into a unit of work
