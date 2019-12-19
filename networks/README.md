@@ -13,6 +13,17 @@ Characteristic of a Network:
 - availability;
 - scalability and reliability;
 
+OSI layers:
+7. Application
+6. Presentation
+5. Session
+4. Transport
+3. Network
+2. Datalink
+1. Physical
+
+Benefits of layering: a higher level developer doesn't need to know about details of what happening in the lower level
+
 ### Terms
 
 **Network interface card** (NIC) is hardware that connects a PC to a computer network. Other names: network interface controller, network adapter, LAN adapter, physical network interface
