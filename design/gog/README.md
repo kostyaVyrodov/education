@@ -27,6 +27,7 @@ Patterns of gang of four are separated on three groups: creation, structural and
 **Benefit:** allows to reduce code duplication, simplifies code base, single responsibility principle, open-clise principle
 
 **Members:**
+
 - AbstractCreator - contract of a creator. It's responsible for creating objects
 - ConcreteCreator - one of implementations of a creator contract
 - AbstractProduct - contract of a product. It's responsible for behavior
@@ -44,6 +45,7 @@ Patterns of gang of four are separated on three groups: creation, structural and
 **Benefit:** simplifies code base, single responsibility principle, open-clise principle
 
 **Members:**
+
 - Different AbstractProducts - contracts of products behavior
 - Different ConcreteProducts - implementation of corresponding AbstractProducts
 - Different AbstractFactories - contracts of factories producing concrete product
@@ -55,27 +57,35 @@ Patterns of gang of four are separated on three groups: creation, structural and
 
 ### Builder
 
-**Explanation:**
+**Explanation:** builder allows to create different flavors of an object avoiding constructor pollution
 
-**Use case:**
+**Use case:** when there is a type with many parameters that has to be initialized with constructor. For example, there's a builder of a server when you create ASP.NET Core app
 
-**Benefit:**
+**Benefit:** allows to avoid 'Long Parameter List' in client's code smell
 
 **Members:**
 
-![Builder](./images/);
+- Builder - a builder that knows how to initialize a type;
+- Product - a type with many params;
+- Director - conducts of building an object;
+
+
+![Builder](./images/builder.png);
 
 ### Prototype
 
-**Explanation:**
+**Explanation:** creates a clone of an existing object
 
-**Use case:**
+**Use case:** when you have an object with many parameters and you need to a get another one with the same state
 
-**Benefit:**
+**Benefit:** allows a client easily create a copy of the same type
 
 **Members:**
 
-![Prototype](./images/);
+- Prototype - a type that implements a clone() method
+
+
+![Prototype](./images/prototype.png);
 
 ### Singleton
 
