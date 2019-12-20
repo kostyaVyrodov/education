@@ -4,8 +4,6 @@ Design patterns are typical solutions to commonly occurring problems in software
 
 Patterns of gang of four are separated on three groups: creation, structural and behavioral patterns
 
-**Structural** patterns explain how to assemble objects and classes into larger structures, while keeping the structures flexible and efficient
-
 **Behavioral** patterns take care of effective communication and the assignment of responsibilities between objects
 
 ## Table of content
@@ -16,7 +14,7 @@ Patterns of gang of four are separated on three groups: creation, structural and
 
 ## Creational patterns
 
-**Creational** patterns provide object creation mechanisms that increase flexibility and reuse of existing code
+Creational patterns provide object creation mechanisms that increase flexibility and reuse of existing code
 
 ### Factory
 
@@ -32,7 +30,6 @@ Patterns of gang of four are separated on three groups: creation, structural and
 - ConcreteCreator - one of implementations of a creator contract
 - AbstractProduct - contract of a product. It's responsible for behavior
 - ConcreteProduct - one of implementations of a product contract
-- Client - type using factory
 
 ![Factory](./images/factory.png);
 
@@ -51,7 +48,6 @@ Patterns of gang of four are separated on three groups: creation, structural and
 - Different AbstractFactories - contracts of factories producing concrete product
 - Different ConcreteFactories - implementation of an abstract product
 - AbstractFactory - contains logic create concrete related to each other products
-- Client - a type using abstract factory to produce products
 
 ![Abstract factory](./images/abstract-factory.png);
 
@@ -68,7 +64,6 @@ Patterns of gang of four are separated on three groups: creation, structural and
 - Builder - a builder that knows how to initialize a type;
 - Product - a type with many params;
 - Director - conducts of building an object;
-
 
 ![Builder](./images/builder.png);
 
@@ -98,5 +93,24 @@ Patterns of gang of four are separated on three groups: creation, structural and
 
 - Singleton - a type that creates itself and always the same reference
 
-![Singleton](./images/);
+![Singleton](./images/singleton.png);
 
+## Structural patterns
+
+Structural patterns explain how to compose objects and classes into larger structures and keep the structures flexible
+
+### Adapter
+
+**Explanation:** a wrapper that binds two incompatible types
+
+**Use case:** your app works with json. One of types can produce only XML. It's possible to write an adapter to convert XML to JSON
+
+**Benefit:** ensures single responsibility and open closed principles
+
+**Members:**
+
+- IncompatibleService - a service that can't work directly with your types;
+- Adapter - an object that adapts IncompatibleService;
+- Client - your application that exposes required interface. Adapter adapts the IncompatibleService
+
+![Adapter](./images/adapter.png);
