@@ -84,18 +84,19 @@ Patterns of gang of four are separated on three groups: creation, structural and
 
 - Prototype - a type that implements a clone() method
 
-
 ![Prototype](./images/prototype.png);
 
 ### Singleton
 
-**Explanation:**
+**Explanation:** makes sure that only one instance of a class is created
 
-**Use case:**
+**Use case:** when you need to have only 1 instance of an object across whole application
 
-**Benefit:**
+**Benefit:** you are sure that you have only one instance
 
 **Members:**
+
+- Singleton - a type that creates itself and always the same reference
 
 ![Singleton](./images/);
 
