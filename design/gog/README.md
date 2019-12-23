@@ -24,13 +24,6 @@ Creational patterns provide object creation mechanisms that increase flexibility
 
 **Benefit:** allows to reduce code duplication, simplifies code base, single responsibility principle, open-clise principle
 
-**Members:**
-
-- AbstractCreator - contract of a creator. It's responsible for creating objects
-- ConcreteCreator - one of implementations of a creator contract
-- AbstractProduct - contract of a product. It's responsible for behavior
-- ConcreteProduct - one of implementations of a product contract
-
 ![Factory](./images/factory.png);
 
 ### Abstract factory
@@ -40,14 +33,6 @@ Creational patterns provide object creation mechanisms that increase flexibility
 **Use case (problem):** when you need to hide several factories for creation of a group of related objects
 
 **Benefit:** simplifies code base, single responsibility principle, open-clise principle
-
-**Members:**
-
-- Different AbstractProducts - contracts of products behavior
-- Different ConcreteProducts - implementation of corresponding AbstractProducts
-- Different AbstractFactories - contracts of factories producing concrete product
-- Different ConcreteFactories - implementation of an abstract product
-- AbstractFactory - contains logic create concrete related to each other products
 
 ![Abstract factory](./images/abstract-factory.png);
 
@@ -59,12 +44,6 @@ Creational patterns provide object creation mechanisms that increase flexibility
 
 **Benefit:** allows to avoid 'Long Parameter List' in client's code smell
 
-**Members:**
-
-- Builder - a builder that knows how to initialize a type;
-- Product - a type with many params;
-- Director - conducts of building an object;
-
 ![Builder](./images/builder.png);
 
 ### Prototype
@@ -75,10 +54,6 @@ Creational patterns provide object creation mechanisms that increase flexibility
 
 **Benefit:** allows a client easily create a copy of the same type
 
-**Members:**
-
-- Prototype - a type that implements a clone() method
-
 ![Prototype](./images/prototype.png);
 
 ### Singleton
@@ -88,10 +63,6 @@ Creational patterns provide object creation mechanisms that increase flexibility
 **Use case:** when you need to have only 1 instance of an object across whole application
 
 **Benefit:** you are sure that you have only one instance
-
-**Members:**
-
-- Singleton - a type that creates itself and always the same reference
 
 ![Singleton](./images/singleton.png);
 
@@ -107,10 +78,66 @@ Structural patterns explain how to compose objects and classes into larger struc
 
 **Benefit:** ensures single responsibility and open closed principles
 
-**Members:**
-
-- IncompatibleService - a service that can't work directly with your types;
-- Adapter - an object that adapts IncompatibleService;
-- Client - your application that exposes required interface. Adapter adapts the IncompatibleService
-
 ![Adapter](./images/adapter.png);
+
+### Bridge
+
+**Explanation:** the pattern is about using composition over inheritance. Implementation details are push from a hierarchy to another object with a separate hierarchy
+
+**Use case:** let's say you need to implement themes for web pages. Instead of creating different pages, you can inject colors configuration to a separate type
+
+**Benefit:** it's possible to change behavior on fly, you have a separate hierarchy that you can modify
+
+![Bridge](./images/bridge.png);
+
+### Composite
+
+**Explanation:** composite allows to organize tree based data structures. For client it looks like it works only with one instance of an object instead of tree
+
+**Use case:** when you want the client code to treat both simple and complex elements uniformly. All elements defined by the Composite pattern share a common interface
+
+**Benefit:** client doesn't need to know about kind of instance it works with: a simple one or complex containing children
+
+![Composite](./images/composite.png);
+
+### Decorator 
+
+**Explanation:** decorator allows dynamically attach a new behavior to object by placing these objects inside special wrapper objects that contain the behavior
+
+**Use case:** when it's necessary to add behavior in runtime
+
+**Benefit:** you can extend object's behavior without making a new sub classes, it's possible to combine several behaviors by wrapping an object into multiple decorators
+
+![Decorator](./images/decorator.png);
+
+
+### Facade 
+
+**Explanation:** a pattern that allows to simplify a complex set of types
+
+**Use case:** it's possible to use Facade when you have a set functions that you need to call together. Facade allows hide this details from a client
+
+**Benefit:** You can isolate your code from the complexity of a subsystem
+
+![Decorator](./images/decorator.png);
+
+### Flyweight
+
+**Explanation:** allows to minimize memory usage by 
+
+**Use case:** when your program must support a huge number of objects which barely fit into available RAM
+
+**Benefit:** save lots of RAM, assuming your program has tons of similar objects
+
+> The idea is to reuse same instance of immutable objects. Let's say that you have a type with properties which values are duplicated across instances. You can create a separate class with those properties and reuse them
+
+### Proxy
+
+**Explanation:** a proxy is substitution of another object with additional functionality. Proxy implements same contract but extends the functionality
+
+**Use case:** unit of work is proxy, caching service is proxy
+
+**Benefit:** open\closed principle, adding additional details
+
+## Behavioral
+
