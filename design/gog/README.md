@@ -141,3 +141,42 @@ Structural patterns explain how to compose objects and classes into larger struc
 
 ## Behavioral
 
+## Chain of responsibility
+
+**Explanation:** allows to pass a request along a chain of handlers. If a handler can process a request then it handles it
+
+## Command
+
+**Explanation:** the pattern allows to transform a request into a stand-alone object containing information about request. Command allows to delay or queue a request's execution and provide undoable operation
+
+## Iterator
+
+**Explanation:** allows to traverse a collection without exposing its underlying representation
+
+## Mediator
+
+**Explanation:** it's a third party object that controls the interaction between two objects. It helps reduce the coupling between the classes communicating with each other
+
+## Memento
+
+**Explanation:** lets you save and restore the previous state of an object without revealing the details of its implementation
+
+## Observer
+
+**Explanation:** lets you define a subscription mechanism to notify multiple objects about any events that happen to the object they're observing
+
+## State
+
+**Explanation:** lets an object alter its behavior when its internal state changes
+
+## Strategy
+
+**Explanation:** lets define a family of algorithms, put each of them into a separate class, and make their objects interchangeable
+
+## Template Method
+
+**Explanation:** defines the skeleton of an algorithm in the superclass but lets subclasses override specific steps of the algorithm without changing its structure
+
+## Visitor
+
+**Explanation:** 
