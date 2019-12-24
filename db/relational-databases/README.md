@@ -4,11 +4,47 @@ Relational database is a collection of data items organized in tables. Relationa
 
 ## Table of contents
 
+1. Terms
 1. Normalization
 1. Indexes
 1. Transactions
 1. Scaling technics
 1. Useful questions/answers
+
+## Terms
+
+**Tuple** is a row of a table
+
+**Attribute** is a column of a table
+
+**Database Schema** is a logical design of a database
+
+**Database Instance** is a snapshot of the data in the db at a given instant in time
+
+**SuperKey** is a set of attributes allowing to identify a row
+
+**PrimaryKey** is a SuperKey selected as unique identifier of a row
+
+**ForeignKey** is an attribute of a current table that references to the PrimaryKey another table allowing to identify concrete row in the another table
+
+**Data-definition language (DDL)** is a set of command for defining relation schemas, deleting relations and modifying relation schemas
+
+**Data-manipulation language (DML)** is a set of commands for selecting, inserting, updating and deleting data
+
+## SQL
+
+### Basics
+
+**Types:**
+
+- **char(n)** is a fixed length character string;
+- **varchar(n)** is a variable-length character string;
+- **int** is just an int 
+- **smallint** is a smaller int
+- **numeric(p,d)** is a fixed-point number with user-speicifed precision;
+- **real, double precision** is a floating-point 
+
+**Integrity constraints:** primary key, foreign key, not null
 
 ## Normalization
 
