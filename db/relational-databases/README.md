@@ -43,8 +43,47 @@ Relational database is a collection of data items organized in tables. Relationa
 - **smallint** is a smaller int
 - **numeric(p,d)** is a fixed-point number with user-speicifed precision;
 - **real, double precision** is a floating-point 
+- **date** is '2001-04-25'
+- **time** is '09:30:00'
+- **timestamp** '2001-04-25 10:29:01.45'
+- **blob** is for binary data
+- **clob** is for char data
 
-**Integrity constraints:** primary key, foreign key, not null
+**Integrity constraints:** primary key, foreign key, not null, check (<predicate>)
+
+> check example: `check (semester in ('Fall', 'Winter', 'Spring', 'Summer')`
+
+**Agreagte functions** like 'AVG' or 'SUM', are functions accepting a collectio of rows and returning a single value
+
+### Operators
+
+`LIKE` is a pattern matching operator. The `%` matches any substring. The `_` matches any character.
+
+Examples: 
+```sql
+- 'Intro%' matches any string beginning with "Intro"
+- '%Comp%' matches any string containing "Comp" as a substring, for example, 'Intro. to Computer Science', and 'Computational Biology'
+- '___' matches any string of exactly three characters
+- '___%' matches any string of at least three characters
+```
+
+`ORDER BY` is a sort operator. By default is ASC order (from A to Z). Can be used to order multiple columns: `...ORDER BY salary DESC, name ASC`
+
+`BETWEEN` is an operator specifying that a value be less than or equal to some value and greater than or equal to some other value. `salary BETWEEN 90000 AND 100000` is same as `salary <= 100000 and salary >= 90000`
+
+`UNION` is an operator joining results of different SELECT queries. In addition automatically eliminates duplicates
+
+`INTERSECT` is an operator returning common only common results from different queries
+
+`EXECEPT` is an operator eliminating results that exist in the next result
+
+`DISTINCT` is an operator eliminationg duplicates in the result of SELECT statement
+
+`GROUP BY` is an operator grouping sets of tuples and allowing to apply an aggregate function to each group of tuples
+
+`HAVING` is an operator applying to a group of tupples. Similar as WHERE but works with a group of tuples
+
+> Tuple comparassion in SQL `WHERE (instructor.ID, dept_name) = (teaches.ID, 'Biology')`
 
 ## Normalization
 
