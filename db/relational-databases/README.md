@@ -2,6 +2,8 @@
 
 Relational database is a collection of data items organized in tables. Relational databases implement 'Strong consistency' pattern of 'Consistency' patterns.
 
+[Great article](http://coding-geek.com/how-databases-work/)
+
 ## Table of contents
 
 1. Terms
@@ -110,6 +112,12 @@ ACID principles [source](https://searchsqlserver.techtarget.com/definition/ACID)
 - **Consistency.** Means that you guarantee that your data will be consistent; none of the constraints you have on related data will ever be violated.
 - **Isolation.** Means that one transaction cannot read data from another transaction that is not yet completed.
 - **Durability.** Means that once a transaction is complete, it is guaranteed that all of the changes have been recorded to a durable medium (such as a hard disk).
+
+Levels of isolation: 
+- Serializable. Each transaction has complete own world.
+- Repeated read (phantom read). Anomaly: if TX A does 'SELECT COUNT(1) FROM TABLE_X' and then a new data is added and committed in TABLE_X by TX B, if TX A does againg a count (1) the value won't be the same.
+- Read committed (non-repeatable read).
+- Read uncommitted (dirty read).
 
 ## Scaling technics
 
