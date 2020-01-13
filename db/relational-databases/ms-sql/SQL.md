@@ -6,15 +6,27 @@ Snippets to create\modify databases, tables
 
 ### Manipulating database
 
-**Create DB:** `CREATE DATABASE <DatabaseName>`;
+**Create DB**
 
-**Alter DB:** `ALTER DATABASE <Database Name> MODIFY NAME = <NewDatabaseName>`;
+```sql
+CREATE DATABASE <DatabaseName>
+```
 
-**Drop DB:** `DROP DATABASE <Database Name>`;
+**Alter DB**
+
+```sql
+ALTER DATABASE <Database Name> MODIFY NAME = <NewDatabaseName>
+```
+
+**Drop DB**
+
+```sql
+DROP DATABASE <Database Name>
+```
 
 ### Manipulating tables
 
-**Create table:**
+**Create table**
 
 ```sql
 -- Structure:
@@ -30,7 +42,7 @@ CREATE TABLE Customers (
 );
 ```
 
-**Alter table:**
+**Alter table**
 
 ```sql
 -- Add foreign key structure:
@@ -39,5 +51,22 @@ FOREIGN KEY (<ForeignKeyColumn>) REFERENCES <OtherTableName> (<PrimaryKeyOfOther
 
 -- Add column structure:
 ALTER TABLE <TableName> ADD
-<ColumnName> <DataType> <ColumnConstraint>
+<ColumnName> <DataType> <ColumnConstraint>;
+```
+
+**Drop table**
+
+```sql
+DROP TABLE <TableName>;
+```
+
+**Add 'default' constraint**
+
+```sql
+ALTER TABLE <TableName> ADD CONSTRAINT <ConstraintName> 
+DEFAULT <DefaultValue> FOR <ExistingColumnName>;
+
+ALTER TABLE <TableName> ADD 
+ADD <ColumnName> <DataType>
+CONSTRAINT <ConstraintName> DEFAULT <DefaultValue>;
 ```
