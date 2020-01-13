@@ -77,15 +77,15 @@ Examples:
 
 `INTERSECT` is an operator returning common only common results from different queries
 
-`EXECEPT` is an operator eliminating results that exist in the next result
+`EXCEPT` is an operator eliminating results that exist in the next result
 
-`DISTINCT` is an operator eliminationg duplicates in the result of SELECT statement
+`DISTINCT` is an operator eliminating duplicates in the result of SELECT statement
 
 `GROUP BY` is an operator grouping sets of tuples and allowing to apply an aggregate function to each group of tuples
 
-`HAVING` is an operator applying to a group of tupples. Similar as WHERE but works with a group of tuples
+`HAVING` is an operator applying to a group of tuples. Similar as WHERE but works with a group of tuples
 
-> Tuple comparassion in SQL `WHERE (instructor.ID, dept_name) = (teaches.ID, 'Biology')`
+> Tuple comparison in SQL `WHERE (instructor.ID, dept_name) = (teaches.ID, 'Biology')`
 
 ## Indexes
 
