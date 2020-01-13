@@ -66,7 +66,23 @@ DROP TABLE <TableName>;
 ALTER TABLE <TableName> ADD CONSTRAINT <ConstraintName> 
 DEFAULT <DefaultValue> FOR <ExistingColumnName>;
 
-ALTER TABLE <TableName> ADD 
+ALTER TABLE <TableName> 
 ADD <ColumnName> <DataType>
 CONSTRAINT <ConstraintName> DEFAULT <DefaultValue>;
 ```
+
+**Specifying cascading referential integrity constraint**
+
+```sql
+ALTER TABLE <TableName> ADD CONSTRAINT <ConstraintName> 
+FOREIGN KEY (<ForeignKeyColumn>) REFERENCES <OtherTableName> (<PrimaryKeyOfOtherTable>)
+ON DELETE CACADE ON UPDATE CACADE;
+```
+
+`NO ACTION` is default one. Rolls back transaction and rises an exception
+
+`SET NULL` all columns of rows containing the foreign key are set NULL
+
+`CASCADE` all rows containing the foreign key are deleted or updated
+
+`SET DEFAULT` all columns of rows containing the foreign key are assigned with default value
