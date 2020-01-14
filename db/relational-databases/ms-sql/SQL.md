@@ -9,19 +9,19 @@ Snippets to create\modify databases, tables
 **Create DB**
 
 ```sql
-CREATE DATABASE <DatabaseName>
+CREATE DATABASE <DatabaseName>;
 ```
 
 **Alter DB**
 
 ```sql
-ALTER DATABASE <Database Name> MODIFY NAME = <NewDatabaseName>
+ALTER DATABASE <DatabaseName> MODIFY NAME = <NewDatabaseName>;
 ```
 
 **Drop DB**
 
 ```sql
-DROP DATABASE <Database Name>
+DROP DATABASE <DatabaseName>;
 ```
 
 ### Manipulating tables
@@ -86,3 +86,13 @@ ON DELETE CACADE ON UPDATE CACADE;
 `CASCADE` all rows containing the foreign key are deleted or updated
 
 `SET DEFAULT` all columns of rows containing the foreign key are assigned with default value
+
+**Add 'check' constraint**
+
+```sql
+ALTER TABLE <TableName> ADD CONSTRAINT <ConstraintName> 
+CHECK (BOOLEAN_EXPRESSION);
+
+ALTER TABLE Orders ADD CONSTRAINT AmountBiggerZero 
+CHECK (Amount > 0);
+```
