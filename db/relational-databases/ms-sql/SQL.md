@@ -223,6 +223,13 @@ SELECT Id, Name FROM BritishCustomers;
 
 A stored procedure is a group of T-SQL statements. It allows to avoid duplications of the same query
 
+Benefits of stored procedures:
+1. Stored Procedures are compiled and their execution plan is cached and used again when the same procedure is executed again
+1. Reducing network traffic
+1. Code reusability and better maintainability. A procedure can be reused between different applications
+1. Better security. Allows to restrict users who can execute the procedure
+1. Avoid SQL injection attack
+
 **Create stored procedure**
 
 ```sql
@@ -249,6 +256,13 @@ AS
 BEGIN
     SELECT @CustomersCount = COUNT(Id) FROM Customers
     WHERE City = @City
+END
+
+-- Procedure returning value
+CREATE PROCEDURE <ProcedureName>
+AS
+BEGIN
+    return (SELECT COUNT(ID) FROM Customers)
 END
 ```
 
