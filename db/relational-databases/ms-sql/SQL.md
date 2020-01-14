@@ -240,6 +240,16 @@ AS
 BEGIN
     SELECT * FROM Customers WHERE Name = @Name;
 END
+
+-- Procedure with output
+CREATE PROCEDURE <ProcedureName>
+@City NVARCHAR(50),
+@CustomersCount INT OUTPUT
+AS
+BEGIN
+    SELECT @CustomersCount = COUNT(Id) FROM Customers
+    WHERE City = @City
+END
 ```
 
 **View procedure code**
@@ -253,9 +263,14 @@ SP_HELPTEXT '<ProcedureName>';
 ```sql
 -- Execute procedure
 EXECUTE <ProcedureName> <Value1>
+
+-- Execute with output parameter
+DECLARE @<VariableName123> INT;
+EXECUTE <ProcedureName> <Value1>, @<VariableName123> OUTPUT
 ```
 
 **Modify procedure**
+
 ```sql
 ALTER PROCEDURE <ProcedureName>
 @Name NVARCHAR(100)
