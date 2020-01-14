@@ -96,3 +96,29 @@ CHECK (BOOLEAN_EXPRESSION);
 ALTER TABLE Orders ADD CONSTRAINT AmountBiggerZero 
 CHECK (Amount > 0);
 ```
+
+**Add auto increment**
+
+```sql
+-- Add auto increment when create a table
+CREATE TABLE Customers (
+    Id INT IDENTITY (1, 1) PRIMARY KEY,
+    Name VARCHAR(50)
+);
+```
+
+**Get current IDENTITY value**
+
+```sql
+SELECT SCOPE_IDENTITY();
+SELECT @@IDENTITY;
+SELECT IDENT_CURRENT('Customers');
+```
+
+**Add 'unique' constraint**
+
+```sql
+ALTER TABLE <TableName>
+ADD CONSTRAINT <ConstraintName> UNIQUE(ColumnName);
+```
+
