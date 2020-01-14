@@ -299,3 +299,75 @@ END
 ```sql
 DROP PROCEDURE <ProcedureName>;
 ```
+
+## Built-in functions
+
+**String functions**
+
+`ASCII(char)` - returns code of the character
+
+`CHAR(int)` - returns ASCI character for the number
+
+`LOWER(chars)` - converts a string to lower case
+
+`LTRIM(chars)` - eliminates all white spaces from the left side
+
+`RTRIM(chars)` - eliminates all white spaces from the right side
+
+`UPPER(chars)` - converts all characters to uppercase chars
+
+`REVERSE(chars)` - reverses all characters in the expression
+
+`LEN(chars)` - returns amount of strings
+
+`LEFT(chars, amount)` - returns specified amount of chars from the left side of specified string
+
+`RIGHT(chars, amount)` - returns specified amount of chars from the right side of specified string
+
+`CHARINDEX(chars, charsToSearch, startIndex)` - returns starting position of the specified expression in a string
+
+`SUBSTRING(chars, start, length)` - returns substring of the given string
+
+`REPLICATE(chars, numberOfTimesToReplicate)` - repeats the given string, for the specified number of time
+
+`SPACE(NumberOfSpaces)` - returns number of spaces
+
+`PATINDEX(pattern, chars)` - returns start index of specified pattern in string
+
+`REPLACE(originalString, patternToReplace, replacementValue)` - replaces all occurrences of a specified string with another string
+
+**DateTime functions**
+
+`GETDATE()` - returns current date and time. Sample: 2020-01-14 16:31:06.340
+
+`SYSDATETIME()` - returns more accurate current date and time. Sample: 2020-01-14 16:33:42.9781117
+
+`SYSDATETIMEOFFSET()` - returns date time with offset Sample: 2020-01-14 16:35:48.9711393 +02:00
+
+`GETUTCDATE()` - UTC Date and Time. Sample: 2020-01-14 14:44:03.110
+
+`SYSUTCDATETIME()` - accurate UTC date and time with. Sample: 2020-01-14 14:43:46.9767251
+
+`ISDATE(value)` - checks if the given value is a valid date
+
+`DAY(dateTime)` - returns day of the give date time
+
+`MONTH(dateTime)` - returns month of the given date time
+
+`YEAR(dateTime)` - returns number of year of the given date time
+
+`DATENAME(DAY\WEEKDAY\MONTH, dateTime)` - returns a string that represents a part of the given date
+
+`DATEPART(datePart, dateTime)` - returns an integer representing the specified [datePart](https://www.w3schools.com/sql/func_sqlserver_datepart.asp)
+
+`DATEADD(datePart, numberToAdd, originalDate)` - adds specified numberToAdd and returns updated dateTime
+
+`DATEDIFF(datePart, numberToAdd, originalDate)` - diffs specified numberToAdd and returns updated dateTime
+
+**Math functions**
+
+`CEILING` - returns the smallest integer value greater than or equal to the parameter
+
+`FLOOR` - returns the largest integer less than or equal to the parameter
+
+`RAND()`
