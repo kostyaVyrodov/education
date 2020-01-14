@@ -158,6 +158,8 @@ Types of JOIN: `CROSS JOIN`, `OUTER JOIN`, `INNER JOIN`. `OUTER JOIN` divided in
 
 `FULL JOIN` returns all rows from both tables. If some rows don't match then it sets NULL to appropriate columns
 
+Self JOIN is not different type of JOIN. Let's say you there's a 'Users' table. Self joining is like having two instance of the table and you just join the same table twice. 
+
 ```sql
 -- General JOIN statement
 SELECT <ColumnList> FROM <LeftTableName>
@@ -190,3 +192,31 @@ WHERE <LeftTablePK> is NULL OR <RightTablePK> is NULL
 ```
 
 ![Joins visualization](./joins.png)
+
+**Replace NULL with a value in SELECT statement**
+
+```sql
+SELECT Id, ISNULL(Name, 'No Name') as Name
+FROM Customers;
+-- Or
+SELECT Id, CASE WHEN Name IS NULL THEN 'No Name' ELSE Name END
+FROM Customers;
+-- Or
+SELECT Id, COALESCE(Name, 'No Name') as Name
+FROM Customers;
+```
+
+> Note: COALESCE returns first non null value. Instead of string it's possible to pass there 
+
+
+**UNION and UNION ALL operators**
+
+These operators allow to combine the result-set of two or more SELECT queries.
+
+```sql
+SELECT Id, Name FROM UkraineCustomers;
+UNION
+SELECT Id, Name FROM BritishCustomers;
+```
+
+## Stored procedures
