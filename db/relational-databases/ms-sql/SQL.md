@@ -122,3 +122,71 @@ ALTER TABLE <TableName>
 ADD CONSTRAINT <ConstraintName> UNIQUE(ColumnName);
 ```
 
+## SELECT statement
+
+**Basic SELECT statement**
+
+```sql
+SELECT <ColumnName> FROM <TableName> WHERE <FilterCondition>;
+```
+
+**GROUP BY statement**
+
+GROUP BY is used with aggregate functions to group a selected set of rows into a set of summary row
+
+HAVING is used only after ORDER BY statement to filter aggregated data
+
+Aggregate functions: `COUNT(), SUM(), AVG(), MIN(), MAX()`
+
+```sql
+SELECT Id, Name, SUM(Salary) as Salary, City FROM Staff
+ORDER BY City
+HAVING City = 'Kharkiv';
+```
+
+**Basic JOIN statement**
+
+Types of JOIN: `CROSS JOIN`, `OUTER JOIN`, `INNER JOIN`. `OUTER JOIN` divided into 3 types: `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `FULL OUTER JOIN`
+
+`INNER JOIN` returns matching rows between both the tables. Non matching rows are eliminated
+
+`LEFT OUTER JOIN` returns all rows from the left table. If there are not rows in the right table then it sets NULL to appropriate columns
+
+`RIGHT OUTER JOIN` returns all rows from the right table. If there are not rows in left table then it sets NULL to appropriate columns
+
+`CROSS JOIN` returns cartesian product of the tables involved to join
+
+`FULL JOIN` returns all rows from both tables. If some rows don't match then it sets NULL to appropriate columns
+
+```sql
+-- General JOIN statement
+SELECT <ColumnList> FROM <LeftTableName>
+JOIN_TYPE <RightTableName>
+ON <JoinCondition>
+```
+
+```sql
+-- Retrieve only the non matching rows from the left table
+SELECT <ColumnList> FROM <LeftTableName>
+LEFT JOIN <RightTableName>
+ON <JoinCondition>
+WHERE <RightTablePK> is NULL
+```
+
+```sql
+-- Retrieve only the non matching rows from the right table
+SELECT <ColumnList> FROM <LeftTableName>
+RIGHT JOIN <RightTableName>
+ON <JoinCondition>
+WHERE <LeftTablePK> is NULL
+```
+
+```sql
+-- Retrieve only the non matching rows from both the left and right table
+SELECT <ColumnList> FROM <LeftTableName>
+FULL JOIN <RightTableName>
+ON <JoinCondition>
+WHERE <LeftTablePK> is NULL OR <RightTablePK> is NULL
+```
+
+![Joins visualization](./joins.png)
