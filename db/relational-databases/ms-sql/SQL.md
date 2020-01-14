@@ -220,3 +220,53 @@ SELECT Id, Name FROM BritishCustomers;
 ```
 
 ## Stored procedures
+
+A stored procedure is a group of T-SQL statements. It allows to avoid duplications of the same query
+
+**Create stored procedure**
+
+```sql
+-- Procedure without parameters
+CREATE PROCEDURE <ProcedureName>
+AS
+BEGIN
+    SELECT * FROM <TableName>
+END
+
+-- Procedure with parameters
+CREATE PROCEDURE <ProcedureName>
+@Name NVARCHAR(50)
+AS
+BEGIN
+    SELECT * FROM Customers WHERE Name = @Name;
+END
+```
+
+**View procedure code**
+
+```sql
+SP_HELPTEXT '<ProcedureName>';
+```
+
+**Execute procedure**
+
+```sql
+-- Execute procedure
+EXECUTE <ProcedureName> <Value1>
+```
+
+**Modify procedure**
+```sql
+ALTER PROCEDURE <ProcedureName>
+@Name NVARCHAR(100)
+AS
+BEGIN
+    SELECT * FROM Customers WHERE Name = @Name;
+END
+```
+
+**Delete procedure**
+
+```sql
+DROP PROCEDURE <ProcedureName>;
+```
