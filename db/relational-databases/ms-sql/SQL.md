@@ -366,8 +366,115 @@ DROP PROCEDURE <ProcedureName>;
 
 **Math functions**
 
-`CEILING` - returns the smallest integer value greater than or equal to the parameter
+`CEILING(number)` - returns the smallest integer value greater than or equal to the parameter. Sample: CEILING(12.3) => 13
 
-`FLOOR` - returns the largest integer less than or equal to the parameter
+`FLOOR(number)` - returns the largest integer less than or equal to the parameter. Sample: FLOOR(12.3) => 12
 
-`RAND()`
+`ABS(number)` - returns absolute positive number
+
+`RAND()` - generates random number
+
+`POWER(number)` - returns the power value of the specified number to the specified power
+
+## User defined functions
+
+MSSQL supports 3 types of user defined functions: scalar, inline table-valued, multistatement table-valued
+
+A scalar function returns a single scalar value
+
+A table-valued function returns a part of table
+
+A function can be deterministic(returns same value again and again) like SUM and nondeterministic(returns different value each time) like GetDate(). 
+
+```sql
+-- Syntax to create a scalar function
+CREATE FUNCTION <FunctionName> (<ArgName> <DataTypeName>, ...)
+RETURNS <DataType>
+AS
+BEGIN
+    Function Body
+    Return Return_DataType
+END
+
+-- Syntax to modify a function
+ALTER FUNCTION <FunctionName> ...
+
+-- Syntax to delete a function
+DROP FUNCTION <FunctionName> ...
+```
+
+To call a scalar user-defined function it's necessary to supply a two-part name like `SELECT OwnerName.FunctionName(args...)`
+
+## Temporary tables
+
+Temporary tables are similar to permanent tables. They exist to store data. But temp. tables get created in the TempDB and automatically deleted when they are no longer used
+
+Types of temp tables: local and global table
+
+```sql
+-- Add pound('#') char to the name to create a local temp. table
+CREATE TABLE #CustomerDetails(
+    ...
+);
+
+-- Add two pound('##') chars to the name to create a global temp. table
+CREATE TABLE ##CustomerDetails(
+    ...
+);
+```
+
+Differences between local and global temp table:
+
+1. Local global table is created with 1 '#', where global temp table is created with 2 '##'
+2. Global table is visible to all connections to db and destroyed after last connection has been disconnected
+3. Local table is destroyed after finishing a session
+
+## Indexes 
+
+Indexes are special mechanisms to allow queries to find data from tables quickly. DB index is similar to book index
+
+Convention to name indexes: 'IX_<TableName>_<Column>'
+
+```sql
+-- Create index
+CREATE INDEX <IndexName>
+ON <TableName> (<ColumnName>);
+
+-- Create non clustered index
+CREATE NONCLUSTERED INDEX <IndexName>
+ON <TableName>(<ColumnName>);
+
+-- Delete index
+DROP INDEX <IndexName>
+```
+
+**Types of indexes**
+
+Clustered index. Clustered index contains exact data in the leafs. PK is clustered index, that's why a table can have only 1 index
+
+NonClustered index. NonClustered index contains references to data in the leafs
+
+## View
+
+View is saved SQL query
+
+```sql
+-- Create view
+CREATE VIEW <ViewName>
+AS
+<SQL query>
+
+-- Modify view
+ALTER VIEW <ViewName>
+AS
+<SQL query>
+
+-- Delete view
+DROP VIEW <ViewName>
+```
+
+## Triggers
+
+Triggers are special stored procedures that are automatically executed when some event ocurred in a database
+
+
