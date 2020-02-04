@@ -17,10 +17,16 @@ OSI layers:
 7. Application
 6. Presentation
 5. Session
-4. Transport
-3. Network
-2. Datalink
-1. Physical
+4. Transport (sgements)
+3. Network (packets)
+2. Datalink (frames)
+1. Physical (bits)
+
+TCP layers:
+4. Application
+3. Transport
+2. Network
+1. Network access
 
 Benefits of layering: a higher level developer doesn't need to know about details of what happening in the lower level
 
@@ -47,3 +53,5 @@ Benefits of layering: a higher level developer doesn't need to know about detail
 `ping <dns name>` is a tool allowing to test if a particular host is reachable
 
 `tracert <dns name>` is a tool showing details about the path that packet takes from the computer you are on to a destination you specify
+
+`ipconfing /all` show details of network configuration
