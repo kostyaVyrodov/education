@@ -36,10 +36,10 @@ Compiler vs Interpreter:
 JIT compiler is combination of compiler and interpreter and it provides cons from both compiler and interpreter worlds
 
 Dangerous mechanisms\functions that my hurt performance of JS app:
-- eval()
+- eval() - is not good because it changes lexical scope of a function
 - arguments
 - for in
-- with
+- with - is not good because it changes lexical scope of a function
 - delete
 - hidden classes. A technique used by V8 to identify a type of objects. If you add a new property to a JS object then you V8 produces a new hidden class. Too many new properties for existing types = new hidden = worse performance;
 - inline caching. Inline Cache can be treated as a fast path (shortcut) to the value/property
@@ -106,7 +106,7 @@ window.example -> 'kostya'
 
 The call stack is a collection of execution contexts. Execution context is kind of 'environment' of a function
 
-![Global execution context](./images/global-execution-context.png)
+![Global execution context](./images/execution-context.png)
 
 **Lexical environment (scope)**
 
@@ -201,11 +201,31 @@ function merry1(...args) {
 
 Each function invocation creates an own variable environment. So variables from previous environments are not visible 
 
+**Scope Chain**
+
+Scope chain (замыкание) allows to get variables from the parent's variables environment. A `scope` is about where you can access a variable
+
+In JS our lexical scope (available data + variables where the function was defined) determines our available variable. Not where the function is called (dynamic scope). Lexical scope is about where a function was written
+
+![Scope chain](./images/scope-chain.png)
+
+```js
+// Example: 
+var x = 10;
+
+function t2 () {
+    // scope chaining to global context
+    console.log(x);
+}
+```
+
+`[[scope]]` is pointer to the list of scopes
+
 ## FAQ
 
 **What is 'use strict'?**
 
-The "use strict" directive was new in ECMAScript version 5. It is not a statement, but a literal expression, ignored by earlier versions of JavaScript. The purpose of "use strict" is to indicate that the code should be executed in "strict mode". With strict mode, you can not, for example, use undeclared variables.
+The "use strict" directive was new in ECMAScript version 5. It is not a statement, but a literal expression, ignored by earlier versions of JavaScript. The purpose of "use strict" is to indicate that the code should be executed in "strict mode". With strict mode, you can not, for example, use undeclared variables. 
 
 **Where does execution context live?**
 
@@ -213,6 +233,102 @@ Is JS engine or JS runtime? Most likely in JS engine.
 
 **Global execution context vs Function execution context**
 
-Global execution context creates an object with: this and window.
+Global execution context creates an object with: `this` and `window`. The global execution context lives outside of a function
 
-Function execution context creates an object with: this and arguments.
+Function execution context creates an object with: `this` and `arguments`. Each invoking of a function creates own execution context
+
+**What a local lexical environment (scope) and a global lexical environment?**
+
+Lexical environment specifies what variables are available for a defined function. Each function creates own local (scope) lexical environment. There's a global scope that created on application start. So local scope is created by a function and global scope exists on the top of everything
+
+**What is dynamic scope?**
+
+**What is execution context?**
+
+**What is a leakage of global variables?**
+
+Global variables leakage happens when you define a variable in function without keywords like `let`, `const`, `var` and it moves up to global scope. `use strict` declaration on the top file prevents JS of doing weird things this one.
+
+```js
+function getHeight() {
+    height = 10;
+    return height;
+}
+
+getHeight();
+
+console.log(height); // return 10
+```
+
+**Function scope vs Block scope**
+
+For function scope: each variable moves to the top of function declaration. For block scope: each variable moves to the top of `if` or `while` declaration
+
+**What is IIFE**
+
+IIFE is immediately invoked function expression. It allows to avoid polluting global context and variables collisions.
+
+```js
+// IIFE
+(function () {
+    // taa da :)
+})()
+```
+
+**What is a this**
+
+`this` is the object that the function is a property of. This is a link to an object of a function belonging to this object. This related to the lexical scope, not to the dynamic scope
+
+```js
+const obj = {
+    name: 'Billy',
+    sing() {
+        console.log('a', this); // this is 'obj'
+        var anotherFunc = function() {
+            console.log('b', this); // this is 'window'
+        }
+        anotherFunc();
+    }
+}
+
+// But Arrow function allows to avoid this mistake
+// Arrow function has lexical this behavior unlike normal functions.
+const obj = {
+    name: 'Billy',
+    sing() {
+        console.log('a', this); // this is 'obj'
+        var anotherFunc = () => {
+            console.log('b', this); // this is 'obj'
+        }
+        anotherFunc();
+    }
+}
+```
+
+**How do bind, call, apply work?**
+
+`call` is the same as invocation of a function. `someFunc.call()` and `someFunc()` are the same. But call allows substituting the this of a function
+
+`apply` is the same as call. The only one difference between them is that call accepts parameters via comma, and the apply via a single array
+
+`bind` returns a new function with replaced this
+
+**What is a currying**
+
+Currying is partial application of a function in JS. It's when a function returns another function
+
+```js
+function multiply(a, b) {
+    return a * b;
+}
+let multiplyByTwo = multiply.bind(this, 2);
+console.log(multiplyByTwo(4)) // 8
+```
+
+**Context vs Scope**
+
+Context is an object based term. It says what's the value of `this` keyword. Where's `this` is a reference to the current executing code of a function
+
+Scope is a function based term. Scope means where's variable access of a function, where's the function invoked
+
+Context is about how the function was invoked and when the scope refers to visibility of variables
