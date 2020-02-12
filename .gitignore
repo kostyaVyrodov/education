@@ -291,3 +291,4 @@ debug
 *.a
 
 .ionide
+.DS_Store
