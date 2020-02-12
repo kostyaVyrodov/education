@@ -221,6 +221,22 @@ function t2 () {
 
 `[[scope]]` is pointer to the list of scopes
 
+## JavaScript types
+
+Main types in JS (primitives):
+
+- number
+- boolean
+- string
+- undefined // absence of definition
+- null  // typeof null is object. absence of value
+- Symbol('just me') // From ES6. Useful for uniqueness
+
+Main types in JS (non-primitives):
+- object 
+- `Function: object`  // type of a function is a `function`, but under the hood this is an object
+- `Array: object`     // type of an arrays is an 'object'
+
 ## FAQ
 
 **What is 'use strict'?**
@@ -332,3 +348,11 @@ Context is an object based term. It says what's the value of `this` keyword. Whe
 Scope is a function based term. Scope means where's variable access of a function, where's the function invoked
 
 Context is about how the function was invoked and when the scope refers to visibility of variables
+
+**What is a shallow clone of an object?**
+
+A shallow clone is clone of first level of depth
+
+**What is a type correction?**
+
+
