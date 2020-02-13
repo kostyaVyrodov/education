@@ -121,7 +121,7 @@ Lexical environment vs Execution context:
 
 Execution context tells which lexical environment is currently running
 
-Lexical scope (available data + variables where the function was defined) determines our available variables. Not where the function is called (dynamic scope)
+Lexical scope (available data + variables where the function was defined) determines our available variables. Not where the function is called (dynamic scope). For example, 1 function invokes other function and both functions have declaration of variables with same names. Dynamic scope allows to avoid collisions of variables.
 
 **Hoisting**
 
@@ -205,7 +205,7 @@ Each function invocation creates an own variable environment. So variables from 
 
 Scope chain (замыкание) allows to get variables from the parent's variables environment. A `scope` is about where you can access a variable
 
-In JS our lexical scope (available data + variables where the function was defined) determines our available variable. Not where the function is called (dynamic scope). Lexical scope is about where a function was written
+In JS our lexical scope (available data + variables where the function was defined) determines our available variable. Not where the function is called (dynamic scope). Lexical scope is about where a function was written, dynamic scope where a function is executed.
 
 ![Scope chain](./images/scope-chain.png)
 
@@ -236,6 +236,25 @@ Main types in JS (non-primitives):
 - object 
 - `Function: object`  // type of a function is a `function`, but under the hood this is an object
 - `Array: object`     // type of an arrays is an 'object'
+
+## JavaScript pillars
+
+**Functions are objects**. A function always accepts 2 arguments: `this` and `arguments`. It's possible to invoke function with `call` and `apply`.
+
+```js
+// Function constructor
+const four = new Function('return 4');
+four();
+four.yell = 'hey :)'; // it's possible to add a property to a function
+```
+
+Functions are first class citizens. It means that you can manipulate functions like variables. You can assign them and pass as a variable. Also a function can return another function
+
+**HOF** is a function that takes a function as an argument and returns a function. In F# functions with more then 1 argument are HOF.
+
+### Clojures
+
+### Prototype inheritance
 
 ## FAQ
 
@@ -353,6 +372,51 @@ Context is about how the function was invoked and when the scope refers to visib
 
 A shallow clone is clone of first level of depth
 
-**What is a type correction?**
+**How to compare two object with the same properties, but different memory addresses**
 
+Quick: `JSON.stringify()`, but the order of properties is important
 
+**What is a type coercion?**
+
+Type coercion is feature of a language converting certain type type to another. In js coercion happens when we compare 2 types
+
+**What is Object.is()**
+
+Object.is() - is a function comparing two values
+
+**What is a clojure**
+
+A closure allows a function to access variables from an enclosing scope or environment even after it leaves. Clojure is a lexical scoping
+
+```js
+function callMeMaybe() {
+    setTimeout(function() {
+        console.log(someVariable); // will be work 
+    }, 4000);
+
+    let someVariable = 'hello world :)'; // it doesn't metter where we define the variable
+}
+```
+
+**Currying**
+
+Currying when a function accepts arguments like `(a)(b)(c) => console.log()`.
+Currying allows to do encapsulation and it's memory efficient. Encapsulation is implemented via closures
+
+```js
+// Memory efficiency
+const heavyFunction = () => {
+    const hugeArray = new Array(7000).fill(':)');
+    return (index) => {
+        console.log(hugeArray[index]);
+    }
+}
+
+// The array will be created only once
+heavyFunction()(10);
+heavyFunction()(10);
+heavyFunction()(10);
+
+// Encapsulation
+
+```
