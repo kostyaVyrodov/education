@@ -254,7 +254,72 @@ Functions are first class citizens. It means that you can manipulate functions l
 
 ### Clojures
 
+A closure allows a function to access variables from an enclosing scope or environment even after it leaves. Clojure is a lexical scoping
+
+```js
+function callMeMaybe() {
+    setTimeout(function() {
+        console.log(someVariable); // will be work 
+    }, 4000);
+
+    let someVariable = 'hello world :)'; // it doesn't metter where we define the variable
+}
+```
+
+**Currying**
+
+Currying when a function accepts arguments like `(a)(b)(c) => console.log()`.
+Currying allows to do encapsulation and it's memory efficient. Encapsulation is implemented via closures
+
+```js
+// Memory efficiency
+const heavyFunction = () => {
+    const hugeArray = new Array(7000).fill(':)');
+    return (index) => {
+        console.log(hugeArray[index]);
+    }
+}
+
+// The array will be created only once
+heavyFunction()(10);
+heavyFunction()(10);
+heavyFunction()(10);
+
+// Encapsulation
+const makeNuclearButton = () => {
+    let timeWithoutDestruction = 0;
+    const passTime = () => timeWithoutDestruction++;
+    const totalPeaseTime = () => timeWithoutDestruction;
+    const launch = () => {
+        timeWithoutDestruction = -1;
+        return 'buh';
+    }
+
+    setInterval(passTime, 1000);
+    return {
+        totalPeaseTime
+    }
+}
+
+const btn = makeNuclearButton();
+// Not available
+btn.launch();
+btn.oho();
+```
+
 ### Prototype inheritance
+
+Inheritance is ability of an object to get access to methods or properties of its parent
+
+`__proto__` is exact name of a property
+
+JS looks for a property in an object and after this it goes to prototype property and look it there. If it finds a property in the child, JS doesn't go to child
+
+Methods for working with prototypes:
+- `parent.isPrototypeOf(child)` - returns true if parent is prototype of child
+- `child.hasOwnProperty('propertyName')` - returns true if child has the property
+
+it's not recommended to assign prototype directly
 
 ## FAQ
 
@@ -383,40 +448,3 @@ Type coercion is feature of a language converting certain type type to another. 
 **What is Object.is()**
 
 Object.is() - is a function comparing two values
-
-**What is a clojure**
-
-A closure allows a function to access variables from an enclosing scope or environment even after it leaves. Clojure is a lexical scoping
-
-```js
-function callMeMaybe() {
-    setTimeout(function() {
-        console.log(someVariable); // will be work 
-    }, 4000);
-
-    let someVariable = 'hello world :)'; // it doesn't metter where we define the variable
-}
-```
-
-**Currying**
-
-Currying when a function accepts arguments like `(a)(b)(c) => console.log()`.
-Currying allows to do encapsulation and it's memory efficient. Encapsulation is implemented via closures
-
-```js
-// Memory efficiency
-const heavyFunction = () => {
-    const hugeArray = new Array(7000).fill(':)');
-    return (index) => {
-        console.log(hugeArray[index]);
-    }
-}
-
-// The array will be created only once
-heavyFunction()(10);
-heavyFunction()(10);
-heavyFunction()(10);
-
-// Encapsulation
-
-```
