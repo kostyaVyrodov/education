@@ -74,3 +74,14 @@ PUT and DELETE allows to modify a resource only once, unless DELETE looks like t
 Encapsulation
 
 **Abstraction** is hiding of complexity from a user. That's creating simple interfaces. Ideal abstraction: here your method. Don't worry about anything else.
+
+## FOP
+
+Functional programming principles:
+- Pure functions
+- Immutability
+
+Main idea of functional programming is to separate data and functions
+
+Idempotence is about a function that returns or does what we expect to do. When the function returns same result for same input
+

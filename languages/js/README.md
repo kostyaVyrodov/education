@@ -389,6 +389,92 @@ class Orge extends Character {
 }
 ```
 
+## FOP in JS
+
+```js 
+// Partial application in JS
+const multiply = (a, b, c) => a * b * c;
+const multiplyBy5 = multiply.bind(null, 5); // ~ const multiply = (b, c) => 5 * b * c;
+```
+
+Compose in js: `Ramda JS lib compose()`
+
+Pipe and Compose are quite similar. Pipe just takes functions in reversed
+
+Arity is amount arguments that takes a function
+
+## Async programming
+
+How does JS work? JS is a single threaded language that can be non-blocking. Single threaded means that a program has only one call stack.
+
+What does a program do? Program allocates memory and executes functions.
+
+### Promises (ES6)
+
+Promise is an object that produce a value sometime in future. It's used instead of callbacks
+
+A promise has 3 state:
+- pending;
+- rejected;
+- fulfilled
+
+```js
+const promise = new Promise((resolve, reject) => {
+    if(true) {
+        resolve('Stuff worked');
+    } 
+    reject('Error, it broke');
+});
+
+promise.catch() // catches any error in the then that above the catch
+promise.then().then() // executes each then and passes it down
+promise.finally() // always called. similar to try catch finaly
+```
+
+`Promise.all` - waits for all promises. Promise.all also returns a promise.
+
+### Async\Await (ES8)
+
+Async\Await built on the top Promise. It makes a code more sequential
+
+```js
+// with promise
+movePlayer(100, 'left')
+    .then(() => movePlayer(400, 'Left'))
+    .then(() => movePlayer(10, 'Right'))
+    .then(() => movePlayer(330, 'Left'));
+
+// without promise
+async function playerStart() {
+    const firstMove = await movePlayer(100, 'left');
+    await movePlayer(400, 'left');
+    await movePlayer(10, 'right');
+    await movePlayer(330, 'let');
+}
+```
+
+**Callback queue**
+
+Callback queue is for web api calls
+
+Job queue is for promises
+
+**Parallel, sequential, race**
+
+- Parallel all tasks together `Promise.all([promise1, promise2])`
+- Sequential each task after each other `async\await, async\await`
+- Race - finish first and skip other. `Promise.race([promise1, promise2])`
+
+**JS web workers**
+
+Web worker is a JS program running on a different thread in parallel to a main thread. The web workers communicating through messages
+
+```js
+const worker = new Worker('./worker.js');
+worker.postMessage('hello');
+addEventListener('message');
+```
+
 ## FAQ
 
 **What is 'use strict'?**
@@ -543,3 +629,145 @@ Use cases of arrow functions:
 **What is the difference between prototype inheritance and classical inheritance?**
 
 In prototype inheritance we just link different objects. In classical inheritance we do inher data
+
+
+**What is a spread operator?**
+
+```js
+const animals {
+    tiger: 23,
+    lion: 5,
+    monkey: 2
+}
+
+const { tiger, ...rest } = animals;
+// rest -> { lion, monkey }
+```
+
+**What is for await of**
+
+for await of allows to iterate through array of promise variables 
+
+```js
+const getData2 = async function() {
+    const arrayOfPromises = urls.map(url => fetch(url));
+    for await (let request of arrayOfPromises) {
+        const data = await request.json();
+        console.log(data);
+    }
+}
+```
+
+**Why do we need async\await?**
+
+To simplify code. It's much easier to have sync code that easy to read and easy to maintain
+
+**What happens when a browser opens a tab**
+
+For each tab is created a new thread
+
+**What is module**
+
+Modules are the way to organize code to prevent overriding data in global scope
+
+ES6: `module.export = {}`
+
+Global scope <- Module scope <- Function scope <- Block scope (let and scope)
+
+**Concurrency vs concurrency + parallelism**
+
+Concurrency (single-core CPU)
+
+-----
+|th1|
+|   |
+-----
+     -----
+     |th2|
+     |   |
+     -----
+-----
+|th1|
+|   |
+-----
+
+Concurrency + parallelism (multi-core CPU)
+
+- ----
+|th1|-----
+|   |    |
+----|th2 |
+    |    |
+    |-----
+----|
+|th1|
+|   |
+-----
+
+**What is a base exception in JS?**
+
+Error. To throw an exception: `throw Error`
+
+**What's new in ES7**
+
+- `includes()` function for string and array
+- `**` exp operator 
+
+**What's new in ES8**
+
+- `padStart()` - add spaces to start
+- `padEnd()` - add spaces to end
+- Adding a `,` in the end of last argument
+
+```js
+// Example
+const fun = (
+    a,
+    b,
+    c,
+) => {
+    console.log()
+}
+```
+
+- `Object.entries` - list of both key and value
+- `Object.values` - list of values of an object
+
+**What is new in ES10**
+
+- `Array.flat(numberOfLayers)` -  [1, [2, 3]].flat() -> [1, 2, 3]
+- `Array.flatMap` - same as flat + map for the value of the first level
+- `trimStart()`, `trimEnd()` - trim removes emptyStrings from start or from end
+- `Array.formEntries([['name', 'kostya'], ['age', 23]])` - will return `{'name': 'kostya', 'age': 23}` 
+- `Object.entries(obj)` - returns array
+- `try {} catch {}` - without e
+
+**Type of loops?**
+
+1:
+```js
+for(let i = 0; i < items.length; i++) {
+    console.log(items[i]);
+}
+```
+
+2:
+```js
+items.forEach(item => console.log(item));
+```
+
+3:
+```js
+// It's possible to iterate through arrays, strings
+for(item of items) {
+    console.log(item);
+}
+```
+
+4:
+```js
+// iterating through objects
+for(item in object) {
+    console.log(item);
+}
+```
