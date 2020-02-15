@@ -428,7 +428,7 @@ const promise = new Promise((resolve, reject) => {
 
 promise.catch() // catches any error in the then that above the catch
 promise.then().then() // executes each then and passes it down
-promise.finally() // always called. similar to try catch finaly
+promise.finally() // always called. similar to try catch finally
 ```
 
 `Promise.all` - waits for all promises. Promise.all also returns a promise.
@@ -771,3 +771,10 @@ for(item in object) {
     console.log(item);
 }
 ```
+
+**Data type conversion**
+parseInt, parseDouble, String(), `${}`
+
+spread,rest, symbol.iterator
+
+what's new in ES6
