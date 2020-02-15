@@ -68,3 +68,9 @@ POST is NOT idempotent. It's used to create resources on a server. When you invo
 GET, PUT, DELETE, HEAD, OPTIONS and TRACE are idempotent.
 
 PUT and DELETE allows to modify a resource only once, unless DELETE looks like this ```/resourceId/last```
+
+## OOP 
+
+Encapsulation
+
+**Abstraction** is hiding of complexity from a user. That's creating simple interfaces. Ideal abstraction: here your method. Don't worry about anything else.

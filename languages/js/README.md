@@ -321,6 +321,74 @@ Methods for working with prototypes:
 
 it's not recommended to assign prototype directly
 
+## OOP in JS
+
+Prototype inheritance allows to save memory because it reuses data
+
+```js
+let human = {
+    mortal: true,
+}
+
+let socrates = Object.create(human);
+socrates.age = 45;
+```
+
+
+Interesting fact: only functions have the prototype property
+
+
+OOP: bring together behavior and data
+FOP: data and behavior are different. it's neccessery to keep the separate
+
+Factory function is a function creating objects
+
+ 
+`object.create(prototype, object)`
+
+**Constructor function**
+
+```js
+// All functions start from capital letter 
+function Elf(name, weapon) {
+    this.name = name;
+    this.weapon = weapon;
+}
+
+const peter = new Elf('peter', 'weapon');
+console.log(peter.name);
+// keyword new returns an object automatically. Also instead of pointing to global object, the ctor function will pointed to local scope of the object
+```
+
+A property or function added to prototype is added to memory only once
+
+The main difference between prototype inheritance and prototype is how we inher
+
+Check that an object is an instance of specific type: `peter instanceof Elf`
+
+Everything in ctor become uniq in js. That's why methods are declared outside of function
+
+```js
+class Character {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Orge extends Character {
+    #org = 'this is a private variable (proposed)'
+    constructor(name, weapon) {
+        console.log(this); // it's not possible to access this before calling super 
+        super(name);
+        this.weapon = weapon;
+    }
+
+    makeFort() { // this line is same as Orge.prototype.makeFort = () => console.log('fort')
+        console.log('fort');
+    }
+}
+```
+
 ## FAQ
 
 **What is 'use strict'?**
@@ -448,3 +516,30 @@ Type coercion is feature of a language converting certain type type to another. 
 **What is Object.is()**
 
 Object.is() - is a function comparing two values
+
+**What is the difference between 'Arrow Function' and 'Function'?**
+
+Arrow function:
+1. doesn't have `this`
+1. doesn't have `arguments` argument
+1. can't be used with `new` keyword
+
+Use cases of arrow functions:
+1. Don't use to add function as a property in object literal because we can not access this;
+1. Function expressions are best for object methods. Arrow functions are best for callbacks or methods like map, reduce, or forEach;
+1. Use function declarations for functions you’d call by name (because they’re hoisted);
+1. Use arrow functions for callbacks (because they tend to be terser).
+
+**How to check if instance belongs to specific type?**
+
+`obj instanceof class` or `class.prototype.isPrototypeOf(instance)`
+
+**Ways to optimize JS code**
+
+- don't put methods to instance of an object. It should be in prototypes;
+- don't break shadow classes;
+- 
+
+**What is the difference between prototype inheritance and classical inheritance?**
+
+In prototype inheritance we just link different objects. In classical inheritance we do inher data
