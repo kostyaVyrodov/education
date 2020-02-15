@@ -62,6 +62,8 @@ JScript uses a nongenerational mark-and-sweep garbage collector. It works like t
 - Second, it clears the mark on the scavengers and the transitive closure of scavenger references. So if a scavenger object references a nonscavenger object then we clear the bits on the nonscavenger, and on everything that it refers to. (I am using the word "closure" in a different sense than in my earlier post.)
 - At this point we know that all the memory still marked is allocated memory which cannot be reached by any path from any in-scope variable. All of those objects are instructed to tear themselves down, which destroys any circular references.
 
+GC marks all reachable object and removes all un marked. Optimization: generational, incremental (partial), idle-time collection
+
 ### JS runtime and engine
 
 JS is single threaded programming language. All single threaded programs have only one call stack. Also JS is synchronous.
@@ -230,12 +232,63 @@ Main types in JS (primitives):
 - string
 - undefined // absence of definition
 - null  // typeof null is object. absence of value
-- Symbol('just me') // From ES6. Useful for uniqueness
+- Symbol('just me') // From ES6. It's primitive data type that's used for creating unique identificators
 
 Main types in JS (non-primitives):
 - object 
 - `Function: object`  // type of a function is a `function`, but under the hood this is an object
 - `Array: object`     // type of an arrays is an 'object'
+
+### Iterators and generators
+
+Iterators are special objects that can be iterated through `for of` loop. An iterator object should have `Symbol.iterator` function
+
+```js
+let range = {
+  from: 1,
+  to: 5
+};
+
+// 1. for..of call this function
+range[Symbol.iterator] = function() {
+
+  // the function returns iterator object:
+  // 2. After that for..of works only with this object
+  return {
+    current: this.from,
+    last: this.to,
+
+    // 3. next() is invoked on each iteration of  for..of
+    next() {
+      // 4. next should return an object like that {done:.., value :...}
+      if (this.current <= this.last) {
+        return { done: false, value: this.current++ };
+      } else {
+        return { done: true };
+      }
+    }
+  };
+};
+
+for (let num of range) {
+  alert(num); // 1, 2, 3, 4, 5
+}
+```
+
+Generators are special functions that can stop execution and return temp result. A generator is a function, once invoked, produce an iterator, It's a factory for iterator.
+
+```js
+// example of generator
+function* generateSequence() {
+  yield 1;
+  yield 2;
+  return 3;
+}
+
+let generator = generateSequence();
+
+let one = generator.next();
+
 
 ## JavaScript pillars
 
@@ -251,6 +304,16 @@ four.yell = 'hey :)'; // it's possible to add a property to a function
 Functions are first class citizens. It means that you can manipulate functions like variables. You can assign them and pass as a variable. Also a function can return another function
 
 **HOF** is a function that takes a function as an argument and returns a function. In F# functions with more then 1 argument are HOF.
+
+### Map and Set
+
+`Map` is a key-value collection. Methods: `get`, `set`, `has`, `delete`, `clear`, `size`
+
+`Set` is a value only collection. Methods: `add`, `delete`, `has`, `clear`
+
+### WeakMap and WeakSet
+
+WeakMap and WeekSet are data structures where key must be a reference. If there's no a ref to link then the value will be garbage collected
 
 ### Clojures
 
@@ -606,7 +669,7 @@ Object.is() - is a function comparing two values
 **What is the difference between 'Arrow Function' and 'Function'?**
 
 Arrow function:
-1. doesn't have `this`
+1. doesn't have own `this`. It takes this from outside object
 1. doesn't have `arguments` argument
 1. can't be used with `new` keyword
 
