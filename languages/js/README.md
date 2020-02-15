@@ -841,3 +841,22 @@ parseInt, parseDouble, String(), `${}`
 spread,rest, symbol.iterator
 
 what's new in ES6
+
+**What is a decorator**
+
+It's a function taking another function and extending it's behavior. Decorators include memorization, enforcing access control and authentication, instrumentation and timing functions, logging, rate-limiting, and the list goes on
+
+A decorator is just an expression that will be evaluated and has to return a function.
+
+```js
+function readonly(target, key, descriptor) {
+    descriptor.writable = false;
+    return descriptor;
+}
+```
+
+**What is a Proxy**
+
+Proxy object wraps another object and intercepts operations, like reading/writing properties and others, optionally handling them on its own, or transparently allowing the object to handle them.
+
+Reflect is a built-in object that simplifies creation of Proxy. It was said previously that internal methods, such as [[Get]], [[Set]] and others are specification-only, they can’t be called directly. The Reflect object makes that somewhat possible. Its methods are minimal wrappers around the internal methods.
