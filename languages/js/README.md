@@ -860,3 +860,7 @@ function readonly(target, key, descriptor) {
 Proxy object wraps another object and intercepts operations, like reading/writing properties and others, optionally handling them on its own, or transparently allowing the object to handle them.
 
 Reflect is a built-in object that simplifies creation of Proxy. It was said previously that internal methods, such as [[Get]], [[Set]] and others are specification-only, they can’t be called directly. The Reflect object makes that somewhat possible. Its methods are minimal wrappers around the internal methods.
+
+**What is a cluster?**
+
+It's a special module that allows creating of child process running simultaneously and share server port
