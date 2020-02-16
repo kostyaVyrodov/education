@@ -13,5 +13,3 @@ A database cursor can be thought of as a pointer to a specific row within a quer
 **Dynamic**. In a dynamic cursor, additions and deletions are visible for others in the data source while the cursor is open.
 
 **Keyset**. This is similar to a dynamic cursor except we can't see records others add. If another user deletes a record, it is inaccessible from our record set.
-
-

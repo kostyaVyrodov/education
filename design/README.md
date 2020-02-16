@@ -85,3 +85,7 @@ Main idea of functional programming is to separate data and functions
 
 Idempotence is about a function that returns or does what we expect to do. When the function returns same result for same input
 
+## Messaging
+
+## Code smells 
+
