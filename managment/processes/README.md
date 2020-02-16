@@ -176,3 +176,13 @@ The meeting happens at the end of each sprint. The team shows what they’ve pro
 Goal: define problems happened in sprint and resolve them to improve productivity of the team.
 
 And this last type is also set at the end of the sprint. The retrospective goal is to discuss what went wrong and what went well during the sprint to better align the project progression with goals.
+
+## Lean development
+
+Lean got its start in manufacturing, as a way to optimize the production line to minimize waste and maximize value to the customer.
+
+https://leankit.com/learn/lean/principles-of-lean-development/
+
+**Eliminate waste** means to eliminate anything that does not add value to the customer. 
+
+**Build Quality In** means that the process helps to reach high quality of application. Technics:
