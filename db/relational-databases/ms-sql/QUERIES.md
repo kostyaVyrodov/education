@@ -2,7 +2,7 @@
 
 ## Cursor
 
-Cursor is a Temporary Memory. It's allocated by DB server at the time of performing DML on table by a user. Cursor are quite slow so it's better to avoid them.
+A database cursor can be thought of as a pointer to a specific row within a query result. Cursor is a Temporary Memory. It's allocated by DB server at the time of performing DML on table by a user. Cursor are quite slow so it's better to avoid them. Cursor can be used to work on each raw in db
 
 ### Types of Cursor
 

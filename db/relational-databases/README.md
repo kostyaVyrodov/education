@@ -199,3 +199,21 @@ It's important to benchmark and profile to simulate and uncover bottlenecks.
 
 > Keep connections for a long time, but keep transactions as short as possible.
 > Don't open and close connections too often. Hang onto them, but be prepared for them to vanish out from under you.
+
+**What is optimistic and pessimistic concurrency?**
+
+- Pessimistic involves locking rows
+- Optimistic Locking is a strategy where you read a record, take note of a version number (other methods to do this involve dates, timestamps or checksums/hashes) and check that the version hasn't changed before you write the record back.
+
+**Concurrency effects**
+
+![Isolation levels](./images/isolation_levels.png)
+
+- READ_UNCOMMITTED - one transaction may see uncommitted changes made by some other transaction
+- READ_COMMITTED (DEFAULT) - guarantees that any data read was committed at the moment is read
+- REPEATABLE READS - it guarantees that any data read cannot change and it's committed
+- SERIALIZABLE - based on pessimistic concurrency control where transactions are completely isolated from one another
+
+- Dirty read - a dirty read is the situation when a transaction reads a data that has not yet been committe
+- Nonrepeatable read - read occurs when a transaction reads same row twice, and get a different value each time. It happens when you see successfully committed changes when performing the same query multiple times
+- Phantom reads - two identical queries are executed, and the collection of rows returned by the second query is different from the first.

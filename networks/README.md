@@ -48,6 +48,8 @@ Benefits of layering: a higher level developer doesn't need to know about detail
 
 **Logical network components** are used to crate a logical topology of a network. Logical components explains how hardware is organized or how it transfers data across network
 
+**DMZ** is a physical or logical subnetwork that contains and exposes an organization's external-facing services to an untrusted, usually larger, network such as the Internet.a
+
 ## Tools
 
 `ping <dns name>` is a tool allowing to test if a particular host is reachable
