@@ -36,6 +36,43 @@ NodeJS wraps all code in module into 'Module Wrapper Function':
 })
 ```
 
+## Package manager
+
+Main package managers for Node.JS are `NPM` and `Yarn`
+
+yarn:
+- faster then npm because installs packages simultaneously
+- yarn more secured because doesn't allow execute js scripts on fly during installation of a package
+- doesn't support Node.JS older then 5.0 
+
+NPM uses Semantic versioning: 1.0.0 = Major.Minor.Patch
+
+- Major - has breaking changes
+- Minor - doesn't have breaking changes
+- Patch - has bug fixes
+
+`^` vs `~`: 
+- `^` = 1.x
+- `~` = 1.8.x
+
+`npm list` list of all dependencies including dependencies of dependencies
+
+`npm list --depth=0` list of all dependencies for your project
+
+`npm view <npm-module-name>` see package.json
+
+`npm view <npm-module-name> versions` see list of versions for the package
+
+`npm install <npm-module-name>@<specific-version>` install specific version of package
+
+`npm outdate` list of outdated dependencies
+
+`npm update` updates only minor ant patch
+
+`npm-check-updates` module allows to update dependencies of package.json up to the latest version
+
+`npm version <major|minor|patch>` allows to increment version of package.json
+
 ## Useful notes
 
 - TemplateString: ``Hello, ${userName}``
@@ -43,3 +80,7 @@ NodeJS wraps all code in module into 'Module Wrapper Function':
 - In NodeJS most of methods are async. Sync methods marked with `Sync` ending
 
 - `http` module has a class `Server`. The `Server` extends EventEmitter and has same methods: `on`, `emit` etc.
+
+- Each NodeJS package has own package.json with own dependencies
+
+- Previous versions of NPM saved the dependencies of extra package inside folder of the extra package. Multiple extra packages could have the same dependencies. Currently this behavior was changed and all dependencies are saved under node_modules folder
