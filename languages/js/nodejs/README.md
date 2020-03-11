@@ -73,6 +73,68 @@ NPM uses Semantic versioning: 1.0.0 = Major.Minor.Patch
 
 `npm version <major|minor|patch>` allows to increment version of package.json
 
+## Express
+
+Express is a lightweight web app framework
+
+Useful libraries: 
+
+`nodemon` is an npm package that monitors changes in js files and provides hotreload
+
+`Joi` is a package for validating of http requests models
+
+Pass argument to the app via ENV variables: `const port = process.env.PORT || 3000;`
+
+An endpoint is declared as function:
+
+```js
+app.get('/', (req, res) => {
+	res.send('Hello world!!!');
+});
+```
+
+**Request** object:
+- `req.params` - HTTP arguments like `/api/resource/:id` 
+- `req.query` - query parameters like `/api/resource/:id?sortBy=name` 
+TBD
+
+**Response** object:
+TBD
+
+Whole express based on middlewares. Each `app.get`, `app.post`, `app.put`, `app.delete` creates a middleware for handling a request
+
+Each middleware should have own file
+
+```js
+// midleware function
+// if you don't call next() then next handlers won't be called
+app.use((req, res, next) => {
+    console.log('logging...');
+    next(); 
+});
+```
+
+Useful middlewares:
+
+- `express.json()` - parses body json and maps it to an object under `req`
+- `express.urlencoded()` - parse urlencoded payload and maps it to an object under `req`
+- `express.static('folderNameForServing')` - allows to serve static files
+- `helmet()` - provides extra headers to make sure app's security
+- `morgan()` - logger middleware
+
+Get current env:
+- `process.env.NODE_ENV` - returns undefined if not set
+- `expressApp.get('env')` - returns dev if not set
+
+How to manage configuration of app: with `nc` npm package
+
+How to write debug statements: with `debug` package. Allows not to log into console in production env
+
+Most popular Ttemplate engines:
+- `pug`
+- `mustache`
+- `ejs`
+
 ## Useful notes
 
 - TemplateString: ``Hello, ${userName}``
