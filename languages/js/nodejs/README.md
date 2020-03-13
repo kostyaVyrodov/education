@@ -126,11 +126,11 @@ Get current env:
 - `process.env.NODE_ENV` - returns undefined if not set
 - `expressApp.get('env')` - returns dev if not set
 
-How to manage configuration of app: with `nc` npm package
+How to manage configuration of app: with `rc` or `config` npm package
 
 How to write debug statements: with `debug` package. Allows not to log into console in production env
 
-Most popular Ttemplate engines:
+Most popular Template engines:
 - `pug`
 - `mustache`
 - `ejs`
