@@ -6,11 +6,11 @@ There are 2 characteristics of languages: strong or weak typing and dynamic or s
 - Static/Dynamic Typing is about when type information is acquired (Either at compile time or at runtime)
 
 ```js
-// Dynamic typing (JS, Python). Type checking during compilation
+// Dynamic typing (JS, Python). Type checking during runtime
 // Less code, easier to write unit tests but less safety
 var x = 10;
 
-// Static typing (C#, C++). Type checking during runtime
+// Static typing (C#, C++). Type checking during compilation
 // Less bugs, more code, easy documentation
 int x = 10;
 ```
