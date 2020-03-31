@@ -146,3 +146,21 @@ Most popular Template engines:
 - Each NodeJS package has own package.json with own dependencies
 
 - Previous versions of NPM saved the dependencies of extra package inside folder of the extra package. Multiple extra packages could have the same dependencies. Currently this behavior was changed and all dependencies are saved under node_modules folder
+
+## FAQ
+
+### What is Event Loop
+
+Event loop provided by libuv library. It's not part V8. The event loop is an entity that handles external events and converts them into callback invocation.
+
+### When node js process exits
+
+When both call stack of v8 and event queue libuv are empty. When you run nodejs app it creates both stack and eventloop
+
+### How come top-level variables are not global
+
+Each file is a nodejs file gets its own IIFE (Immediately Invoked Function Expression) behind the scenes. All variables declared in a Node file are scoped to that IIFE.
+
+### When to use *sync methods
+
+For example, it can be used in any initializing step while the server is still loading.
