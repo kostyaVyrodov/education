@@ -327,6 +327,25 @@ readableStream.on("data", function(chunk){
 });
 ```
 
+## How does NodeJS read file?
+
+```js
+var fs = require('fs');
+fs.readFile('foo.js', { encoding: 'utf8' }, function(err, fileContents) {
+     console.log('Then the contents are available', fileContents);  
+});
+console.log('This happens first');
+```
+
+1. Node loads 'fs' module. It provides accsess to fs.binding, which is a static type map defined in src/node.cc that provides glue between C++ and JS
+1. The fs.readFile method is passed instructions and a JavaScript callback. Through fs.binding, libuv is notified of the file read request and is passed a specially prepared version of the callback sent by the original program.
+1. libuv invokes the OS-level functions necessary to read a file within its own thread pool.
+1. The JavaScript program continues, printing This happens first. Because there is a callback outstanding, the event loop continues to spin, waiting for that callback to resolve.
+1. When the file descriptor has been fully read by the OS, libuv (via internal mechanisms) is informed and the callback passed to libuv is invoked, which essentially prepares the original JavaScript callback for re-entrance into the main (V8) thread.
+1. The original JavaScript callback is pushed onto the event loop queue and is invoked on the next tick of the loop.
+1. The file contents are printed to the console.
+1. As there are no further callbacks in flight, the process exits.
+
 ## JavaScript pillars
 
 **Functions are objects**. A function always accepts 2 arguments: `this` and `arguments`. It's possible to invoke function with `call` and `apply`.
