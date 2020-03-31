@@ -149,18 +149,24 @@ Most popular Template engines:
 
 ## FAQ
 
-### What is Event Loop
+**What is Event Loop**
 
 Event loop provided by libuv library. It's not part V8. The event loop is an entity that handles external events and converts them into callback invocation.
 
-### When node js process exits
+**When node js process exits**
 
 When both call stack of v8 and event queue libuv are empty. When you run nodejs app it creates both stack and eventloop
 
-### How come top-level variables are not global
+**How come top-level variables are not global**
 
 Each file is a nodejs file gets its own IIFE (Immediately Invoked Function Expression) behind the scenes. All variables declared in a Node file are scoped to that IIFE.
 
-### When to use *sync methods
+**When to use *sync methods**
 
 For example, it can be used in any initializing step while the server is still loading.
+
+**What type of streams do exist**
+
+Readable, Writable, Duplex, Transform. All streams are children of EventEmmiter
+
+Duplex stream allows both reading and writing. Transform stream is used for transforming data
