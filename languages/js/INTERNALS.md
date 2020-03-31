@@ -346,6 +346,8 @@ console.log('This happens first');
 1. The file contents are printed to the console.
 1. As there are no further callbacks in flight, the process exits.
 
+Each call would have been made in parallel in its own thread within the libuv thread pool. Even though we wrote our code "in JavaScript", we are actually deploying a very efficient multithreaded execution engine while avoiding the difficulties of thread management.
+
 ## JavaScript pillars
 
 **Functions are objects**. A function always accepts 2 arguments: `this` and `arguments`. It's possible to invoke function with `call` and `apply`.
