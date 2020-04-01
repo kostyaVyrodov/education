@@ -217,3 +217,21 @@ It's important to benchmark and profile to simulate and uncover bottlenecks.
 - Dirty read - a dirty read is the situation when a transaction reads a data that has not yet been committe
 - Nonrepeatable read - read occurs when a transaction reads same row twice, and get a different value each time. It happens when you see successfully committed changes when performing the same query multiple times
 - Phantom reads - two identical queries are executed, and the collection of rows returned by the second query is different from the first.
+
+**What is common table expression**
+
+CTE is a mechanism to reuse SQL
+```sql
+WITH Employee_CTE (EmployeeNumber, Title)
+AS
+(
+    SELECT NationalIDNumber, JobTitle
+    FROM HumanResources.Employee
+)
+
+SELECT EmployeeNumber, Title
+FROM Employee_CTE
+```
+
+VIEW is a real object in sql. It's a set of query. View can be indexed
+
