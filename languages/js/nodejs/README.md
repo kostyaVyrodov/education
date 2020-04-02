@@ -137,7 +137,46 @@ Most popular Template engines:
 
 ## Scaling across cores
 
+### Processes
 
+Main functions to create a process: `spawn`, `execFile`, `exec`, `fork`. All functions work async and return `ChildProcess` object
+
+**exec**
+
+Creates wrapper of shell terminal for running the process. `exec` runs a separate program inside the shell.
+
+Use case:
+- need access to shell functionality
+- doesn't care about IO
+- interested only in the result of running process
+
+**execFile**
+
+Executes running file of any external program WITHOUT shell. It should be used when you just need to run an external program and you need to accepts only result of execution. If you need to process a huge amount of data, you should use `spawn`
+
+Use case:
+- don't need access to shell functionality
+- doesn't care about IO
+- interested only in the result of running process
+
+**spawn**
+
+Executes a program in a separate process and returns IO interface for transferring data. When to use: when process returns or consumes big amount of data
+
+Use case:
+- you need IO interface to communicate with process
+- it's necessary to pass big amount of data
+- run an application installed on the machine
+
+**fork**
+
+Similar to spawn but creates a process with node.JS runtime
+
+Use case:
+- runs node.js apps with specific IPC chanel for nodeJS
+- it's necessary to pass big amount of data
+
+### Cluster
 
 ## Useful notes
 
@@ -174,31 +213,3 @@ For example, it can be used in any initializing step while the server is still l
 Readable, Writable, Duplex, Transform. All streams are children of EventEmmiter
 
 Duplex stream allows both reading and writing. Transform stream is used for transforming data
-
-**spawn, fork, exec, execFile**
-
-`spawn()` creates a new process and returns `ChildProcess` obj that extends `EventEmitter`. Events: `disconnect`, `error`, `close`, `message`. `message` is invoked when child calls `process.send()`
-
-```js
-const find = spawn('find', ['.', '-type', 'f']);
-const wc = spawn('wc', ['-l']);
-
-find.stdout.pipe(wc.stdin);
-
-wc.stdout.on('data', (data) => {
-  console.log(`Number of files ${data}`);
-});
-```
-
-`exec()` creates a shell to execute the command. Main difference between spawn and exec: It buffers the command’s generated output and passes the whole output value to a callback function instead of stream
-
-```js
-exec('find . -type f | wc -l', (err, stdout, stderr) => {
-  if (err) {
-    console.error(`exec error: ${err}`);
-    return;
-  }
-
-  console.log(`Number of files ${stdout}`);
-});
-```
