@@ -135,6 +135,10 @@ Most popular Template engines:
 - `mustache`
 - `ejs`
 
+## Scaling across cores
+
+
+
 ## Useful notes
 
 - TemplateString: ``Hello, ${userName}``
