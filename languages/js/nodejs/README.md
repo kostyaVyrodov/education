@@ -178,6 +178,10 @@ Use case:
 
 ### Cluster
 
+Cluster is special module allowing to fork master processes creating worker threads. `cluster` provides more convenient way to scale nodejs app vertically e.g. creating process
+
+There's only one master process. Other processes are workers
+
 ## Useful notes
 
 - TemplateString: ``Hello, ${userName}``
