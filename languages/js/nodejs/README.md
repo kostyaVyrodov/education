@@ -170,3 +170,31 @@ For example, it can be used in any initializing step while the server is still l
 Readable, Writable, Duplex, Transform. All streams are children of EventEmmiter
 
 Duplex stream allows both reading and writing. Transform stream is used for transforming data
+
+**spawn, fork, exec, execFile**
+
+`spawn()` creates a new process and returns `ChildProcess` obj that extends `EventEmitter`. Events: `disconnect`, `error`, `close`, `message`. `message` is invoked when child calls `process.send()`
+
+```js
+const find = spawn('find', ['.', '-type', 'f']);
+const wc = spawn('wc', ['-l']);
+
+find.stdout.pipe(wc.stdin);
+
+wc.stdout.on('data', (data) => {
+  console.log(`Number of files ${data}`);
+});
+```
+
+`exec()` creates a shell to execute the command. Main difference between spawn and exec: It buffers the command’s generated output and passes the whole output value to a callback function instead of stream
+
+```js
+exec('find . -type f | wc -l', (err, stdout, stderr) => {
+  if (err) {
+    console.error(`exec error: ${err}`);
+    return;
+  }
+
+  console.log(`Number of files ${stdout}`);
+});
+```
