@@ -52,3 +52,8 @@ http$.subscribe(
     () => console.log('completed')
 )
 ```
+
+**API**
+
+- `tap()` - allows to make a side effect under pipe
+- `shareReplay()` - avoid duplicating of responses for observable
