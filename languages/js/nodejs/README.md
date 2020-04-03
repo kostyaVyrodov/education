@@ -182,6 +182,32 @@ Cluster is special module allowing to fork master processes creating worker thre
 
 There's only one master process. Other processes are workers
 
+
+## Memory usage
+
+**Use stream instead of buffers**
+
+```js
+// Bad usage. With buffer
+var http = require('http');
+var fs = require('fs');
+
+http.createServer(function(req, res) {
+    fs.readFile('./somefile.js', function(err, data) {
+        res.writeHead(200);
+        res.end(data);
+    })
+}).listen(8000);
+
+// Good usage. With stream
+var http = require('http');
+var fs = require('fs');
+
+http.createServer(function(req, res) {
+    fs.createReadStream('./static_buffered.js').pipe(res);
+}).listen(8000);
+```
+
 ## Useful notes
 
 - TemplateString: ``Hello, ${userName}``
