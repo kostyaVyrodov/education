@@ -53,6 +53,22 @@ http$.subscribe(
 )
 ```
 
+**Concatenation of observables**
+
+```js
+const source1$ = interval(1000);
+
+const source2$ = of([4, 5, 6]);
+
+const source3$ = of([7, 8, 9]);
+
+// concat waits until an observable will call 'end' and then process next observable
+// in the end
+const result$ = concat(source1$, source2$, source3$);
+
+result.subscribe(console.log)
+```
+
 **API**
 
 - `tap()` - allows to make a side effect under pipe
