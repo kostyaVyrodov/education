@@ -53,3 +53,20 @@ Parameters:
 - Mobile users * screen resolutions
 - Behavior -> Site Content -> All pages -> Navigation summary. Allows to see what a user does on a page
 - Conversion -> Multi-channel funnels -> Time lag. Allows to see how many days is took from the first interaction to conversion
+- Landing Page + Keywords
+- Landing Page + Browsers
+- Acquisition -> All traffic -> Source/Medium
+- Traffic source + Campaign 
+
+**Keywords vs Queries**
+
+Queries: laptop bag, blue bag, large bag, school bag, bags for kids
+Keyword: bag
+
+**Evaluate traffic sources**
+
+Right question: What is purpose of source? Bring new users or make conversion
+
+Link google ads and google analytics
+
+Don't forget to add annotations
