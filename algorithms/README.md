@@ -110,6 +110,14 @@ Types of lists:
 - double linked list;
 - circular double linked list (implementing repeatable play list for player with option to go back or further);
 
+## Magic framework
+
+![Magic framework](./images/magic-framework.png)
+
+## Greedy algorithms
+
+Greedy algorithm is an algorithm paradigm that builds up a solution piece by piece. It always chooses the next piece that offers the most obvious and immediate benefit. Greedy fits perfectly for those solutions in which choosing a locally optimal solution also leads to global optimal solution.
+
 ## Interesting notes
 
 - In low level languages like C, an array is a pointer to memory cell where array starts. When you access an index, you just do 'memory address' + i';
