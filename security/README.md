@@ -35,11 +35,13 @@ TLS is hybrid cryptography system using asymmetric(for key exchanging and proofi
 ## Security testing
 
 There are 3 types of security testing:
+
 - Static application security testing - analyzing of source codes to find vulnerabilities;
 - Dynamic application security testing - trying to hack a running program to find vulnerabilities;
 - Interactive application security testing - combination of the both above.
 
 Main types of dynamic security testing:
+
 - Vulnerability assessment (finding issues without exploiting);
 - Penetration testing (find one vulnerability and exploit it to obtain the goal);
 
@@ -57,3 +59,15 @@ Top 10 risks according to OWASP
 8. Insecure Deserialization (lead to remote code execution attacks);
 9. Components with known vulnerabilities (just using components that have vulnerabilities);
 10. Insufficient Logging & Monitoring (allows a hacker to be undetected);
+
+## OAuth 2.0
+
+OAuth is a protocol allowing to authorize users with an external authorization server
+
+Basic roles:
+
+- a user;
+- application (spotify);
+- api (facebook). api includes authentication server and resource server
+
+![OAuth 2.0 schema](./images/oauth-schema.png)
