@@ -1,17 +1,37 @@
 # Microservices
 
-Benefits: 
+The microservice architectural style is an approach to developing a single an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API
+
+Microservice as a runnable instance that directly correlate it to a Service in SOA
+
+**Stateless** service:
+
+- No a cache or a database
+- Frequently accessed data that can be stored in memory
+- No instance affinity (where one customer belongs to a service)
+- Loss a node is a non-event
+
+**Statefull** service:
+
+- database or cache
+- custom apps that hold big amount of data (don't store business logic with data inside single microservice)
+- loss of a node is notable event
+
+Benefits:
+
 - allows the continuous delivery and deployment of large, complex app;
 - each microservice is relatively small;
 - eliminates any long-term commitment to a technology stack;
 - improved fault isolation;
 
 Drawbacks:
+
 - developers must deal with the additional complexity of creating a distributed system;
 - deployment complexity;
 - increased memory consumption;
 
-Microservices must be: 
+Microservices must be:
+
 - cohesive (implement a small set of strongly related functions)
 - loosely coupled (encapsulates own implementation so it can be changed with minimal affecting clients)
 - testable
