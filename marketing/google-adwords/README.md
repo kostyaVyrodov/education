@@ -20,3 +20,29 @@ Campaign -> AdSet -> Ads
 - Campaign = Country & City & Region, Language, Money - Daily Budget & CPC & Strategy, Schedule
 - AdSet = keyword
 - ADS = text, image
+
+Check search terms everyday
+
+Type of matches (mens shoes):
+- board - mens shoes
+    - *mens shoes*
+    - *mens shoes* cheap
+    - cheap *mens shoes*
+    - *mens* cheap *shoes*
+    - bad *men shoes*
+    - worst *men shoes*
+    - *mens* coats
+    - *shoes* for dogs
+- phrase - "mens shoes"
+    - XXXX mens shoes - cheap mens shoes
+    - mens shoes XXXX - mens shoes cheap
+    - mens XXXX shoes - won't appear in search result
+    - *worst* mens shoes  - will appear
+- exact match - [men shoes]
+    - men shoes
+    - mens shoes
+- bonus - +mens +shoes
+    - *men shoes* - yes
+    - *men* cheap *shoes* - yes (but phrase no)
+    - *mens* coats - no
+    - worst *mens shoes*  - will appear
