@@ -120,3 +120,55 @@ Both hub and switch are used for creating a local network without ability to sen
 Switches and Hubs are used to create a network. Routers are used to connect networks
 
 - Modem transforms data from digital to analogue and vice versa
+
+## S3 (Simple Storage Service)
+
+An online, bulk storage service that you can access from almost any device.
+
+S3 = simple storage service. It's AWS's primary storage. You can store any type of file in S3.
+
+**S3 buckets** are root level folders in S3
+**S3 folders** are sub folders in S3
+**S3 objects** are files
+
+Regions:
+1. When you create a bucket, you must select a specific region for it to exist. This means that any data you upload to the S3 bucket will be physically located in a data center in that region
+1. Best practices is to select the region that's physically closest to you or to your customers, to reduce transfer latency.
+
+NOTE: Some AWS services only communicate with each other if they are in the same AWS region.
+
+**Object durability** specifies how long my file will be stored and what chance that it will be lost or corrupted.
+
+**Object availability** specifies what's period of time the object is available for other users.
+
+### Storage classes
+
+**Standard:**
+- Designed for general, all-purpose storage. Good for files that you access daily
+- It's default storage option
+- 99.999999999% durability
+- 99.99% availability
+- The most **expensive** storage class
+
+**Reduced Redundancy Storage (RRS):**
+- Designed for non-critical, reproducible objects. Good for backups. If the backup is corrupted you can get the file from standard 
+- 99.99% durability <--- LESS
+- 99.99% availability
+- Less expensive than the standard storage class
+
+**Infrequent Access (S3-IA):**
+- Designed for objects that you don't access frequently but must be immediately available when accessed. Good for files that you access once a week or month.
+- 99.999999999% durability
+- 99.90% availability <- LESS
+- Less expensive than the standard/RSS storage  class
+
+**Glacier**
+- Designed for long-term archival storage
+- May take several hours for object stored in Glacier to be retrieved
+- 99.999999999% object durability
+- the cheapest S3 storage class (very low cost)
+- Use case: archive of medical information
+
+All files by default has "Standard storage" class.
+
+### Object lifecycle
