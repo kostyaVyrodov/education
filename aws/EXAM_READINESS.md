@@ -24,7 +24,7 @@ Questions allocation
 
 This section provides overview of different types of storages in AWS
 
-### ES2 (Elastic Compute) Instance Store
+### ES2 (Elastic Storage) Instance Store
 
 Properties of the storage:
 - ephemeral volumes. If service stops the data is lost
@@ -50,7 +50,7 @@ Properties of the storage:
 
 EBS can be hosted on SSD or HDD
 
-HDD is good for sequential access to data. Reading chunks of data or reading sequential access. SSD is good for random access.
+**HDD** is good for **sequential access to data**. Reading chunks of data or reading sequential access. **SSD** is good for **random access**.
 
 **Comparison of storages**
 
@@ -63,3 +63,15 @@ HDD is good for sequential access to data. Reading chunks of data or reading seq
 
 HDD can be a boot volume, but SSD can
 
+**IOPS** - Input/Output Operations per Second. It measures amount of data that can be read or written per second
+
+### EFS (Elastic File System)
+
+EFS is a file storage in the AWS cloud
+
+Properties:
+- Shared storage
+- Petabyte-scale file system
+- Elastic capacity
+- Supports NFC v4.0 and 4.1 (NFC v4.0 protocol)
+- Compatible with Linux-based AMIs for Amazon EC2
