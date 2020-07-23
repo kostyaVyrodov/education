@@ -95,6 +95,22 @@ Subnet is a sub-section of a network. When you create a VPC, it spans all of the
 
 Route tables redirect traffics between subnets (availability zones) 
 
+### Availability zone
+
+Any AWS resources that you launch like (EC2/RDS) must be places in a VPC subnet. Any given subnet must be located in an Availability Zone. You can (and should) utilize multiple AZ to create redundancy in your architecture. This is what allows for High Availability and Fault Tolerant systems.
+
+High Availability: Creating your architecture in such a way that your "system" is always available (ro has the least amount of downtime as possible).
+
+High Availability sounds like: 
+- I can always access my data in the cloud
+- My website never crashes and is always available to my customers
+
+Fault Tolerant: The ability of your "system" to withstand failures in one of its components and still remain available.
+
+Fault Tolerant sound like:
+- One of my web servers failed, but my backup server immediately took over
+- if something in my system fails, it can repair itself
+
 **Network devices:**
 - Hub - broadcasts packets to all connected devices (doesn't read IP address)
 - Switch - sends packets to the concrete device. Reduce unnecessary traffic over network and they are more secure (doesn't read IP address). Switch works with mac addresses
