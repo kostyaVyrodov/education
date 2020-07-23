@@ -55,9 +55,45 @@ When you create an AWS account, a "default" VPC is created for you. Standard com
 
 ### IGW (Internet Gateway)
 
+**Modem**
+
 IGW is a combination of hardware and software that provides your private network with a route to the Internet of the VPC. (Analogue is modem)
 
 Only one IGW can be attached to VPC at a time. IGW can't be detached if VPC has any active AWS resources
+
+### RTs (Route tables)
+
+**Router**
+
+A route table contains a set of rules, called routes, that are used to determine where network traffic is directed.
+
+Each VPC has a default route table
+
+### NACL (Network Access Control Lists)
+
+**Firewall**
+
+A NACL is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets
+
+1. Rules are evaluated from lowest to highest based on "rule #"
+1. The first rule fond that apples to the traffic type is immediately applied, regardless of any rules come after it
+1. The "default" NACL allows all traffic to the default subnets
+1. Any new NACLs you create DENY all traffic be default
+1. A subnet can only be associated one NACL as a time.
+1. An NACL allows or denies from entering a subnet. Once inside the subnet, other AWS resources (i.e. EC2 instances) may have an additional layer of security (security group)
+
+By default all subnets automatically associated with default RT. If a subnet is associated with other RT, then it doesn't belong to a default RT. Each subnet belongs to only one RT.
+
+### Subnets
+
+Subnet is a sub-section of a network. When you create a VPC, it spans all of the Availability Zones in the region. After creating a VPC, you can add one or more subnets in each Available Zone. Each subnet must reside entirely within one Availability Zone and cannot span zones.
+
+- A subnet is located in one specific availability zone.
+- Subnets must be associated with a route table.
+- A private subnet doesn't have route to the Internet.
+- A public subnet has a route to the Internet.
+
+Route tables redirect traffics between subnets (availability zones) 
 
 **Network devices:**
 - Hub - broadcasts packets to all connected devices (doesn't read IP address)
