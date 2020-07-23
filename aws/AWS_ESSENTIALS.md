@@ -53,6 +53,12 @@ Complete control over your virtual networking environment:
 
 When you create an AWS account, a "default" VPC is created for you. Standard components: IGW (internet gateway), a route table, a network access control list, subnets to provision AWS resources.
 
+### IGW (Internet Gateway)
+
+IGW is a combination of hardware and software that provides your private network with a route to the Internet of the VPC. (Analogue is modem)
+
+Only one IGW can be attached to VPC at a time. IGW can't be detached if VPC has any active AWS resources
+
 **Network devices:**
 - Hub - broadcasts packets to all connected devices (doesn't read IP address)
 - Switch - sends packets to the concrete device. Reduce unnecessary traffic over network and they are more secure (doesn't read IP address). Switch works with mac addresses
