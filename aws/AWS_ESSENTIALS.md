@@ -7,6 +7,7 @@ Notes for [Linux Academy AWS Essentials YouTube playlist](https://www.youtube.co
 IAM is where you manage your AWS users and their access to AWS accounts and services.
 
 The common use of IAM is to manage:
+
 - Users
 - Groups
 - IAM Access Policies
@@ -17,6 +18,7 @@ Note: The user created when you created the AWS account is called "root" user. B
 By default all new users you create in AWS account don't have any access to any other services. It's necessary to give manually permissions  to new users.
 
 **Security of best practices**
+
 1. Delete your root keys
 1. Activate MFA on root account
 1. Create an individual IAM users and create a user for yourself that you're going to use on daily basis
@@ -27,12 +29,14 @@ By default all new users you create in AWS account don't have any access to any 
 
 ## Virtual Private Cloud (VPC)
 
-AWS Regions: 
+AWS Regions:
+
 - a grouping of AWS resources located in a specific geographical location;
 - Designed to service AWS (or your users) that are located closest to a region;
 - **Regions** are comprised of multiple **availability zones**;
 
 AWS Availability zones:
+
 - geographically isolated zones within a region that house AWS resources;
 - Availability Zones are where separate, physical AWS data centers are located;
 - Multiple AZs in each Region provide redundancy for AWS resources in that region
@@ -41,7 +45,8 @@ This approach means that when you create an S3 bucket in a region, the S3 will b
 
 VPC is a private subsection of AWS that you control, in which you can place AWS resources (such as EC2 instances and databases). You have FULL control over who has access to the AWS resources that you can place inside VPC.
 
-Complete control over your virtual networking environment: 
+Complete control over your virtual networking environment:
+
 - selection of your own IP address range
 - creation of subnets
 - configuration of route table and network gateways
@@ -101,17 +106,20 @@ Any AWS resources that you launch like (EC2/RDS) must be places in a VPC subnet.
 
 High Availability: Creating your architecture in such a way that your "system" is always available (ro has the least amount of downtime as possible).
 
-High Availability sounds like: 
+High Availability sounds like:
+
 - I can always access my data in the cloud
 - My website never crashes and is always available to my customers
 
 Fault Tolerant: The ability of your "system" to withstand failures in one of its components and still remain available.
 
 Fault Tolerant sound like:
+
 - One of my web servers failed, but my backup server immediately took over
 - if something in my system fails, it can repair itself
 
-**Network devices:**
+**Network devices**
+
 - Hub - broadcasts packets to all connected devices (doesn't read IP address)
 - Switch - sends packets to the concrete device. Reduce unnecessary traffic over network and they are more secure (doesn't read IP address). Switch works with mac addresses
 Both hub and switch are used for creating a local network without ability to send data to internet
@@ -143,20 +151,20 @@ NOTE: Some AWS services only communicate with each other if they are in the same
 
 ### Storage classes
 
-**Standard:**
+**Standard**
 - Designed for general, all-purpose storage. Good for files that you access daily
 - It's default storage option
 - 99.999999999% durability
 - 99.99% availability
 - The most **expensive** storage class
 
-**Reduced Redundancy Storage (RRS):**
+**Reduced Redundancy Storage (RRS)**
 - Designed for non-critical, reproducible objects. Good for backups. If the backup is corrupted you can get the file from standard 
 - 99.99% durability <--- LESS
 - 99.99% availability
 - Less expensive than the standard storage class
 
-**Infrequent Access (S3-IA):**
+**Infrequent Access (S3-IA)**
 - Designed for objects that you don't access frequently but must be immediately available when accessed. Good for files that you access once a week or month.
 - 99.999999999% durability
 - 99.90% availability <- LESS
