@@ -2,6 +2,8 @@
 
 Notes for [Linux Academy AWS Essentials YouTube playlist](https://www.youtube.com/watch?v=BDBvHOaaKHo&list=PLv2a_5pNAko0Mijc6mnv04xeOut443Wnk&index=1)
 
+The most important thing is to understand the requirement and constraint in regards to **performance**, **scalability**, **availability**, **cost**, and **security**.
+
 ## Identity and Access Management (IAM)
 
 IAM is where you manage your AWS users and their access to AWS accounts and services.
@@ -179,4 +181,44 @@ NOTE: Some AWS services only communicate with each other if they are in the same
 
 All files by default has "Standard storage" class.
 
-### Object lifecycle
+## EC2 (Elastic Compute Cloud)
+
+ES2 is just a desktop PC
+
+ES2 vs Desktop
+
+- AMIs (Amazon Machine Image) - Operating system
+- Instance Type - CPU
+- EBS - Hard Drive
+- IP Addressing - Network Card
+- Security group - Firewall
+- RAM - RAM
+
+**Amazon Machine Image** is a preconfigured package required to launch EC2 instance. It includes OS, software packages and other required settings. It's possible to fork an AMI, customize it and later use it to deploy custom images.
+
+**Instance Type** is hardware of the host computer used for your instance. (t2 micro)
+
+**EBS** is highly available and reliable storage volumes that can be attached to any running instances that's in the same Available Zone.
+
+IOPS - is the amount of data that can be retrieved from EBS per second.
+
+Each EC2 instances must have at least one EBS (root). An EC2 can have additional EBSs that can be swap between instances
+
+EBS snapshot is a backup of EBS. Snapshot can't be used as an EBS and can't be attached to an EC2 instance. You need to create a EBS first and the the snapshot as template.
+
+**Security group** is very similar to NACLs in that they allow\deny traffic. But security groups on the instance level, instead of network level. When you create a new security group all inbound traffic is denied and all outbound traffic is allowed. Default security group for allows inbound\outbound traffic. **Best practices:** allow only traffic is required.
+
+**IP Addressing**
+
+Each EC2 instance has a private IP address. Private IP allows to communicate between services within one 1 VPC. By default EC2 has a public address too, but it's optional. Public IP allows to an EC2 be available outside of VPC.
+
+![EC2 network services](./images/ec2-network-services.png)
+
+## Databases
+
+RDS is SQL db. RDS includes Amazon Aurora, MySQL, MariaDB, PostgreSQL, Oracle, MS SQL server. RDS is an Amazon web service simplifying setting up, operating, scaling of an relation DB in a cloud.
+
+DynamoDB is NoSQL db.
+
+## SNS (Simple Notification Service)
+
