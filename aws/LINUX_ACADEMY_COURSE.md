@@ -41,10 +41,14 @@ CloudFormation notes:
 
 - a template can create up to 200 resources;
 - if a **stack** is **deleted**, then, by default, any **resources** it has created are also **deleted**;
-- a stack can be updated by uploading a new version of template;
-- new logical resources cause new physical resources;
+- a stack can be **updated** by **uploading a new version** of template;
+- **new logical resources** cause **new physical resources**;
 - **removed** logical resources cause the stack to **delete** physical resources;
 - **changed** logical resources **update** with **some disruption** or **replace** physical resources;
 
 It's better not to specify the name of resources in a template because it can be reusable.
 
+Ways of affecting resource in CloudFormation:
+- updated without any disruption. Happens when changes minor configuration options;
+- updated with some disruption. Example: changing ec2 instances size. In this case the instance must be reboot;
+- replacement. Resources id deleted and created again
