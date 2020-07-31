@@ -151,3 +151,89 @@ Organization can have only 1 master account. A master account is created from a 
 **Role switching** is a method of **accessing one account from another** using only one set of credentials. It's used both within AWS organization and between two unconnected accounts.
 
 The only one way to restrict accounts under other organization units inside your organization is to enable Service control policies on root level. After it you can assign a policy to a sub organization.
+
+## EC2
+
+EC2 is a virtual machine shared between several customers on a host. Each AWS account create a default VPC. Each EC2 instance belongs to a single AZ.
+
+Each EC2 is capable to use 2 types of storage:
+- Instance Store Volume is a physical storage devices that are attached to EC2. If the instance fails, you'll all data on the storage. Usually used for temp high performance data that's can be lost.
+- Elastic Block Storage is an attachable storage. You can attach it across different EC2 instances.
+
+Security group is a firewall that specifies rules which allow or deny traffic to the instance.
+
+CloudWatch monitors EC2 instances. It does health checks each 5 minutes. It's possible to reduce the interval with additional cost.
+The status checks of EC2 instance checks the hardware and the instance state. 
+
+EC2 instance states:
+- Running
+- Stopped
+- Pending
+- Stopping
+
+When you stop instance you stop virtual hardware, when you stop a guest OS you actually shut it down. When EC2 instance is stopped or any other state except running you're not charged. You get charged each minute. EBS volumes incur charges. You need to terminate EC2 instance and delete EBS to 100% prevent charging. 
+
+When you **start EC2** instance **again** you can be on **another host** with **other Instance Storage Volume**. Also you get new IP address but you'll have the same DNS.
+
+When you **stop EC2** in VM you free resources on the host. It means that **EC2 get detached from the hardware**.
+
+![EC-2-volumes](./images/ec2-volumes.png)
+
+Stop "hibernate" - remembers the state of an instance and then run it in the same state.
+
+When to use EC2:
+- it need a traditional OS;
+- something running and consuming CPU constantly;
+- it's a monolithic app;
+- app need a server to host;
+- when something needs 
+
+### Instance types and sizes
+
+EC2 families (groups (Like a vehicle type: car, bus, motorcycle)): 
+- general purpose - well balanced. Good CPU, good RAM, good storage. **Use case:** average microservices, backend, small and mid databases, dev. env., code repositories, virtual desktop. 
+- computing optimized - best CPU available. **Use case:** high performance backend, microservices, MMO gaming, video encoding, high performance science and eng. apps, machine/deep learning *inference*.
+- memory optimized - not bad or good CPU but really nice memory. **Use case:** high performance databases, distributed web scale in-memory caches, mid-size in-memory databases, real time big data analytics.
+- storage optimized - provides super fast storage, (good for NO SQL DB). **Use case:** NoSQL databases (e.g. Cassandra, MongoDB, Redis), in-memory databases (e.g. SAP HANA, Aerospike), scale-out transactional databases, distributed file systems, data warehousing, Elasticsearch, analytics workloads.
+- accelerated computing - very very specific hardware for specific task. **Use case:** machine learning,
+
+Instance types:
+- **T2** and **T3** - low-cost that provides burst capability;
+- **M5** - for general workloads
+- **C4** - more capable CPU
+- **X1** and **R4** - optimize **large amount** of **fast memory**
+- **I3** - fast **IO**
+- **P2**, **P3**, **F1** - **GPU** and **FPGAs**
+
+Instance sizes: nano, micro, small, medium, large, x.large, 2x.large, and larger
+
+Special cases:
+- "a": AMP CPU
+- "A": ARM based
+- "n": higher speed networking
+- "d": NVMe storage
+
+### Storage architecture
+
+Elastic Block Storage (EBS) - a storage service that creates and manages volumes based on four underlying storage types. Volumes are **persistent**, can be **attached** and **removed** from EC2 instances and are **replicated** within a single AZ.
+
+**EBS must be in the same AZ as EC2 instance.**
+
+Volume types:
+- sc1 (hdd, Cold HDD) - lowest cost, the slowest one, infrequent access, can't be a boot volume;
+- st1 (hdd, Throughput optimized HDD) - low cost, throughput intensive, can't be a boot volume, good for log processing; big data; data warehouses; streaming workloads requiring consistent, fast throughput at a low price;
+- gp2 (ssd, general purpose) - default, ballance of IOPS & MiB/s - burst pool IOPS per GB, recommended for most of workloads, virtual desktops, dev and test envs, low-latency interactive apps;
+- io1 (ssd, Provisioned IOPS) - highest performance, can adjust size and IOPS separately, critical business application ;
+- magnetic is deprecated
+
+![Comparison of storages](./images/ebs-comparison.png)
+
+![ebs comparison](./images/ebs-comparison-la.png)
+
+HDD can be a boot volume, but SSD can.
+
+**IOPS** - Input/Output Operations per Second. It measures amount of data that can be read or written per second
+
+
+To protect against AZ failure, EBS snapshots (to S3) can be used.
+Data is replicated across AZs in the region and optionally internationally.
