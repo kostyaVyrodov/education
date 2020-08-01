@@ -384,3 +384,86 @@ Roles won't work only when it's required to log into console.
 An instance role sets permissions to an EC2 application or instance. An instance profile is a container for passing IAM roles information to EC2.
 
 Access keys are long term credentials and shouldn't be used when bootstrapping.
+
+**AWS creds options**
+
+![aws-creds-options.png](./images/aws-creds-options.png)
+
+### EBS encryption
+
+Volume encryption uses EC2 host hardware to encrypt data **at rest** and **in transit** between EBS and EC2 instances. 
+
+Encryption generates a data encryption key (**DEK**) from a customer master key (**CMK**) in each regin. A **unique** DEK encrypts each volume. Snapshots of that volume are encrypted with the **same DEK**, as are any volumes created from that snapshot.
+
+DEK has encrypted key and key in plain text. Plain text key is stored in memory of an instance. The encrypted key is stored in EBS. Next time when EC2 needs a plain key, it requests from KMS and KMS returns it to EC2. KMS creates a DEK from CMK.
+
+![ec2-encryption.png](./images/encryption-ec2.png)
+
+Key Management Service is a service providing cryptography keys for encrypting data.
+
+- AWS managed keys - are keys managed by AWS
+- Customer managed keys - are keys managed by a customer
+
+It's not possible to create a **not** encrypted AMI from **encrypted** volume. Encryption doesn't have any impacts on performance for EC2. EC2 see the encrypted volume like not encrypted.
+
+To encrypt data on the OS level, you need to use OS encryption.
+
+### EC2 performance
+
+**EBS path optimization**. EBS is accessed via a network wire. The wire can be used for both transferring network data and EBS data. The optimization is to use 2 wire for network and for EBS. (Not all instances has it.)
+
+**SR-IOV** - single root input output visualization. 1 host shares several VMs. The host has 1 network adapter, but VMs uses virtual network adapters that mapped to the real one. It means that 1 real adapter has many virtual. Recently the role of adapter was done by hypervisor, but now it's embedded into a real network adapter.
+
+**Placement groups** has 3 types: cluster, spread, partition.
+
+Cluster – packs instances close together inside an Availability Zone. Cluster placement groups are designed for performance. Every instance can tal to every other instance at the same time at full speed. Works with enhanced network for peak performance. **Optimization:** small latency. Maybe traffic even doesn't need to leave a host. For performance. Launch the same type of instance for Cluster group to make they are really close to each other.
+
+**Partition** – spreads your instances across logical partitions such that groups of instances in one partition do not share the underlying hardware with groups of instances in different partitions. This strategy is typically used by large distributed and replicated workloads, such as Hadoop, Cassandra, and Kafka. Partition is isolated group AWS resources. Each partition has an isolated rack. Partition are useful for big infrastructure.
+
+**Spread** – strictly places a small group of instances across distinct underlying hardware to reduce correlated failures. For highly availability
+
+### Billing models
+
+You get charged per minute of usage an instance.
+
+Key facts: 
+- Instance size\type have an AZ spot price.
+- Bid more, instance provision for spot price. Less = termination.
+- Spot fleets are containers, allowing capacity to be managed
+- Reservations are zonal (AZ) or regional
+- One or 3 years, no upfront, partial upfront, all upfront.
+- You pay regardless of EC2 instance using a reservation
+- Regional is more flexible - but has no capacity reservation
+
+**Spot**
+
+Set max price that you can pay and if the instance price is below your spot, the instance works. Ridiculously inexpensive because there’s no commitment from the AWS side.
+
+Use case:
+- servers can tolerate failure and can be inactive for some time, state is not stored on the instance. Not use case: AD service, banking and etc.
+Spot pricing was al about utilizing spare AWS capacity in order to get cheaper EC2 rates.
+- cost-critical, which can cope with interruption
+- burst-y workloads
+
+On-Demand price: $1/hr
+The market spot price: $0.2/hr
+Your bid price: $0.5/hr
+What you pay: $0.2/hr
+
+**Reserved**
+
+You reserve an instance and get a discount because helps AWS to predict load. You pay for instance even if it works. Don't need to worry about any hourly charges.
+
+Use case:
+- base\consistent load
+- known and understood growth
+- critical system\components
+
+**On-demand**
+
+There’s no commitment from you. You pay the most with this option.
+
+Use case:
+- Default or unknown demand
+- anything in between reserved\spot
+- short-term workloads that cannot tolerate interruption
