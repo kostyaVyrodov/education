@@ -157,8 +157,8 @@ The only one way to restrict accounts under other organization units inside your
 EC2 is a virtual machine shared between several customers on a host. Each AWS account create a default VPC. Each EC2 instance belongs to a single AZ.
 
 Each EC2 is capable to use 2 types of storage:
-- Instance Store Volume is a physical storage devices that are attached to EC2. If the instance fails, you'll all data on the storage. Usually used for temp high performance data that's can be lost.
-- Elastic Block Storage is an attachable storage. You can attach it across different EC2 instances.
+- **Instance Store Volume** is a physical storage devices that are attached to EC2. If the instance fails, you'll all data on the storage. Usually used for temp high performance data that's can be lost.
+- **Elastic Block Storage** is an attachable storage. You can attach it across different EC2 instances.
 
 Security group is a firewall that specifies rules which allow or deny traffic to the instance.
 
@@ -173,7 +173,7 @@ EC2 instance states:
 
 When you stop instance you stop virtual hardware, when you stop a guest OS you actually shut it down. When EC2 instance is stopped or any other state except running you're not charged. You get charged each minute. EBS volumes incur charges. You need to terminate EC2 instance and delete EBS to 100% prevent charging. 
 
-When you **start EC2** instance **again** you can be on **another host** with **other Instance Storage Volume**. Also you get new IP address but you'll have the same DNS.
+When you **start EC2** instance **again** you can be on **another host** with **other Instance Storage Volume**. Also you get new IP address.
 
 When you **stop EC2** in VM you free resources on the host. It means that **EC2 get detached from the hardware**.
 
@@ -219,8 +219,10 @@ Elastic Block Storage (EBS) - a storage service that creates and manages volumes
 
 **EBS must be in the same AZ as EC2 instance.**
 
+ENS
+
 Volume types:
-- sc1 (hdd, Cold HDD) - lowest cost, the slowest one, infrequent access, can't be a boot volume;
+- sc1 (hdd, Cold HDD) - lowest cost, the slowest one, infrequent access, can't be a boot volume; (for archived data)
 - st1 (hdd, Throughput optimized HDD) - low cost, throughput intensive, can't be a boot volume, good for log processing; big data; data warehouses; streaming workloads requiring consistent, fast throughput at a low price;
 - gp2 (ssd, general purpose) - default, ballance of IOPS & MiB/s - burst pool IOPS per GB, recommended for most of workloads, virtual desktops, dev and test envs, low-latency interactive apps;
 - io1 (ssd, Provisioned IOPS) - highest performance, can adjust size and IOPS separately, critical business application ;
@@ -232,8 +234,44 @@ Volume types:
 
 HDD can be a boot volume, but SSD can.
 
-**IOPS** - Input/Output Operations per Second. It measures amount of data that can be read or written per second
+Main measurements of performance:
 
+- **IOPS** - Input/Output Operations per Second. It measures amount of data that can be read or written per second; (SSD)
+- **Throughput** - describes the amount of data that can be sent. (mb\s); (HDD)
+
+Maximum available IOPS is 64000 IOPS (on the largest instance). 80000 IOPS for Instance Store Volume. 
 
 To protect against AZ failure, EBS snapshots (to S3) can be used.
 Data is replicated across AZs in the region and optionally internationally.
+
+To move an EBS between AZs, you need to use snapshots
+
+EBS snapshot works similarly to git commits. First snapshot copies all data, second snapshot copies only differences from previous state.
+
+First, stop EC2 and only after this do snapshot. Otherwise other programs could update state or have something cached in memory. Data inside S3 snapshots are replicated across several AZ, so it won't be lost.
+
+DLM (Data Lifecycle Manager) allows to automate the process of creating snapshots.
+
+If you have 3 snapshots and you delete last snapshot, then the data from the delete snapshot goes to one of the other snapshots, so you never loose your data
+
+Snapshots are replicated across several AZs so they are more resilient.
+
+### Security group
+
+Security group is a firewall. Each elastic network interface can **have maximum 5 security groups**. Each security group belongs to 1 VPC. 
+
+Each security group has inbound and outbound rules. All security groups denies traffic by default.
+
+Security groups don't allow to explicit deny, it's not possible to deny traffic for concrete IP address or an item. So you've to add only concrete allow rules.
+
+Security groups can reference to any other security groups. 
+
+### EC2 Metadata
+
+http://169.254.169.254/latest/meta-data - the url returns metadata about the instance and can be accessed only within instance.
+
+Examples:
+
+- http://169.254.169.254/latest/meta-data/ami-id
+- http://169.254.169.254/latest/meta-data/instance-id
+- http://169.254.169.254/latest/meta-data/instance-type
