@@ -171,7 +171,7 @@ EC2 instance states:
 - Pending
 - Stopping
 
-When you stop instance you stop virtual hardware, when you stop a guest OS you actually shut it down. When EC2 instance is stopped or any other state except running you're not charged. You get charged each minute. EBS volumes incur charges. You need to terminate EC2 instance and delete EBS to 100% prevent charging. 
+When you stop instance you stop virtual hardware, when you stop a guest OS you actually shut it down. When EC2 instance is stopped or any other state except running you're not charged. You get charged each hour. EBS volumes incur charges. You need to terminate EC2 instance and delete EBS to 100% prevent charging. 
 
 When you **start EC2** instance **again** you can be on **another host** with **other Instance Storage Volume**. Also you get new IP address.
 
@@ -275,3 +275,112 @@ Examples:
 - http://169.254.169.254/latest/meta-data/ami-id
 - http://169.254.169.254/latest/meta-data/instance-id
 - http://169.254.169.254/latest/meta-data/instance-type
+
+### AMI
+
+AMI is Amazon Machine Image. It's used to build instances. AMI is a snapshot of concrete EC2.
+
+AMI include:
+- Snapshots of EBS storage;
+- permissions;
+- a block device mapping (configures how the instance OS sees attached volumes);
+
+AMI comes free, shared or paid. It can be copied to other regions.
+
+Types of AMIs: that use EBS and ISV (used rarely).
+
+AMI describes OS, Instance Type describes hardware.
+
+**AMI is created from** the concrete **volumes**. It's like a snapshot for EBS, but for OS.
+
+![AMI](./images/AMI.png)
+
+Use cases: 
+- you developing a new version of app. You create EC2 instance, test and makes an AMI snapshot. After this you distribute the snapshot across whole EC2 instances.
+- you have a complex app with complex configuration. If an instance gets broken you can easily launch a new one.
+
+AMI limitation: no bootstrapping (a filed where you enter custom commands to run during initialization of an instance), it doesn't allow to customize an instance well.
+
+When you set up permission for AMI you can:
+- privately share with whitelisting;
+- private sharable image;
+- public sharable image;
+
+### Bootstrapping
+
+It's a process where instructions are executed on an instance during its launch process. Bootstrapping is used to configure the instance, perform software installation, and add application configuration.
+
+In EC2, user data can be used to run shell scripts (Bash or PowerShell) or run cloud-init directives.
+
+AMI are for your lengthy static configuration (faster). Bootstrapping is what you see for anything dynamic (longer). 
+
+It's possible to combine both approaches. (Bootstrap are commands that you enter before running an instance).
+
+When you create an instance you select an AMI.
+
+If you prepared an instance and installed something very long, you can bake into an AMI. But you can't adjust baked software in the AMI. If you need configuring something you've to use bootstrapping, event if it's long.
+
+![bootstrapping](./images/bootstrapping.png)
+
+### Networking
+
+ENI is an Elastic Network Interface. An IP address is assigned to an ENI. **Bigger instance more IPs it can have.**
+
+- Public instance is an instance with public IP, that's available outside of your VPC.
+- Private instance is an instance with private IP ONLY, that's available only INSIDE of your VPC. With private IP only the instance can't go to the Internet.
+
+**Private IP** inside AWS is static, even if you stop your VM.
+
+Private IP is allocated to internal `ip-X.X.X.X.ec2.internal` DNS. Private IP allocated when launching instance. Unchanged during stop/start.
+
+Private IP is release only after terminating a VM.
+
+![private-ip](./images/private-ip.png)
+
+**Public instances** has the same private IP as private instance. 
+
+`ifconfig` inside a public instance doesn't return a public IP address.
+
+Public IP is changed after stop and start. Private IP is released after termination of an instance.
+
+There's an Internet Gateway that sees traffic from private IP address to the Internet and swaps private IP with public IP. When response comes back it maps public IP to private IP. It means that it has key-value records of private and public IP. 
+
+If you don't have an access to the Internet or from the Internet, you can't just apply a public IP to your instance. You need work with the Internet Gateway. 
+
+IGW is a combination of hardware and software that provides your private network with a route to the Internet of the VPC. (Analogue is modem)
+
+If you ping public DNS from AWS private network you'll get the  private IP. if you ping outside AWS, you'll get the public IP
+
+If you reboot instance the public IP is NOT CHANGED. If you stop, the public IP is changed.
+
+An **Elastic IP** address is a static IPv4 address associated with your AWS account in a specific Region
+
+It is valid for whole region, not only for AI zone. When you assign an Elastic IP to the EC2, it won't be changed even if you restart the EC2.
+
+Unlike the auto-assigned public IP address, an Elastic IP address is preserved after you stop and start your instance in a virtual private cloud.
+
+When you assign an Elastic IP to a EC2 it replaces internal changeable public IP.
+
+Elastic IP can be assigned to different EC2 instances.
+
+![public-ip](./images/public-ip.png)
+
+### Instance roles
+
+EC2 instance roles are IAM roles that can be "assumed" by EC2 using an intermediate called an instance profile.
+
+Instance roles allow to avoid using `aws configure` to get a token to get access to a service.
+
+![ec2-roles](./images/ec2-roles.png)
+
+You assign a profile having the role to an instance. 
+
+An **instance profile** is a container for an IAM role that you can use to pass role information to an EC2 instance when the instance starts.
+
+The temp creds for EC2 comes via instance meta data. If you use assuming of roles you improve security of app. Because you get access via temp credentials that can be expired.
+
+Roles won't work only when it's required to log into console.
+
+An instance role sets permissions to an EC2 application or instance. An instance profile is a container for passing IAM roles information to EC2.
+
+Access keys are long term credentials and shouldn't be used when bootstrapping.
