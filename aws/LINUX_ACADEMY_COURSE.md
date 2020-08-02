@@ -391,9 +391,11 @@ Access keys are long term credentials and shouldn't be used when bootstrapping.
 
 ### EBS encryption
 
-Volume encryption uses EC2 host hardware to encrypt data **at rest** and **in transit** between EBS and EC2 instances. 
+Volume encryption uses EC2 host hardware to encrypt data **at rest** and **in transit** between EBS and EC2 instances.
 
-Encryption generates a data encryption key (**DEK**) from a customer master key (**CMK**) in each regin. A **unique** DEK encrypts each volume. Snapshots of that volume are encrypted with the **same DEK**, as are any volumes created from that snapshot.
+Encryption generates a data encryption key (**DEK**) from a customer master key (**CMK**) in each regin. A **unique** DEK encrypts each volume. Snapshots of that volume are encrypted with the **same DEK**, as are any volumes created from that snapshot. 
+
+CMK is regional.If you moving the snapshot between AZs you don't need to get a new CMK. If you move the snapshot between Regions, you need a new CMK.
 
 DEK has encrypted key and key in plain text. Plain text key is stored in memory of an instance. The encrypted key is stored in EBS. Next time when EC2 needs a plain key, it requests from KMS and KMS returns it to EC2. KMS creates a DEK from CMK.
 
@@ -412,6 +414,13 @@ To encrypt data on the OS level, you need to use OS encryption.
 
 **EBS path optimization**. EBS is accessed via a network wire. The wire can be used for both transferring network data and EBS data. The optimization is to use 2 wire for network and for EBS. (Not all instances has it.)
 
+Benefits:
+- Improved network data transfer rates. EBS-optimized instances do not share networking paths, they have improved network data transfer rates.
+- Faster rate of storage performance. Since EBS-optimized instances do not share networking paths, they have faster rates of storage performance.
+- A higher level of consistency. EBS-optimized instances are known for consistency in its storage and networking paths
+
+Note: when you restore a EBS from snapshot, you won't have maximum performance of the EBS. It becomes available before all data is copied. If you access the data that wasn't restored then you've to wait unit it restored. 
+
 **SR-IOV** - single root input output visualization. 1 host shares several VMs. The host has 1 network adapter, but VMs uses virtual network adapters that mapped to the real one. It means that 1 real adapter has many virtual. Recently the role of adapter was done by hypervisor, but now it's embedded into a real network adapter.
 
 **Placement groups** has 3 types: cluster, spread, partition.
@@ -423,8 +432,6 @@ Cluster – packs instances close together inside an Availability Zone. Cluster 
 **Spread** – strictly places a small group of instances across distinct underlying hardware to reduce correlated failures. For highly availability
 
 ### Billing models
-
-You get charged per minute of usage an instance.
 
 Key facts: 
 - Instance size\type have an AZ spot price.
@@ -461,7 +468,7 @@ What you pay: $0.2/hr
 
 **Reserved**
 
-You reserve an instance and get a discount because helps AWS to predict load. You pay for instance even if it works. Don't need to worry about any hourly charges.
+You reserve an instance and get a discount because helps AWS to predict load. You pay for instance even if it works. Full upfront: Don't need to worry about any hourly charges.
 
 Use case:
 - base\consistent load
@@ -478,3 +485,5 @@ Use case:
 - short-term workloads that cannot tolerate interruption
 
 **Dedicated host** is reservation of concrete server\pc, instead of part of it. You need to specify a concrete region for it.
+
+Dedicated host supports on demand and reserved price. You don't pay for deployment instances on dedicated host.
