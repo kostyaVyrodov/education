@@ -435,6 +435,15 @@ Key facts:
 - You pay regardless of EC2 instance using a reservation
 - Regional is more flexible - but has no capacity reservation
 
+Reservation types:
+- **Regional:** When you purchase a Reserved Instance for a Region, it's referred to as a regional Reserved Instance. Benefits: can launch an instance in any zone, can launch an instance with different sizes. Reserve flexibility.
+- **Zonal**: When you purchase a Reserved Instance for a specific Availability Zone, it's referred to as a zonal Reserved Instance. Benefit: reserve capacity. 
+
+When AWS has problems with capacity in AZs it has priority:
+1. VMs that was reserved (reserved capacity)
+1. VMs on demand
+1. VMs spot
+
 **Spot**
 
 Set max price that you can pay and if the instance price is below your spot, the instance works. Ridiculously inexpensive because there’s no commitment from the AWS side.
@@ -456,8 +465,8 @@ You reserve an instance and get a discount because helps AWS to predict load. Yo
 
 Use case:
 - base\consistent load
-- known and understood growth
-- critical system\components
+- known and understood growth (you know how much capacity you need)
+- critical system\components (higher priority for the reserved instances)
 
 **On-demand**
 
@@ -467,3 +476,5 @@ Use case:
 - Default or unknown demand
 - anything in between reserved\spot
 - short-term workloads that cannot tolerate interruption
+
+**Dedicated host** is reservation of concrete server\pc, instead of part of it. You need to specify a concrete region for it.
