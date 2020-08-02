@@ -513,3 +513,25 @@ Events can come from other AWS services. For example: a file uploaded to S3 buck
 Minimum billed duration is 100ms
 
 Lambda reacts on events and performs actions. For example a file uploaded to S3 bucket, lambda is triggered and it create thumbnails of images that were uploaded.
+
+### API Gateway
+
+Allows to create API without code that can integrate with other AWS service or any other services.
+
+It's a managed API endpoint service. It can be used to create, publish, monitor, and secure APIs "as a service". API Gateway can use other AWS service for compute (FaaS/IaaS) as well as to store and recall data.
+
+![api-gateway.png](./images/api-gateway.png)
+
+### Step function
+
+**Step function** is a serverless visual workflow service that **provides state machine**. It can orchestrate other AWS service with simple logic, branching and parallel execution, it maintains a state. Workflow step is a state and it can perform work via task. Step functions allow for long-running serverless workflows. A state machine can be defined using Amazon States Language.
+
+Step function is designed to overcome lambda limitations. Step function can be operated for up to 1 year.
+
+Step functions can orchestrate lambda functions.
+
+AWS Step Functions is a service that allows to keep state of lambda functions and aggregate them. It's a container for them.
+
+Use case: you need serverless but with a state, merges, parallel execution, merges and etc.
+
+Language to define state machine and steps is **Amazon State Language** (ASL)
