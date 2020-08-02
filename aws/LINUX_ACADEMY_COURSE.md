@@ -487,3 +487,29 @@ Use case:
 **Dedicated host** is reservation of concrete server\pc, instead of part of it. You need to specify a concrete region for it.
 
 Dedicated host supports on demand and reserved price. You don't pay for deployment instances on dedicated host.
+
+## Serverless Compute (Lambda)
+
+**Event driven architecture**
+
+A system operates around "events" that represent an action or a change of state - e.g., a button being clicked, a file being uploaded, or a temperature dropping below a certain level. Events are efficient because events are generated and pushed, rather than things being polled. Polling requires always-on compute and doesn't scale well.
+
+**Serverless architecture**
+
+Serverless - you don't manage server
+
+Two main principles of serverless architecture:
+- BaaS (backend as a service) - using 3rd party services where possible rather than running your own. Example: Auth0, Cognito, Firebase, Google Analytics
+- FaaS (function as a service) - products to provide application logic. There functions are only active when they are needed.
+
+### Lambda
+
+Lambda is FaaS. You charged only one when lambda works. A lambda can work only up to 15 minutes. It's invoked by events. The functions are stateless.
+
+For EC2 you pay event if it's not used.
+
+Events can come from other AWS services. For example: a file uploaded to S3 bucket.
+
+Minimum billed duration is 100ms
+
+Lambda reacts on events and performs actions. For example a file uploaded to S3 bucket, lambda is triggered and it create thumbnails of images that were uploaded.
