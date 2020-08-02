@@ -535,3 +535,48 @@ AWS Step Functions is a service that allows to keep state of lambda functions an
 Use case: you need serverless but with a state, merges, parallel execution, merges and etc.
 
 Language to define state machine and steps is **Amazon State Language** (ASL)
+
+Notes:
+- API gateway supports serverless architecture
+- to run a lambda you need: runtime, function name, code and permissions
+- API gateway supports: serverless, microservices and monolithic app
+
+## Container-Based Compute and Microservices
+
+**VM vs Containers**
+
+Containers work over OS. Each vm has own OS.
+
+Containers are like apartments. VMs are like a house.
+
+![containers-vs-vm](./images/containers-vs-vm.png)
+
+When you can't use docker:
+- you need several OS
+- your apps can't utilize same OS
+
+### ECS
+
+ECS is Elastic Container Service. It allows docker containers to be deployed and managed withing AWS environments. ECS can use infrastructure clusters based on EC2 or fargate where AWS manage the backing infrastructure.
+
+![ec2 mode](./images/ec2-mode.png)
+
+AWS fargate is a managed service tasks are auto placed.
+
+![fargate mode](./images/fargate-mode.png)
+
+Terms for ECS:
+
+**Cluster** is a logical collection of ECS resources - either ECS EC2 instances or a logical representation of managed Fargate infrastructure.
+
+**Task Definition** defines your application. Similar to a Dockerfile but for running containers in ECS. Can contain multiple containers.
+
+**Container Definition** inside a Task Definition defines the individual containers a Task uses. It controls the CPU and memory each container has, in addition to port mappings for the container.
+
+**Task** is a single running copy of any containers defined by a task definition. One working copy of an application e.g. DB and Web containers.
+
+**Service** allow task definition to be scaled by adding additional tasks. Defines Minimum and Maximum values.
+
+**Registry** is a storage for container images.
+
+ECS containers requires **Task role** permission to access other AWS services.
