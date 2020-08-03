@@ -580,3 +580,159 @@ Terms for ECS:
 **Registry** is a storage for container images.
 
 ECS containers requires **Task role** permission to access other AWS services.
+
+## Networking fundamentals
+
+Layer 1 - physical. Voltage, zeros and ones.
+Layer 2 - data link. Mac address
+Layer 3 - network. IP
+Layer 4 - TCP. Port, error checking.
+Layer 5 - Session. Request and reply communication streams are viewed as a single 'session'
+Layer 6 - presentation. Encryption, compression
+Layer 7 - Application. HTTP, SSH, FTP.
+
+### IP Addressing
+
+IP address is a network address of a device. Subnet mask split an IP address into network and node part. Subnet mask allows to understand if nodes are in the same network or not.
+
+Reserved\special IP addresses:
+- 0.0.0.0 - represents all IP addresses
+- 255.255.255.255 - IP address used to broadcast to all IP addresses everywhere
+- 127.0.0.1 - localhost or loopback. This ip usually references itself.
+- 169.254.0.1 to 169.254.255.254 a range of IP addresses which a device can auto configure with if its using DHCP and fails to automatically get an IP from a DHCP server.
+
+## VPC
+
+- VPC is a private network within AWS. It's your private data center inside AWS platform.
+- can be configured to be public\private a mixture
+- regional (can't span regions) highly available, and can be connected to your data center and corporate
+- **isolated from other VPCs by default**. In case of hacker attack, the infected items will be isolated within the VPC
+- BPC and subnet: max/16 (65 536) and minimum/28 (16 IPs)
+- VPC subnets can't span AZs (1:1 mapping)
+- certain IPs are reserved in subnets
+- **Tenancy** allows to bind concrete VPC to concrete hardware
+- VPC is a region based service.
+
+Regional Default VPC:
+- required for some services, used as a default for most
+- pre-configured with al required networking/security
+- configured using a/16 CIDR block (172.131.0.0/16)
+- A /20 public subnet in each AZ, allocating a public IP by default
+- attached internet gateway with a "main" route table sending all IPv4 traffic to the internet gateway using 0.0.0.0/0 route
+- SG: Default - all from itself, all outbound
+- NACL: Default - allow all inbound and outbound
+
+- Custom VPC:
+- can be designed and configured in any valid way
+- you need to allocate IP ranges, create subnets and provision gateways and networking, as well as designed and implement security
+- when you need multiple tiers or a more complex set of networking
+- best practice is to not use default for production things
+
+### Subnets
+
+Subnet is a sub-section of a network. When you create a VPC, it spans all of the Availability Zones in the region. After creating a VPC, you can add one or more subnets in each Available Zone. Each subnet must reside entirely within one Availability Zone and cannot span zones.
+
+- A subnet is located in one specific availability zone.
+- Subnets must be associated with a route table.
+- A private subnet doesn't have route to the Internet.
+- A public subnet has a route to the Internet.
+-  It's possible to break a network by dividing on 2.
+
+5 IP addresses inside each subnet are **reserved:**
+- .0 - network
+- .1 - router that allows to route traffic between VPC
+- .2 - DNS - for dns of VPC
+- .3 - future - for future uses
+- .255 - broadacast 
+
+Each subnet has 2^x - 5 ip addresses
+
+DHCP is a service that allows other services to obtain an IP address
+
+It's possible to share a subnet between AWS organization.
+
+### Routing and internet gateway
+
+Each VPC has a router. It's a highly available network device
+
+VPC routing:
+- every VPC has a VPC router
+- router is scalable and controls data entering and leaving VPC and its subnets
+- each VPC has a "main" route table, which is allocated to all subnets. A subnet must have only one route table.
+- A route table controls what the VPC router does with traffic leaving a subnet
+
+IGW is created and attached to a VPC (1:1). It can route traffic for public IPs to and from the internet
+
+**Routes**
+
+- An RT is a collection of routes that are used when traffic from a subnet arrives at the VPC router
+
+A route table is a list of routes. Route tables see packets and checks if it can to pass the traffic from source to distention
+
+A route table can have several routes to the same destination. Router picks the most specific
+
+/32 - is a single IP. The higher mask, the higher priority of route item.
+
+EC2 services don't have an IP address. There is a public address in VPC/router/igw that has key-value map for 
+
+IGW handles communication between internet and VPC. It's can have 1 VPC and each VPC can have only 1 IGW.
+
+When IGW receives any traffic from EC2 that has a public IP, it adjusts the packets. It replaces the private source IP address on the packet with the associated public IP address of that instance. It performs static network address translation. 
+
+EC2 DON'T HAVE REAL PUBLIC IP. Public IP is replaced by IGW. IGW provides access to internet.
+
+To make a subnet public:
+1. resources should allocate public IP addresses (by default customer subnets don't allocate a public IP)
+2. Allocate IGW
+3. Add route tables that will target to EC2 instance
+
+BGP - Border Gateway Protocol
+
+**Bastion Hosts**
+
+Jump Box or Bastion Host is a physical or virtual machine that occupies a network publicly accessible and provides a locked-down entry point to a secure or fully private VPC. It's used for performing admin tasks.
+
+- it's a host that sits at the perimeter of a VPC
+- it functions as an entry point to the VPC for trusted admins
+- allows for updates or configuration tweaks remote while allowing the VPC to stay private and protected
+- generally connected to via SSH or RDP
+- Bastion host must be kept updated and security hardened and audited regularly
+- multi factor authentication, ID federation and\or IP blocks.
+
+![Bastion host](./images/bastionhost.png)
+
+### NAT 
+
+Network address translation (NAT) is a method of remapping source IPs or destination IPs packets.
+
+Static NAT: A private IP is mapped to a public (what IGWs do)
+
+Dynamic NAT: A range of private addresses are mapped onto one or more public
+
+NAT Gateway is a service that allocates a public IP for private instances. NAT gateway needs to be provisioned in a public subnet and it must have an elastic IP. NAT Gateway is not highly available.
+
+### NACL
+
+
+A NACL is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets
+
+1. Rules are evaluated from lowest to highest based on "rule #"
+1. The first rule fond that apples to the traffic type is immediately applied, regardless of any rules come after it
+1. The "default" NACL allows all traffic to the default subnets
+1. Any new NACLs you create DENY all traffic be default
+1. A subnet can only be associated one NACL as a time.
+1. An NACL allows or denies from entering a subnet. Once inside the subnet, other AWS resources (i.e. EC2 instances) may have an additional layer of security (security group)
+
+By default all subnets automatically associated with default RT. If a subnet is associated with other RT, then it doesn't belong to a default RT. Each subnet belongs to only one RT.
+
+- NACLs operate at layer 4 of the OSI model (TCP/UDP and below)
+- A subnet has to be associated with a NACL - either the VPC default or a custom NACL.
+- **NACLs only impact traffic crossing the boundary of a subnet**
+- NACLs are collections of rules that can explicitly **allow** or **deny** traffic based on its protocol, prot range and source\destination
+- Rules are processed in number, lowest first. When a match is found that actions is taken and processing stops.
+- The "*" rule is processed last and is an implicit deny
+- NACLs rules: **inbound** or **outbound**
+
+Ephemeral ports:
+- when a client initiates communications with a server, it's to a well-known port number (e.g., tcp/443) on that server
+- the response is from that well-known port ot an 
