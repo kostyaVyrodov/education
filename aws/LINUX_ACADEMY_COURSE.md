@@ -53,6 +53,18 @@ Ways of affecting resource in CloudFormation:
 - updated with some disruption. Example: changing ec2 instances size. In this case the instance must be reboot;
 - replacement. Resources id deleted and created again
 
+## Terms and abbreviation
+
+**VPC** - virtual private cloud. It is a private subsection of AWS that you control, in which you can place AWS resources.
+
+**CIDR** - Classless Inter-Domain Routing. It is an IP addressing scheme that improves the allocation of IP addresses. It replaces the old system based on classes A, B, and C. CIDR block size just defines how many IP addresses you need.
+
+**IGW** - Internet Gateway. It's a service that provides access to internet.
+
+**NAT** - Network address translation. It is a method of remapping source IPs or destination IPs packets. Static NAT: 1 private - 1 public. Dynamic NAT: M private - 1 public
+
+**NAT gateway** - AWS service allocating a public IP for private instances. It needs a public subnet + elastic IP. NAT is not highly available.
+
 ## IAM (Identity and Access Management)
 
 IAM controls access to AWS services via policies that can be attached to users, groups and roles. IAM denies any permissions unless explicitly granted.
@@ -603,26 +615,30 @@ Reserved\special IP addresses:
 
 ## VPC
 
-- VPC is a private network within AWS. It's your private data center inside AWS platform.
+VPC is a private subsection of AWS that you control, in which you can place AWS resources (such as EC2 instances and databases). It's your private data center inside AWS platform.
+
+IPv4 addresses are running out and Amazon allocates private IP addresses for VPC and sub networks. When requests leave VPC, they get public IP addresses via .
+
+VPC **Tenancy** allows to bind concrete VPC to concrete hardware.
+
+VPC notes:
 - can be configured to be public\private a mixture
 - regional (can't span regions) highly available, and can be connected to your data center and corporate
 - **isolated from other VPCs by default**. In case of hacker attack, the infected items will be isolated within the VPC
-- BPC and subnet: max/16 (65 536) and minimum/28 (16 IPs)
+- VPC and subnet: max/16 (65 536) and minimum/28 (16 IPs)
 - VPC subnets can't span AZs (1:1 mapping)
 - certain IPs are reserved in subnets
-- **Tenancy** allows to bind concrete VPC to concrete hardware
-- VPC is a region based service.
 
-Regional Default VPC:
+Default VPC:
 - required for some services, used as a default for most
-- pre-configured with al required networking/security
+- pre-configured with all required networking/security
 - configured using a/16 CIDR block (172.131.0.0/16)
 - A /20 public subnet in each AZ, allocating a public IP by default
 - attached internet gateway with a "main" route table sending all IPv4 traffic to the internet gateway using 0.0.0.0/0 route
 - SG: Default - all from itself, all outbound
 - NACL: Default - allow all inbound and outbound
 
-- Custom VPC:
+Custom VPC:
 - can be designed and configured in any valid way
 - you need to allocate IP ranges, create subnets and provision gateways and networking, as well as designed and implement security
 - when you need multiple tiers or a more complex set of networking
@@ -713,7 +729,6 @@ NAT Gateway is a service that allocates a public IP for private instances. NAT g
 
 ### NACL
 
-
 A NACL is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets
 
 1. Rules are evaluated from lowest to highest based on "rule #"
@@ -736,3 +751,12 @@ By default all subnets automatically associated with default RT. If a subnet is 
 Ephemeral ports:
 - when a client initiates communications with a server, it's to a well-known port number (e.g., tcp/443) on that server
 - the response is from that well-known port ot an 
+
+NACL is more on the level 4. Security groups are more on the level 5.
+
+NACL is usually used when you need to explicitly deny traffic. It's easier and better to use security groups
+
+**How to design a network tips:**
+1. Understand how many AZs you'll use. More AZs, more Resilient
+1. Usually each region has 3 AZs and 3 AZs is a good starting point with an option to moving to 4th
+1. 
