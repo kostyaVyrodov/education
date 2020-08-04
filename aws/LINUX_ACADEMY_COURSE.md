@@ -65,6 +65,15 @@ Ways of affecting resource in CloudFormation:
 
 **NAT gateway** - AWS service allocating a public IP for private instances. It needs a public subnet + elastic IP. NAT is not highly available.
 
+**Security group** - a virtual firewall that can be attached to a particular instance. OSI L5. It can reference to the physical resources of AWS.
+
+**NACL** - network access control list. It's an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets (OSI L4)
+
+**Subnet** - isolated private network inside VPC. Each subnet belongs to AZ.
+
+**DHCP** - Dynamic Host Configuration Protocol. protocol that allows resources inside a network to auto configure IP addresses. It's a service that allows other services to obtain an IP address
+
+
 ## IAM (Identity and Access Management)
 
 IAM controls access to AWS services via policies that can be attached to users, groups and roles. IAM denies any permissions unless explicitly granted.
@@ -615,9 +624,11 @@ Reserved\special IP addresses:
 
 ## VPC
 
-VPC is a private subsection of AWS that you control, in which you can place AWS resources (such as EC2 instances and databases). It's your private data center inside AWS platform.
+VPC is a private subsection of AWS that you control, in which you can place AWS resources (such as EC2 instances and databases). It's your private data center inside AWS platform. By default it prevent communication with outside world
 
 IPv4 addresses are running out and Amazon allocates private IP addresses for VPC and sub networks. When requests leave VPC, they get public IP addresses via .
+
+To enable setting DNS names, you need to enable it in VPC
 
 VPC **Tenancy** allows to bind concrete VPC to concrete hardware.
 
@@ -652,24 +663,25 @@ Subnet is a sub-section of a network. When you create a VPC, it spans all of the
 - Subnets must be associated with a route table.
 - A private subnet doesn't have route to the Internet.
 - A public subnet has a route to the Internet.
--  It's possible to break a network by dividing on 2.
+- It's possible to break a network by dividing on 2.
+- It's not possible to overlap subnets within VPC
 
 5 IP addresses inside each subnet are **reserved:**
-- .0 - network
-- .1 - router that allows to route traffic between VPC
+- .0 - network address (10.0.0.**0**)
+- .1 - router that routes traffic between subnets inside a VPC. If you configure other routes, it routes in\out of VPC.
 - .2 - DNS - for dns of VPC
 - .3 - future - for future uses
-- .255 - broadacast 
+- .255 - broadacast address
 
 Each subnet has 2^x - 5 ip addresses
 
-DHCP is a service that allows other services to obtain an IP address
+DHCP is a service that allows other services to obtain an IP address. Each VPC can have only on DHCP service. It's not possible to change options of DHCP. It's possible to create a new one.
 
-It's possible to share a subnet between AWS organization.
+It's possible to share a subnet between AWS accounts inside 1 organization. Nobody can change the subnet, but people can deploy there something.
 
 ### Routing and internet gateway
 
-Each VPC has a router. It's a highly available network device
+Each VPC has a router. It's a highly available network device. Router routes traffic between subnets inside VPC. Routers are controlled via route tables.
 
 VPC routing:
 - every VPC has a VPC router
@@ -697,7 +709,7 @@ When IGW receives any traffic from EC2 that has a public IP, it adjusts the pack
 
 EC2 DON'T HAVE REAL PUBLIC IP. Public IP is replaced by IGW. IGW provides access to internet.
 
-To make a subnet public:
+**To make a subnet public:**
 1. resources should allocate public IP addresses (by default customer subnets don't allocate a public IP)
 2. Allocate IGW
 3. Add route tables that will target to EC2 instance
@@ -717,6 +729,10 @@ Jump Box or Bastion Host is a physical or virtual machine that occupies a networ
 
 ![Bastion host](./images/bastionhost.png)
 
+1. Bastion Host located inside public subnet
+1. It has allocated elastic IP
+1. Private EC2 from private subnet has a security group that allows the access from bastion host security group
+
 ### NAT 
 
 Network address translation (NAT) is a method of remapping source IPs or destination IPs packets.
@@ -725,11 +741,15 @@ Static NAT: A private IP is mapped to a public (what IGWs do)
 
 Dynamic NAT: A range of private addresses are mapped onto one or more public
 
-NAT Gateway is a service that allocates a public IP for private instances. NAT gateway needs to be provisioned in a public subnet and it must have an elastic IP. NAT Gateway is not highly available.
+NAT Gateway is a service that allocates a public IP for private instances. NAT gateway needs to be provisioned in a **public subnet** and it must have an **elastic IP**. NAT Gateway is NOT highly available.
+
+Dynamic NAT can be done via: EC2 NAT or NAT Gateway.
 
 ### NACL
 
 A NACL is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets
+
+NACL is associated with 1 or more subnet. NACL controls traffic that crosses subnet. Security Groups is more preferable then NACL. Security group is usually allow something. You can't explicitly deny something in Security group but you can do it with NACL. But NACL can deny something if it's necessary.
 
 1. Rules are evaluated from lowest to highest based on "rule #"
 1. The first rule fond that apples to the traffic type is immediately applied, regardless of any rules come after it
