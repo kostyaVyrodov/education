@@ -799,3 +799,4 @@ NACL is usually used when you need to explicitly deny traffic. It's easier and b
 
 **Dynamic NAT vs Static NAT gateway** SNAT gateways translates private to public IPs as at 1:1 ratio, while DNAT gateways translate a range of private IPs to public.
 
+**IGW** Performs Static NAT and Handles the communication to and from the public internet. When the IGW receives a packet from a resource with a public IP, it will adjust the packets. It replaces the private IP with the associated public IP address. This process is known as SNAT.
