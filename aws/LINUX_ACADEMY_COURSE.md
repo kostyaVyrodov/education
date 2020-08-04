@@ -675,7 +675,7 @@ Subnet is a sub-section of a network. When you create a VPC, it spans all of the
 
 Each subnet has 2^x - 5 ip addresses
 
-DHCP is a service that allows other services to obtain an IP address. Each VPC can have only on DHCP service. It's not possible to change options of DHCP. It's possible to create a new one.
+DHCP is a service that allows other services to obtain an IP address. Each VPC can have only 1 DHCP service. It's not possible to change options of DHCP. It's possible to create a new one.
 
 It's possible to share a subnet between AWS accounts inside 1 organization. Nobody can change the subnet, but people can deploy there something.
 
@@ -712,7 +712,7 @@ EC2 DON'T HAVE REAL PUBLIC IP. Public IP is replaced by IGW. IGW provides access
 **To make a subnet public:**
 1. resources should allocate public IP addresses (by default customer subnets don't allocate a public IP)
 2. Allocate IGW
-3. Add route tables that will target to EC2 instance
+3. Add route tables that will target to IGW instance
 
 BGP - Border Gateway Protocol
 
@@ -779,4 +779,23 @@ NACL is usually used when you need to explicitly deny traffic. It's easier and b
 **How to design a network tips:**
 1. Understand how many AZs you'll use. More AZs, more Resilient
 1. Usually each region has 3 AZs and 3 AZs is a good starting point with an option to moving to 4th
-1. 
+
+### Test notes
+
+**Default VPC has**
+1. Security Group
+1. DHCP
+1. Public subnet
+1. An attached internet gateway
+1. NACL
+
+**Default route table** covers all subnets inside VPC
+
+**DHCP** is belongs to 1 VPC and 1 VPC can have 1 DHCP. DHCP enables any instance in a VPC to point to the specified domain and DNS servers to resolve their domain names.
+
+**Bastion host** is an entry point for trusted admins
+
+**NACL rules number priority** - lower numbers are the first to be processed. If something denied, it stops. 
+
+**Dynamic NAT vs Static NAT gateway** SNAT gateways translates private to public IPs as at 1:1 ratio, while DNAT gateways translate a range of private IPs to public.
+
