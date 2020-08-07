@@ -71,8 +71,17 @@ Ways of affecting resource in CloudFormation:
 
 **Subnet** - isolated private network inside VPC. Each subnet belongs to AZ.
 
-**DHCP** - Dynamic Host Configuration Protocol. protocol that allows resources inside a network to auto configure IP addresses. It's a service that allows other services to obtain an IP address
+**DHCP** - Dynamic Host Configuration Protocol. A protocol that allows resources inside a network to auto configure IP addresses. It's a service that allows other services to obtain an IP address
 
+**VPC Peering** - feature that allows contacting between several VPC
+
+**VPC endpoints** - allow to connect to public AWS services like S3 without need to have IGW or NAT GW.
+
+**Egress-Only Gateway** provides outgoing-only (and response) access for an IPv6-enabled VPC resource.
+
+**FQDN** - full qualified domain name: www.linuxacademy.com
+
+**Route53** is a DNS in AWS
 
 ## IAM (Identity and Access Management)
 
@@ -800,3 +809,131 @@ NACL is usually used when you need to explicitly deny traffic. It's easier and b
 **Dynamic NAT vs Static NAT gateway** SNAT gateways translates private to public IPs as at 1:1 ratio, while DNAT gateways translate a range of private IPs to public.
 
 **IGW** Performs Static NAT and Handles the communication to and from the public internet. When the IGW receives a packet from a resource with a public IP, it will adjust the packets. It replaces the private IP with the associated public IP address. This process is known as SNAT.
+
+### VPC Peering
+
+Allows direct communication between several VPCs
+
+Properties:
+
+- Service can communicate via private IP addresses. That's why VPC peers can't overlap each other.
+- VPC peers can span AWS accounts and even regions
+- Data is encrypted and transits via AWS global backbone
+- VPC peers are used to link VPCs at layer 3: company merges, shared services, company and vendor, auditing
+
+Limitations:
+- VPC CIDR block can't overlap
+- VPC peers connect ONLY 2 VPCs - routing is not transitive
+- routes are required at both sides (remote CIDR -> peer connection)
+- Security regions can be referenced cross account, but not cross-region
+- IPv6 support is not available across region
+- DNS resolution to private IPs can be enabled, but it's setting needed at both sides
+
+Process of creating VPC peer:
+1. Create VPC peer
+1. Add a route table that will route traffic to the target VPC, and another route table that will send traffic back from the target VPC
+1. Make sure that NACL allows sending of traffic
+
+Try to use completely different IP addresses for the all VPCs, so they don't overlap each other.
+
+### VPC endpoints
+
+VPC endpoints are GW objects created within a VPC. They can be used to connect to AWS public services without the need for the VPC to have attached IGW and be public because of security reasons.
+
+VPC endpoints types:
+- Gateway endpoints: can be used for DynamoDB and S3. They are inside region.
+- Interface endpoints: can be used for everything else (e.g. SNS, SQS). Routing is not used. You create network routing objects that live in the specific subnet. Interface endpoints are inside concrete subnets (and AZs). Interface endpoint provides concrete endpoint for the specific resource. CLI interacts with public endpoints of the services.
+
+VPC endpoints use route prefixes in route tables to add router VPC endpoint
+
+Notes:
+- Gateway endpoint are used via route table entries - they are gateway device. Prefix lists for a service are used in the destination field with the gateway as the target.
+- Gateways endpoints can be restricted via policies
+- Gateway endpoints are highly available across AZs in a region
+- Interface endpoints are interfaces in a specific subnet. For HA, you need to add multiple interfaces - one per AZ.
+- Interface endpoints are controlled via SGs on that interface. NACLs also impact traffic.
+- Interface endpoints add or replace the DNS for the service - no route table updates are required.
+- Code changes to use the endpoint DNS, or enable private DNS to override the default service DNS.
+
+![vpc-endpoints.png](./images/vpc-endpoints.png)
+
+### IPv6
+
+All IPv6 addresses are publicly routeable
+
+- No DNS name for IPv6
+- All IPv6 addresses are public
+- DHCP6 configures public IPv6
+- Elastic IPs are not relevant
+- Not all services supports it
+
+**Egress-Only Gateway** provides outgoing-only (and response) access for an IPv6-enabled VPC resource.
+
+Notes:
+- SG - can be shared between 2 VPCs in the same regions, multiple EC2s instance in a vpc, AWS accounts in the same region. **Security group can be shared between regions**
+- NAT gateways are not supported for IPv6 traffic. Egress-only internet gateways should be used instead.
+- Similarity of  gateway endpoints and interface endpoints: allow you to connect to a public AWS service without needing a public gateway or public IP, Both are VPC endpoints, Both can be used to achieve high availability.
+
+## Global DNS (Route 53) Fundamentals
+
+DNS - domain name system. DNS is a huge database that stores name and IP address of websites
+
+.com - top level domain
+google - is subdomain
+
+There's a single root database of top level domains. This database delegates responsibility to keep data about subdomains -> hierarchy of domains.
+
+FQDN - full qualified domain name: www.linuxacademy.com
+
+**How to buy a domain**
+1. Check if it's available
+1. Purchase the domain via a registrar. Route53 takes money and contacts Verisign (.com operator), adds a record into the .com zone that represents your domain
+1. Hosting the domain. 
+1. Records in the zone file
+
+**Zone** or hosted zone is **a container for DNS records** relating to a particular **domain** (e.g. linuxacademy.com)
+
+Route53 supports public hosted zones, which influence the domain that's visible from the internet VPCs. 
+
+Private hosted zones are similar but accessible only from the VPCs they are associated with.
+
+Public zone:
+- A public zone is created when you register a domain with Route53, when you transfer a domain into Route53 or if you create one manually.
+- A hosted zone (has the same) has the same name as the domain. it relates to - e.g. linuxacademy.com will have a hosted zone called linuxacademy.com.
+- A public zone is accessible from internet or from within any AWS VPCs.
+- A hosted zone will have "name servers" - these are IP addresses you can give to a domain operator, so route 53 becomes "authoritative" for a domain
+
+Private zone:
+- Private zone are created manually and associated with one or more VPCs (and accessible only from them)
+- Private zones need enabledDnsHostnames and enableDnsSupport enabled on a VPC.
+- Not all Route 53 supported, limits on health checks
+- Split-view DNS is supported, using the same zone name for public, and private zones. One DNS name can refer to different instances.
+
+DNS records:
+- A - IPv4 of an instance
+- AAAA - IPv6 of an instance
+- CNAME - Forwards one domain or subdomain to another domain, does NOT provide an IP address
+- MX - mail server for given domain
+- NS (Name Server) - used to set the authoritative servers for subdomain
+- TXT - used for descriptive text in domain - often to verify domain ownership
+- Alais Records - An extension of CNAME records. It allows to map AWS resources
+
+### Routing Policy
+
+**Simple** routing policy is a single record within a hosted zone that contains one or more values. Returns all values in a randomized order.
+
+Pros: simple, the default spread of of requests
+Cons: no performance control, no granular health check, for alias type - only a single AWS resource
+
+It's possible to create alias but you'll point only to single AWS resource. It's not possible to create 2 records with the same for simple policy, but possible for failover and weighted.
+You can specify several IP addresses. Simple policy returns a single answer with all IP addresses in random order. It's not possible to assign health check to 1 resource, only to the all resources that were returned.
+
+**Failover** allows to you to create two records with the same name. 1 designed for primary web app, and another is additional in case of any problems with the primary.
+
+1 primary route and 1 secondary
+
+**Weighted** routing policy allows to control amount of traffic distributing across instances. It doesn't track highload of the instances, it just sends traffic. Useful when you need to test a new feature for, example. It's not used for load balancing
+
+**Latency** routing policy stores information about latency to different regions. Route53 selects the closest data center from a requester
+
+**Geolocation** routing policy returns data only if you're in the same location as the Route53. If you're in Ukraine and try to get access to the server that's in USA, the ip address of the server won't be resolved. Default option returns data if nothing elses matches.
