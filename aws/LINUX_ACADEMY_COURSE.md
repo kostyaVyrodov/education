@@ -932,8 +932,8 @@ You can specify several IP addresses. Simple policy returns a single answer with
 
 1 primary route and 1 secondary
 
-**Weighted** routing policy allows to control amount of traffic distributing across instances. It doesn't track highload of the instances, it just sends traffic. Useful when you need to test a new feature for, example. It's not used for load balancing
+**Weighted** routing policy allows to control amount of traffic distributing across instances. It doesn't track highload of the instances, it just distributes traffic between of the instances. Useful when you need to test a new feature for, example. It's not used for load balancing.
 
-**Latency** routing policy stores information about latency to different regions. Route53 selects the closest data center from a requester
+**Latency** routing policy stores based on the lowest latency from the end-user to the resource. For every record that you created that uses latency-based routing, you specify the region.
 
-**Geolocation** routing policy returns data only if you're in the same location as the Route53. If you're in Ukraine and try to get access to the server that's in USA, the ip address of the server won't be resolved. Default option returns data if nothing elses matches.
+**Geolocation** routing policy returns data only if you're in the same location as the Route53. If you're in Ukraine and try to get access to the server that's in USA, the ip address of the server won't be resolved. Default option returns data if nothing elses matches. Geolocation routing is used to present different content to users in different regions.
