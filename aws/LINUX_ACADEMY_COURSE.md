@@ -937,3 +937,48 @@ You can specify several IP addresses. Simple policy returns a single answer with
 **Latency** routing policy stores based on the lowest latency from the end-user to the resource. For every record that you created that uses latency-based routing, you specify the region.
 
 **Geolocation** routing policy returns data only if you're in the same location as the Route53. If you're in Ukraine and try to get access to the server that's in USA, the ip address of the server won't be resolved. Default option returns data if nothing elses matches. Geolocation routing is used to present different content to users in different regions.
+
+## S3
+
+By default S3 doesn't trust to anybody. Only user who created the bucket has the access to it. It doesn't allow public access.
+
+It's not possible to give identity policies to get access to S3 to a user from other AWS accounts. It's not possible to apply policy to anonymous users.
+
+## DynamoDB
+
+- NoSQL, lightweight db product, not fixed schema
+- Keys: sort(range) key, partition (hash) key. Sort + Partition = composition key
+- Region based service
+- Key-Value db. Value is 2 dimensional
+- Table = collection, Item = Row
+- Sort key for storing multiple entries of the same entity. WeatherInfo: WeatherStation + DateTime
+- Max size of a row is 400KB (whole object, including keys)
+- A table inside a region MUST HAVE a unique name
+- it's private be default and resilient on regional basis. At least 3 replicas in AZs of partition (table)
+- Automatically handles replications between AZs
+- Partition is a 10GB storage unit. 1+ partitions per table.
+- a hash function determines partition by partition key
+- when you allocate RCU and WRU, you allocate them for partition
+- each partition: 1 leader node (write\read), 2 non leader node (read)
+- reading data: strongly consistent (read via leader) and eventual consistent
+- all reads by default are eventual consistency (cheaper = consistent read / 2)
+- Capacity mode: provisioned\on-demand (switching between modes = 24h delay)
+- RCU read capacity unit, WRU write capacity unit
+- 1 RCU for Strong Consistent = 4KB, 0.5 RCU for eventual consistent = 4KB (3KB to read = 1 RCU, 4.5KB to read = 2RCU)
+- 1 WRU per 1KB
+- When it's possible to large operations
+- Read operations: **scan** and **query**
+- Scan: takes whole table and whole capacity and then removes not matched data. More flexible. Can be used without partition key
+- Query: goes through table without reading every item (when you used partition or sort key). Consume capacity corresponding to returned value. Limitation: can't query without partition key, can query only by 1 key. If you need query by sort key - go scan. Query more preferred = more efficient
+- Backups = Point in time recovery mechanism (stores up to 35 days). Possible to backup manually
+- all data is encrypted by default in DynamoDB
+- global tables is multi region, master-master replication. Written last wins the conflict. So the latest data is overwrite previous
+- global tables require enabled streams and a region
+- stream - a rolling 24 hours window of changes. stream per table
+- items that come to stream (stream views): key only, new state, previous state, previous + new
+- dynamo db streams are highly available
+- indexes: LSI (local secondary indexes), GSI (global secondary indexes)
+- LSI is created during creating of a table. Works with composition keys only. LSI allows using an alternative sort key to allow **querying** on other attribute instead.
+- LSI is a part of main table and share RCU and WRU. MAX 5 LSI per table
+- GSI = new partition + sort key. max 20 per table. possible to create on existing table. Also allows querying on new keys. Possible to have more then 20 via support
+- projected attributes - allows changes size of information containing in index. need not projected attrs -> go to main table = performance penalty
