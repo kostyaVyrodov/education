@@ -980,5 +980,7 @@ It's not possible to give identity policies to get access to S3 to a user from o
 - indexes: LSI (local secondary indexes), GSI (global secondary indexes)
 - LSI is created during creating of a table. Works with composition keys only. LSI allows using an alternative sort key to allow **querying** on other attribute instead.
 - LSI is a part of main table and share RCU and WRU. MAX 5 LSI per table
+- LSI is the same data, just ordered in another way -> same rcu, wru
 - GSI = new partition + sort key. max 20 per table. possible to create on existing table. Also allows querying on new keys. Possible to have more then 20 via support
+- GSI has new keys = a different set of data = extra cost over your base tables
 - projected attributes - allows changes size of information containing in index. need not projected attrs -> go to main table = performance penalty
