@@ -940,9 +940,57 @@ You can specify several IP addresses. Simple policy returns a single answer with
 
 ## S3
 
-By default S3 doesn't trust to anybody. Only user who created the bucket has the access to it. It doesn't allow public access.
+- nobody has permission except account created the bucket
+- doesn't trust anybody and has no public access
+- possible to assign identity policy only to identities under your account. No anonymous, no other accounts. You can't assign identity policy to account you don't control
+- share access to a bucket: identity policy, resource policy, ACL (legacy)
+- identity policy for identities, resource policy for resources. resource policy for s3 = bucket policy
+- resource policy can allow access from other accounts or anonymous users
+- bucket policies is applied inside the bucket itself
+- rules priority: explicitly deny, explicit allow, implicit deny
+- only ACL allows to manage access to concrete objects inside S3
+- block public access rule overrides any allow rule
+- upload file via single put. Up to 5GB. Single stream of upload.
+- multipart upload: parallel uploading = faster. if individual part fails - you need to rewrite the individual part
+- recommendation: more then 100 MB = multipart upload
+- s3 supports encryption at rest (on drive) and at transfer (ssl). at rest not encrypted by default
+- client side encryption - you're responsible for encryption of data (do it manually)
+- server side encryption with customer managed keys (**SSE-C**). S3 encrypt and decrypt data, but you're manage keys. You provide the key to s3, you tracks key rotation
+- server side encryption with S3 managed keys (**SSE-S3**). S3 manages the keys, uses AES-256. KMS manages keys. 2 versions of the key: decrypted and encrypted. Decrypted is used for encryption object. Encrypted is stored with encrypted data. Admin role = encrypting data.
+- AES 256 is the algorithm that used especially forSSE-S3
+- sse with (**SSE-KMS**). Allows to distinguish users that get access to decrypted data. Possible to give access to s3, but restrict access to the key. with sse-s3 it's not possible
+- encryption is per object, for not encrypted bucket. not specified encryption = no encrypting at all
+- CORS allows to pull objects from different buckets
+- it's possible to publish static website via s3
+- versioning is turned off by default. without versioning: 1 object per name, deleted object is permanently deleted
+- versioning is not possible to disable, only suspend
+- you're billed per each version that you keep
+- each version of an object is deletable
+- MFA delete allows to delete data with MFA token
+- presigned urls allows to embed access rights for private object inside url. You can share the link and anonymous user will be able to get it. Use case: possible to get access to the complete private bucket
+- presigned url is expirable. you use identity of the user who created the url. If you generate a presigned URL via a role, the URL may stop working faster then it will be expired
+- you can't come back to standard storage class via automatic rules
 
-It's not possible to give identity policies to get access to S3 to a user from other AWS accounts. It's not possible to apply policy to anonymous users.
+**Tiers:**
+- standard: default, when usage is unknown, replicated 3+ AZs, durability 99.99999999999%. Latency = ms
+- standard IA: objects are available, but not frequent accessed. Additional charges 30: days ahead, minimum 128Kb. replicated 3+ AZs Latency = ms
+- one-zone IA: reproducible objects, non critical. Additional charges 30: days ahead, minimum 128Kb. No use for important data. Use case: output of data processing. Latency = ms
+- glacier: long-term storing, backups. Retrievals: 1-60 mins. Faster = more expensive. Replicated 3AZ
+- glacier deep archive: for very long term backups. Replicated 3AZ
+- intelligent: moves to IA if object was not used during 30 days and vice versa. Fee for monitoring and automation. use case: access pattern is unknown
+
+- lifecycle rules allow automatically move objects between tiers
+- lifecycle rules can be set up on prefix or bucket level
+- lifecycle allows to expire objects
+- S3 supports cross region replication (CRR)
+- CRR requires both buckets to have versioning
+- it's possible to change the owner after replication
+- data that was before turning on replication will not be replicated
+- replication is 1 way only, from src to dst
+- system events are not replicated: changing tier of an object
+- SSE-S3 works by default during replicating, but SSE-KMS requires manually specifying key in the region. Because key is regional based
+- SSE-KMS replication = encrypted -> copied -> decrypted
+- replication use case:  resilient or performance requirements, backups
 
 ## DynamoDB
 
