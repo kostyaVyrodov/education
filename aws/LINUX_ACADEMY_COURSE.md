@@ -91,6 +91,10 @@ Ways of affecting resource in CloudFormation:
 
 **OAI** origin access identity. Identity allowing to configure private distribution in CloudFront
 
+**STS** security token service. Generates short live access tokens.
+
+**ARN** (Amazon Resource Name) is unique identifier of any resource in any account, any region, anywhere inside Amazon.
+
 ## IAM (Identity and Access Management)
 
 IAM controls access to AWS services via policies that can be attached to users, groups and roles. IAM denies any permissions unless explicitly granted.
@@ -1048,8 +1052,20 @@ You can specify several IP addresses. Simple policy returns a single answer with
 
 ![efs](./images/efs.png)
 
+
+## DB fundamentals
+
+- Normalization eliminates any redundant data and ensures any data stored together is dependented on each other
+- NoSQL types: Key-Value, Document, Column, Graph
+- NoSQL use case: user data, blog articles, medical records. Whatever that have 
+- Key-Value + Document based: DynamoDB
+- Document: Amazon DocumentDB
+- Column: Amazon Redshift. Column based: on disk data stored in columns rather then rows. Good for analytics
+- Graph: Neo4j. It stores relationships
+
 ## DynamoDB
 
+- DynamoDB is somewhere between a key-value DB and document based db
 - NoSQL, lightweight db product, not fixed schema
 - Keys: sort(range) key, partition (hash) key. Sort + Partition = composition key
 - Region based service
