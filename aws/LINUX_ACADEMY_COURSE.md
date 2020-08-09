@@ -81,7 +81,15 @@ Ways of affecting resource in CloudFormation:
 
 **FQDN** - full qualified domain name: www.linuxacademy.com
 
-**Route53** is a DNS in AWS
+**Route53** is a DNS service in AWS
+
+**CRR** cross region replication
+
+**S3 object** - file storing in S3
+
+**EFS** - elastic file system. It's AWS service like EBS but allows to be mounted to multiple instances
+
+**OAI** origin access identity. Identity allowing to configure private distribution in CloudFront
 
 ## IAM (Identity and Access Management)
 
@@ -94,6 +102,7 @@ IAM controls access to AWS services via policies that can be attached to users, 
 **Identities** are the IAM resource objects that are used to identify and group. You can attach a policy to an IAM identity. These include users and roles.
 
 **Principals** - a person or application that uses the AWS account root user, an IAM user, or an IAM role to sign in and make requests to AWS.
+
 
 ### IAM Policy
 
@@ -953,6 +962,7 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - upload file via single put. Up to 5GB. Single stream of upload.
 - multipart upload: parallel uploading = faster. if individual part fails - you need to rewrite the individual part
 - recommendation: more then 100 MB = multipart upload
+- In an S3 multipart upload, an object can be broken up into 10,000 parts.
 - s3 supports encryption at rest (on drive) and at transfer (ssl). at rest not encrypted by default
 - client side encryption - you're responsible for encryption of data (do it manually)
 - server side encryption with customer managed keys (**SSE-C**). S3 encrypt and decrypt data, but you're manage keys. You provide the key to s3, you tracks key rotation
@@ -968,8 +978,11 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - each version of an object is deletable
 - MFA delete allows to delete data with MFA token
 - presigned urls allows to embed access rights for private object inside url. You can share the link and anonymous user will be able to get it. Use case: possible to get access to the complete private bucket
+- **s3 presigned url** is a temporary URL that allows users to see assigned S3 objects using the creator's credentials.
 - presigned url is expirable. you use identity of the user who created the url. If you generate a presigned URL via a role, the URL may stop working faster then it will be expired
+- presigned url allows to upload and download files
 - you can't come back to standard storage class via automatic rules
+- s3 encryption has no additional charge
 
 **Tiers:**
 - standard: default, when usage is unknown, replicated 3+ AZs, durability 99.99999999999%. Latency = ms
@@ -977,20 +990,63 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - one-zone IA: reproducible objects, non critical. Additional charges 30: days ahead, minimum 128Kb. No use for important data. Use case: output of data processing. Latency = ms
 - glacier: long-term storing, backups. Retrievals: 1-60 mins. Faster = more expensive. Replicated 3AZ
 - glacier deep archive: for very long term backups. Replicated 3AZ
-- intelligent: moves to IA if object was not used during 30 days and vice versa. Fee for monitoring and automation. use case: access pattern is unknown
+- intelligent: moves objects to IA if object was not used during 30 days and vice versa. Fee for monitoring and automation. Use case: access pattern is unknown. **No retrieval costs, but has fee for monitoring data**
 
 - lifecycle rules allow automatically move objects between tiers
 - lifecycle rules can be set up on prefix or bucket level
 - lifecycle allows to expire objects
 - S3 supports cross region replication (CRR)
-- CRR requires both buckets to have versioning
-- it's possible to change the owner after replication
+- CRR requires both buckets to have versioning, replication rules, buckets must be in different regions
+- CRR doesn't replicate existing files, doesn't apply lifecycle rules, SSE-C is not supported
+- CRR can change file ownership and file's tier
+- Objects after CRR keep their: object name (key), owner, storage class, object permissions
 - data that was before turning on replication will not be replicated
 - replication is 1 way only, from src to dst
 - system events are not replicated: changing tier of an object
 - SSE-S3 works by default during replicating, but SSE-KMS requires manually specifying key in the region. Because key is regional based
 - SSE-KMS replication = encrypted -> copied -> decrypted
-- replication use case:  resilient or performance requirements, backups
+- SSE-KMS allows role separation
+- replication use case: resilient or performance requirements, backups
+
+## CloudFront
+
+- CDN - product that takes product in center location and distributes them to edge location (closer to customers)
+- CloudFront components: origin (s3, web server, e.g. source of files), distribution (configuration of CloudFront), edge location (infrastructure hosting caches), region edge caches (same as edge location but bigger, can host more, located in regions)
+- content types of CloudFront: web = websites, css, images; RTMP = adobe flash media server
+- getting data flow: user goes to edge location, edge location returns file or goes regional cache. Regional cache returns file or edge location goes to the origin and caches the file. Regional cache also caches the file
+- list of trusted signer = private CloudFront. It makes whole CloudFront private
+- it's possible  to grant access to s3 only via cloud front. Origin trusted identity (**OAI**) works only with S3
+- OAI use case: access to S3 via CloudFront = better performance & better security. User won't go directly to S3
+- reasons to restrict bucket access: user should have better performance and better user experience + security
+- good performance: s3 + cdn
+- Origin Access Identity can be applied on CloudFront distribution and Bucket policies. 
+- Origin Access Identity is a virtual identity. It's special CloudFront user that can have policies
+- it's possible to allies the domain name of CloudFront
+
+##  EFS
+
+- EFS is elastic file system that can be mounted to 100s of instances
+- NFS (network file system) allows to deploy a file system into aws, which could be mounted on multiple linux instance at the same time
+- EBS can be connected only to 1 instances in a time, while EFS can be connected to multiple instances
+- To attach or detach EBS to another ec2, it must be in the same AZ
+- EFS is for specific VPC
+- "Mount target" is network interface that live in a particular subnet inside VPC. These targets that your EC2 instances will connect to using the NFS 4 or NFS 4.1 protocols.
+- 1 mount target per AZ. more mount targets more resilient system.
+- Throughput modes for mount target: **bursting** and **provisioned** (allows to extend bursting)
+- bursting links size of EFS to its performance. Base: 100 MiB/s per 1TB
+- EFS performance modes: **general purpose** and **max I\O** (for 100+ instances that needs access)
+- EFS supports encryption at rest
+- EFS accessible from local VPC, across VPC peering, across direct connection
+- EFS designed for large and parallel access level, thousands of NFS clients mounting the same EFS and access data concurrently, can be used as a shared linux home directory
+- EFS supports backups
+- Service is region resilient so data is replicated across multiple AZs
+- EFS is not object storage, it can't be accessible from CloudFront
+- EFS supports 2 storage classes: standard and IA
+- EFS has lifecycle management
+- EFS security is controlled by security groups
+- EFS is inside a subnet
+
+![efs](./images/efs.png)
 
 ## DynamoDB
 
