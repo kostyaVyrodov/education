@@ -1063,6 +1063,45 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - Column: Amazon Redshift. Column based: on disk data stored in columns rather then rows. Good for analytics
 - Graph: Neo4j. It stores relationships
 
+## RDS
+
+- RDS can be standard or HA
+- RDS supports a number of different db engines: mysql, postgres, ms sql
+- RDS can be deployed to a single AZ or multiple (support resilient)
+- **RDS instance types.** General purpose (DB.M4 and DB.M5); Memory Optimized (DB.R4, DB.R5 & DB.X1e, DB.X1 for Oracle); Burstable (DB.T2, DB.T3)
+- **Storage types.** General purposed SSD (gp2); Provisioned IOPS SSD (io1);
+- RDS instances is **charged** for: instance size, provisioned storage (not used), IOPS if using io1, Data transfer out
+- Snapshots\backups are free
+- possible to purchase reserved DB instance
+- most aws services have free in transferring
+- RDS supports encryption. Can be configured during creation
+- encryption can't be removed
+- read replicas must be same encrypted\dencrypted as leader
+- encrypted snapshots can be copied between regions
+- rds snapshot allows manually to back up a database. manual snapshot has not automatic retention. the snapshot will exists after DB is deleted 
+- automatic backups retention: 0-35 days. (0 is forever)
+- backups are incremental and contains actual amount of data 
+- automated backups are not designed to be long term
+- restoring of db requires creating a new instance
+- snapshots can be copied to other regions
+- RDS resilience: read replicas or multi AZ mode
+- **Multi AZ** mode creates a secondary stendby instance that's synced with the primary instance (**synchronous replication**)
+- you can't use multi AZ replicated instance until the primary is failed. You pay money for the additional, but you can't use it.
+- in case of maintenance the stand by instances is adjusted first, and after this the primary instance is updated too
+- backups are taken from stand-by replica, so it doesn't hurt performance
+- multi az is always inside 1 region, multiple AZs
+![rds-multi-az](./images/rds-multi-az.png)
+- multi az increases recover time objective, because it works faster
+- read only replica can be created in other or same AZ, other regions and can be access directly
+- it's possible to create multi az for read replica
+- **read replica** is full feature DB that receives updates **asynchronously** from DB
+- read replica required master instance to have enabled automatic backups
+- reasons for read replica: faster to promote to master replica (comparing to restoring from snapshot) and independently accessible
+- read replicas brings lags and eventual consistency
+- read replica must be managed manually: updated and maintenance
+- apps must be aware about read replicas and point them directly
+- read replica must be manually promoted
+
 ## DynamoDB
 
 - DynamoDB is somewhere between a key-value DB and document based db
