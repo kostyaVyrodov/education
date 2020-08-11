@@ -1072,20 +1072,29 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - **Storage types.** General purposed SSD (gp2); Provisioned IOPS SSD (io1);
 - RDS instances is **charged** for: instance size, provisioned storage (not used), IOPS if using io1, Data transfer out
 - Snapshots\backups are free
+- charging for: instance size, storage provisioned, IOPS, if using io1
 - possible to purchase reserved DB instance
 - most aws services have free in transferring
 - RDS supports encryption. Can be configured during creation
 - encryption can't be removed
 - read replicas must be same encrypted\dencrypted as leader
 - encrypted snapshots can be copied between regions
-- rds snapshot allows manually to back up a database. manual snapshot has not automatic retention. the snapshot will exists after DB is deleted 
-- automatic backups retention: 0-35 days. (0 is forever)
+
+**Backups:**
+- rds **snapshot** allows manually to back up a database. manual snapshot has not automatic retention. the snapshot will exists after DB is deleted 
+- automatic backups retention: 0-35 days. (0 is disabled. no backups)
 - backups are incremental and contains actual amount of data 
 - automated backups are not designed to be long term
 - restoring of db requires creating a new instance
 - snapshots can be copied to other regions
+- point in time backups log-based and stored in S3. these backups occur every 5 mins and allows recovery at any point in the backup window
+- backups occur from stnabdy instance if it exists
+
+***Resilience:**
 - RDS resilience: read replicas or multi AZ mode
 - **Multi AZ** mode creates a secondary stendby instance that's synced with the primary instance (**synchronous replication**)
+- Maintenance or size changes first occur on the standby instance.
+- CNAMEs will always point to the primary even when a failover occurs because the standby gets promoted to the primary and uses the same CNAME
 - you can't use multi AZ replicated instance until the primary is failed. You pay money for the additional, but you can't use it.
 - in case of maintenance the stand by instances is adjusted first, and after this the primary instance is updated too
 - backups are taken from stand-by replica, so it doesn't hurt performance
@@ -1101,6 +1110,10 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - read replica must be managed manually: updated and maintenance
 - apps must be aware about read replicas and point them directly
 - read replica must be manually promoted
+- restoring a DB backup in other region requires a new master key
+- rds backup will remain after deleting of the db: snapshots, automated backups
+- Point in time backups are log-based and allow recovery from any point in the backup retention window.
+
 
 ## DynamoDB
 
