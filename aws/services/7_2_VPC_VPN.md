@@ -68,7 +68,7 @@ use case:
 - encryption required
 - flexibility to change locations
 - HA is required
-
+- VPNs are cheap and economical in comparison to Direct Connect.
 
 **Direct connect**
 - higher throughput

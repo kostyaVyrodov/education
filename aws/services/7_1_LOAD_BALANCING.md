@@ -2,7 +2,8 @@
 
 Load balancing distributes incoming traffic for across a groups of servers or services.
 
-- ELB (elastic load balancer) is AWS service providing load balancer. Types of load balancing: classic (CLB), application (ALB), network (NLB).
+- ELB (elastic load balancer) is AWS service providing load balancer. Types of load balancing: classic (CLB), application (ALB), network (NLB)
+- ELB receives traffic and evenly distributes it across assigned resources AZs
 - Load balancer lives inside an AZ. It can distribute traffic only inside 1 AZ by default. **Cross-zone** load balancing allows to distribute traffic across several AZs
 - ELB can paired with Auto Scaling group
 - DNS name -> Load balancer -> concrete service
@@ -13,6 +14,8 @@ Load balancing distributes incoming traffic for across a groups of servers or se
 - ssl offloading = traffic goes to LB encrypted, LB sends traffic to the instances being not encrypted
 - security groups restricts traffic + can restrict access to ec2 only from LB
 - best practice: prevent direct access to instances. Only via load balancer
+- a target group is 1+ registered targets that are associated with an **ALB** and **NLB**
+- load balancer will route the client's request to healthy instances if some instances become unhealthy
 
 ## Classic Load Balancer
 
@@ -35,6 +38,7 @@ Load balancing distributes incoming traffic for across a groups of servers or se
 - **Target group** is a group of EC2 instances. Benefit: health check of a target group -> check each service -> no need to point LB to each service
 - Allows to host several DNS -> no need to create LB per DNS -> no need to create a ssl per dns
 - supports layer 7 in OSI -> can redirect traffic based on host name, uri, headers and etc.
+- A content rule is an ALB rule that determines its route based on content and conditions.
 
 ![alb](../images/alb.png)
 
@@ -45,6 +49,12 @@ Load balancing distributes incoming traffic for across a groups of servers or se
 - best load balancing performance within AWS
 - source IP address preservation - packets unchanged
 - targets can be addressed via IP addresses
+- packets are not modified on the route to its destination
+- supports routing to multiple applications within an EC2 instance
+- can handle volatile workloads
+- supports targets outside a VPC
+- faster performance than ALB and CLB
+- can be allocated a static IP address
 
 ## Launch templates and configurations
 
@@ -59,3 +69,19 @@ Load balancing distributes incoming traffic for across a groups of servers or se
 - autoscaling groups allow to specify scaling policies
 - autoscaling group can't go the min
 - unhealthy instances will be terminated by autoscaling groups
+- Auto Scaling groups obtain high availability by: evenly distributing EC2 instances over multiple AZs and their subnets.
+- scaling policies: step, target, simple (TODO: Refresh scaling policies)
+
+Difference between classic LB and application LB:
+- CLBs support EC2 classic. ALBs does not support EC2 classic
+- CLB can route traffic based on protocols and ports. ALBs can route traffic based on protocols, ports, and URLs
+- CLBs do not provide path-based routing at layer 7, while ALBs offer path-based routing at layer 7.
+- both can perform health checks on targets
+
+ELB characteristic:
+- Each load balancer is comprised of nodes, deployed to one or more AZs
+- It offers SSL offloading
+- It can be paired with Auto Scaling Groups
+
+Internal Classic Load Balancers are placed Between tiers of an application or between instances.
+

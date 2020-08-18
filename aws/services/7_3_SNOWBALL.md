@@ -13,6 +13,7 @@
 - all data is encrypted inside suitcase
 - process takes weeks
 - 10TB -> 10PB = snowball
+- Snowball offers 50 TB of raw storage space and 42 TB of usable space. It also encrypts data using KMS (Key Management Service).
 
 **Snowball edge**
 - gives you local compute capability
@@ -20,10 +21,11 @@
 - compute can be used for local instances or lambda functionality
 - can be utilized when you need to process each item you put into suitcase. For example update metadata of an object
 - allows to present the storage via NFS -> mounting ot instances
+- up to **1--TB**
 
 **Snowmobile**
 - portable storage data-center within a shipping container on a semitruck
-- 1 snowmobile = up to 100PB
+- 1 snowmobile = up to **100PB**
 - used when single location is 10PB+ required
 - not economical when **several location** is required and **data less then 10PB**
 - snowmobile comes to a data center, not in a business center

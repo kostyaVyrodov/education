@@ -49,4 +49,11 @@
 - DMS: MySQL, PostgreSQL, MongoDB, Aurora, SAP, MSSQL, oracle
 - **Schema Conversion Tool** (SCT) allows to transform between different DB engines as part of a migration
 
+**Use cases:**
+- When migrating a database from the AWS network to an on-premise network, or within your AWS environment.
+- When needing to scale a database without downtime
+- When migrating a database to and from other platforms besides AWS
+- When needing a full database schema conversion
+- When migrating only a portion or subset of a database
+
 ![database-migration-service](../images/database-migration-service.png)
