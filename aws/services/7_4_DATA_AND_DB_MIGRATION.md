@@ -40,9 +40,13 @@
 
 ## Database migration service (DMS)
 
-- allows to migrate relation DB (**to** and **from**)
+**Traditional migration:**
+- do backup and restore migration -> stop all input and output on existing db -> take full backup and restore it somewhere else -> update all apps to point to a new instance
+- use DB replica to copy data -> roll all new transactions on migrated DB (this functionality as a service provides DMS)
+
+**DMS**
+- allows to migrate relational DB (**to** and **from**)
 - DMS: MySQL, PostgreSQL, MongoDB, Aurora, SAP, MSSQL, oracle
-- process: stop DB, take whole backup
 - **Schema Conversion Tool** (SCT) allows to transform between different DB engines as part of a migration
 
 ![database-migration-service](../images/database-migration-service.png)
