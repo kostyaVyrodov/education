@@ -20,7 +20,7 @@
 - KMS provides feature to re encrypt data. You provide a new key, it decrypts the data and encrypts it again with a new key and you don't see original data. It's possible to grant access to a user to only reencrypt data
 - DEK - data encryption key allows to work with data larger than 4KB
 - DEK provides 2 keys: in plain view and encrypted. Encrypted key can be stored near the data
-
+- CoudHSM provides a dedicated host per customer. KMS shares the host between customers
 - CMS -> DEK
 
 CMK types:

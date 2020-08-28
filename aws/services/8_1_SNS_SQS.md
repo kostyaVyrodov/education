@@ -28,6 +28,7 @@
 - **standard** is near to unlimited throughput. May receive messages out of order. It's a huge wide highway. May receive more then 1 copy of a message. It guarantees that you'll get at least 1 copy of the message
 - **FIFO** guarantees order and absence of duplicates.
 - after polling a message gets hidden, not deleted. To delete it's necessary
+- **Amazon MQ** is standards-based message broker that supports industry-standard APIs and protocols
 
 ![sqs](../images/sqs.png)
 

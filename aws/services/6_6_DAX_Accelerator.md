@@ -24,5 +24,6 @@ Managed in-memory data store supporting the **Redis** or **Memcached** engines
 Use cases:
 - offloading db reads by caching responses, improving app speed, reducing costs;
 - storing user session state, allowing for stateless compute instances; 
+- redis support AUTH to provide additional security and prevent random people to authorize the service
 
 ![state-cache](../images/state-cache.png)

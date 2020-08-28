@@ -85,3 +85,5 @@ ELB characteristic:
 
 Internal Classic Load Balancers are placed Between tiers of an application or between instances.
 
+- Autoscaling group doesn't consider unhealthy instances by default that fails health of load balancer
+- Autoscaling group will stop instances from the oldest launch configuration

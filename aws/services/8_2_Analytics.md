@@ -27,6 +27,7 @@
 - core functions: if HDFS then it manages data for it. It manages storage + task. If it fails it can affect it
 - task node runs tasks only
 - EMR is good for data processing workload, where you need do calculations or data manipulation
+- not fully managed service. It's possible to reach OS.
 
 ## Kinesis
 

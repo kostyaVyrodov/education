@@ -152,7 +152,6 @@ Groups notes:
 
 ARN (Amazon Resource Name) is unique identifier of any resource in any account, any region, anywhere inside Amazon.
 
-
 ### IAM Roles
 
 An IAM role is an IAM identity that you can create in your account that has specific permissions. Security Token Service (STS) generates a time-limited set of access keys (temporary credentials). These access keys have permissions defined in permission policy. IAM roles don't have long term credentials. However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it.
@@ -177,7 +176,6 @@ Roles notes:
 - Permissions policy defines the permissions provided
 - Temporary credentials expire
 - Example scenarios: company manager, aws service access, "Break-glass" style, cross account access, web identity federation
-
 
 ### AWS Organizations
 
@@ -328,7 +326,7 @@ AMI include:
 - permissions;
 - a block device mapping (configures how the instance OS sees attached volumes);
 
-AMI comes free, shared or paid. It can be copied to other regions.
+AMI comes free, shared or paid. It can be copied to other regions
 
 Types of AMIs: that use EBS and ISV (used rarely).
 
@@ -512,6 +510,7 @@ What you pay: $0.2/hr
 **Reserved**
 
 You reserve an instance and get a discount because helps AWS to predict load. You pay for instance even if it works. Full upfront: Don't need to worry about any hourly charges.
+- possible to reserve an schedule concrete time when instance will work to save money. For example you don't need 24\7 working instance
 
 Use case:
 - base\consistent load
@@ -557,11 +556,15 @@ Minimum billed duration is 100ms
 
 Lambda reacts on events and performs actions. For example a file uploaded to S3 bucket, lambda is triggered and it create thumbnails of images that were uploaded.
 
+Lambda encrypts variables by default, by they will be visible for everyone who has access to console. If you want to prevent seeing the variables, you need to use custom KMS key for this, instead of default. The key should be available only for users you trust.
+
 ### API Gateway
 
 Allows to create API without code that can integrate with other AWS service or any other services.
 
 It's a managed API endpoint service. It can be used to create, publish, monitor, and secure APIs "as a service". API Gateway can use other AWS service for compute (FaaS/IaaS) as well as to store and recall data.
+
+- Amazon API Gateway provides throttling at multiple levels including global and by a service call. Throttling limits can be set for standard rates and bursts.
 
 ![api-gateway.png](./images/api-gateway.png)
 
@@ -601,6 +604,8 @@ When you can't use docker:
 ### ECS
 
 ECS is Elastic Container Service. It allows docker containers to be deployed and managed withing AWS environments. ECS can use infrastructure clusters based on EC2 or fargate where AWS manage the backing infrastructure.
+
+- ECS allows to inject sensitive data into your containers via AWS Systems Manager Parameter + encrypting via KMS
 
 ![ec2 mode](./images/ec2-mode.png)
 
@@ -955,7 +960,7 @@ You can specify several IP addresses. Simple policy returns a single answer with
 
 - nobody has permission except account created the bucket
 - doesn't trust anybody and has no public access
-- possible to assign identity policy only to identities under your account. No anonymous, no other accounts. You can't assign identity policy to account you don't control
+- possible to assign **identity** policy only to **identities under your account**. No anonymous, no other accounts. You can't assign identity policy to account you don't control
 - share access to a bucket: identity policy, resource policy, ACL (legacy)
 - identity policy for identities, resource policy for resources. resource policy for s3 = bucket policy
 - resource policy can allow access from other accounts or anonymous users
@@ -985,8 +990,14 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - **s3 presigned url** is a temporary URL that allows users to see assigned S3 objects using the creator's credentials.
 - presigned url is expirable. you use identity of the user who created the url. If you generate a presigned URL via a role, the URL may stop working faster then it will be expired
 - presigned url allows to upload and download files
+- presigned url linked to a role, expires faster because role creds can expire faster. It's better to generate credentials on normal identities
+- if you identity no longe can access to a resource -> your presigned url doesn't allow to get access too
 - you can't come back to standard storage class via automatic rules
 - s3 encryption has no additional charge
+- Amazon WorkDocs is a fully managed, secure content creation, storage, and collaboration service for working with documents. It doesn't allow to secure files
+- **Amazon Macie** - is ML security services allowing to prevent data loss by automatically discovering, classifying, and protecting sensitive data stored in Amazon S3. It continuously monitors data access activity for anomalies, and delivers alerts when it detects risk of unauthorized access or inadvertent data leaks. 
+- **Amazon Rekognition** monitors and recognizes patterns on their Amazon S3 data. It can identify objects, people, texts and etc. It can't make a decision that data or access is anomaly.
+- **Amazon Inspector** monitors and analyzes applications for vulnerabilities and deviations from best practices.
 
 **Tiers:**
 - standard: default, when usage is unknown, replicated 3+ AZs, durability 99.99999999999%. Latency = ms
@@ -1023,9 +1034,11 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - OAI use case: access to S3 via CloudFront = better performance & better security. User won't go directly to S3
 - reasons to restrict bucket access: user should have better performance and better user experience + security
 - good performance: s3 + cdn
-- Origin Access Identity can be applied on CloudFront distribution and Bucket policies. 
+- Origin Access Identity can be applied on CloudFront distribution and Bucket policies
 - Origin Access Identity is a virtual identity. It's special CloudFront user that can have policies
 - it's possible to allies the domain name of CloudFront
+- signed url or signed cookies make whole CloudFront private. If you need to restrict concrete path, you need to set up signed cookie or signed url inside S3
+- **Field-Level Encryption** allows you to securely upload user-submitted sensitive information to your web servers.
 
 ##  EFS
 
@@ -1033,12 +1046,12 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - NFS (network file system) allows to deploy a file system into aws, which could be mounted on multiple linux instance at the same time
 - EBS can be connected only to 1 instances in a time, while EFS can be connected to multiple instances
 - To attach or detach EBS to another ec2, it must be in the same AZ
-- EFS is for specific VPC
+- EFS is for specific VPC. It's possible to attach EFS to different AZs
 - "Mount target" is network interface that live in a particular subnet inside VPC. These targets that your EC2 instances will connect to using the NFS 4 or NFS 4.1 protocols.
 - 1 mount target per AZ. more mount targets more resilient system.
-- Throughput modes for mount target: **bursting** and **provisioned** (allows to extend bursting)
-- bursting links size of EFS to its performance. Base: 100 MiB/s per 1TB
-- EFS performance modes: **general purpose** and **max I\O** (for 100+ instances that needs access)
+- Throughput modes for mount target: **bursting** and **provisioned**  (allows to extend bursting)
+- bursting links size of EFS to its performance. Base: 100 MiB/s per 1TB. Provisioned allows to specify concrete throughput
+- EFS performance modes: **general purpose** (for most of cases) and **max I\O** (for 100+ instances that needs access)
 - EFS supports encryption at rest
 - EFS accessible from local VPC, across VPC peering, across direct connection
 - EFS designed for large and parallel access level, thousands of NFS clients mounting the same EFS and access data concurrently, can be used as a shared linux home directory
@@ -1049,6 +1062,8 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - EFS has lifecycle management
 - EFS security is controlled by security groups
 - EFS is inside a subnet
+- Amazon FSx For Lustre is a high-performance file system for fast processing of workloads
+- Amazon FSx for Windows File Server is a fully managed Microsoft Windows file system with full support for the SMB protocol
 
 ![efs](./images/efs.png)
 
@@ -1079,6 +1094,9 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - encryption can't be removed
 - read replicas must be same encrypted\dencrypted as leader
 - encrypted snapshots can be copied between regions
+- Enhances Monitoring allows to monitor the CPU use, including the percentage of the CPU bandwidth and total memory consumed by each process. Default cloud watch doesn't allow to see CPU bandwidth
+- IAM database authentication is used to grant access to the EC2 instances via auth token. You enable IAM db auth, after this assign this identity to your instances and the services can access the db without concrete user and password
+- RDS are completely managed by AWS. e.g. OS is managed by AWS. If you need to deploy something and manage internals by yourself you need to use a dedicated EC2 and install there whatever you need.
 
 **Backups:**
 - rds **snapshot** allows manually to back up a database. manual snapshot has not automatic retention. the snapshot will exists after DB is deleted 
@@ -1118,6 +1136,7 @@ You can specify several IP addresses. Simple policy returns a single answer with
 ## DynamoDB
 
 - DynamoDB is somewhere between a key-value DB and document based db
+- both DynamoDB and ElasticCache is good for caching
 - NoSQL, lightweight db product, not fixed schema
 - Keys: sort(range) key, partition (hash) key. Sort + Partition = composition key
 - Region based service
@@ -1129,23 +1148,28 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - it's private be default and resilient on regional basis. At least 3 replicas in AZs of partition (table)
 - Automatically handles replications between AZs
 - Partition is a 10GB storage unit. 1+ partitions per table.
+- maximum performance per partition, not table. Performance of table = sum of performances of partitions
 - a hash function determines partition by partition key
 - when you allocate RCU and WRU, you allocate them for partition
 - each partition: 1 leader node (write\read), 2 non leader node (read)
+- dynamodb replicates data at least across 3 AZs. 1 write is replicated to other reader nodes
 - reading data: strongly consistent (read via leader) and eventual consistent
 - all reads by default are eventual consistency (cheaper = consistent read / 2)
 - Capacity mode: provisioned\on-demand (switching between modes = 24h delay)
+- provisioned - specify your throughput needs, pay a little bit less
+- on-demand - pay only when you do queries and writes
 - RCU read capacity unit, WRU write capacity unit
 - 1 RCU for Strong Consistent = 4KB, 0.5 RCU for eventual consistent = 4KB (3KB to read = 1 RCU, 4.5KB to read = 2RCU)
 - 1 WRU per 1KB
 - When it's possible to large operations
 - Read operations: **scan** and **query**
-- Scan: takes whole table and whole capacity and then removes not matched data. More flexible. Can be used without partition key
-- Query: goes through table without reading every item (when you used partition or sort key). Consume capacity corresponding to returned value. Limitation: can't query without partition key, can query only by 1 key. If you need query by sort key - go scan. Query more preferred = more efficient
+- Scan: takes whole table and whole capacity and then removes not matched data. More flexible. Can be used without partition key and filter by any attributes
+- Query: goes through table without reading every item (when you used partition or sort key). Consume capacity corresponding to returned value. Limitation: can't query without partition key, can query only by 1 key. If you need query by sort key - go scan. Query more preferred = more efficient. Query always go through Partition Key + Sort Key
 - Backups = Point in time recovery mechanism (stores up to 35 days). Possible to backup manually
 - all data is encrypted by default in DynamoDB
-- global tables is multi region, master-master replication. Written last wins the conflict. So the latest data is overwrite previous
+- global tables are multi region, **master-master** replication. Written last wins the conflict. So the latest data is overwrite previous
 - global tables require enabled streams and a region
+- global table can be enabled only on EMPTY tables
 - stream - a rolling 24 hours window of changes. stream per table
 - items that come to stream (stream views): key only, new state, previous state, previous + new
 - dynamo db streams are highly available
@@ -1154,5 +1178,7 @@ You can specify several IP addresses. Simple policy returns a single answer with
 - LSI is a part of main table and share RCU and WRU. MAX 5 LSI per table
 - LSI is the same data, just ordered in another way -> same rcu, wru
 - GSI = new partition + sort key. max 20 per table. possible to create on existing table. Also allows querying on new keys. Possible to have more then 20 via support
+- GSI = no strong consistent reads
 - GSI has new keys = a different set of data = extra cost over your base tables
 - projected attributes - allows changes size of information containing in index. need not projected attrs -> go to main table = performance penalty
+- **DynamoDB Auto Scaling** is used to automate capacity management for your tables and global secondary indexes.

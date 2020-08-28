@@ -4,7 +4,7 @@
 
 VPC VPN components:
 - a virtual private cloud (VPC)
-- virtual private gateway (VGW) attached to a VPC
+- virtual private gateway (VGW) attached to a VPC. ONLY 1 per VPC
 - a customer gateway (CGW) - configuration for on-premises router (router of a customer)
 - VPN Connection (using 1 or 2 IPsec tunnels)
 

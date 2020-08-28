@@ -3,7 +3,7 @@
 ## Essentials
 
 - aurora is compatible with both Postgre and MySQL
-- uses a base config of a "cluster"
+- uses a base config of a "cluster". It means that you operate whole cluster, instead of concrete RDS instances
 - cluster provides a cluster shared storage (volume)
 - aurora replicates data 6 times, across 3 AZ
 - storage is autohealing
@@ -11,6 +11,7 @@
 - You're billed for storage you use, not storage you allocate. But if you used 10 GB and then use 5GB, you'll be billed for 10GB (highest watermark)
 - cluster contains a 1 primary instances and 0-Many read replicas (15 max)
 - aurora has only 1 write node that writes across all AZs
+- 1 write node writes to all storages of a cluster
 - replica is a read node that capable to fetch information from shared storage
 - you can choose db instance size for aurora db
 - **failover priority** allows to identify which instance should be taken after failover (0 - higher priority than 15)

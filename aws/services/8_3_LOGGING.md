@@ -20,6 +20,7 @@
 - logs can be streamed or exported to S3
 - it's possible to install log agent that will push logs from stdout to CloudWatch logs
 - how to create a metric filter: created on a log group, it pattern matches text, it creates a metric. From metric you create alarm
+- cloud watch doesn't support: memory utilization, disk space utilization
 
 ### CloudTrail (user actions monitoring)
 
