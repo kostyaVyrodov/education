@@ -464,7 +464,7 @@ Note: when you restore a EBS from snapshot, you won't have maximum performance o
 
 **SR-IOV** - single root input output visualization. 1 host shares several VMs. The host has 1 network adapter, but VMs uses virtual network adapters that mapped to the real one. It means that 1 real adapter has many virtual. Recently the role of adapter was done by hypervisor, but now it's embedded into a real network adapter.
 
-**Placement groups** has 3 types: cluster, spread, partition.
+**Placement groups** has 3 types: cluster, partition, spread.
 
 Cluster – packs instances close together inside an Availability Zone. Cluster placement groups are designed for performance. Every instance can tal to every other instance at the same time at full speed. Works with enhanced network for peak performance. **Optimization:** small latency. Maybe traffic even doesn't need to leave a host. For performance. Launch the same type of instance for Cluster group to make they are really close to each other.
 

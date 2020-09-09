@@ -28,6 +28,13 @@
 - **AWS DataSync** makes it simple and fast to move large amounts of data online between on-premises storage and Amazon S3. It's for migration data, while AWS Storage Gateway allows to share data on-premises and in AWS
 - Geolocation routing policy — Use when you want to route traffic based on the location of your users. Geoproximity routing policy — Use when you want to route traffic based on the location of your resources and, optionally, shift traffic from resources in one location to resources in another.
 - Data Warehouse = redshift
+- DAX is HA
+- Kinesis streams - is services that allows to store data from 24h to 7d
+- Kinesis firehouse doesn't store data it triggers something that should analyze the incoming data
+- User pool authenticate a user in google. Identity pool accepts result of user pool and and grant creds for the user
+- GuardDuty - threat detection service that checks events from cloud trail and flow logs to prevent unauthorized accesses
+- Amazon Inspector analyzes access to services based on assigned permissions
+- Elastic search - data visualization tool in real time
 
 Disaster recovery plan:
 - Backup and restore
@@ -84,6 +91,68 @@ Disaster recovery plan:
 - **Redshift Spectrum** allows to execute SQL on exabytes of unstructured queries
 - 1 launch config per Autoscaling group
 - **Lambda@Edge** is a feature of Amazon CloudFront that lets you run code closer to users of your application, which improves performance and reduces latency.
+- It's not possible to stop EC2 instance based Instance Store
+- It's possible to encrypt AMI, and now it's possible to launch directly encrypted AMI, not need to unencrypt it
+- Reserved instances types: convertible and standard. Convertible allows to change AZ, Size, Networking type and etc.
+- Spot instances allocation strategies:
+    - LowestPrice. Can come from the same location and be close to each other and from the same pool
+    - Diversified. Distributed across pool
+    - CapacityOptimized. The Spot instances come from the pool with optimal capacity for the number of instances that are launching
+- AMI region based. When you copy it from region to other, you pay money
+- Elastic IP is regional!
+- CloudWatch alarms react on metrics
+- CloudWatch Event reacts on events itself that ocures in AWS
+- Regional services: AMIs, EIP, Security Group, EBS Snapshot.
+- AZs: EBS, Instance
+- To make EBS available outside AZ -> create a snapshot and restore it in other AZ
+- Possible to update properties of EBS without detaching
+- Possible to share snapshot by modifying access permissions
+- A snapshot is constrained to region where it's created
+- Not possible to delete snapshot of EBS root device that belongs to AMI
+- To share a snapshot, you have to copy to other region and you'll have a new snapshot
+- 1 Mount target per AZ
+- S3 prefixes allows to achieve better performance. Maximum performance might restricted by KMS
+- Object lock provides write once, read money model. Prevents objects to be deleted for some amount of time
+- Governance mode prevents objects to be overwritten or deleted, unless users have special permissions.
+- Compliance mode doesn't allow to modify objects event for a root user. Retention time can't be changed
+- Legal hold is same a retention period, but for versions
+- Object lock can be applied on individual objects, or on across the bucket
+- S3 select allows to retrieve subset of data via SQL
+- AWS DataSync allows to move big amount of data from your storage to S3
+- Athena is analytical service that allows to get data from S3 to analyze it, perform additional manipulations. Good for querying logs, generating business reports
+- Macie is ML thing that analyzes S3 data and monitors access pattens, allowing to alert in case of some suspicious actions. It also analyzes CloudTrail log
+- S3 select is optimization to save money on actual fetching of data
+- Spot block allows to prevent terminating of EC2 instances up to 6 hours
+- Spot instances are not good for: persistent workloads, critical job, databases
+- spot fleet combines spot + ondemand instances to rich desirable capacity
+- spot fleet strategies: lowest price (default), capacityOptimized, diversified, InstancePoolsToUseCount
+- EC2 hibernate save RAM to EBS and use it when you start the instance. Good for processes that needs long time to initialize. Hybernation requires root volume ot be encrypted
+- **Enhanced computing**: AWS Parallel Cluster and AWS Batch
+- AWS Batch is a service that allows to specify a job and launch it on thousands of instances
+HPC: DataTransfer (Snowball, AWS DataSync, DirectConnect), Computing (EC2 instances, EC2 fleets, placement groups, Enhances Networking, EFA), Orchestrate Automation (Batch and ParallelCluster)
+- AWS WAF (Web App Firewall) monitors HTTP and HTTPS that are forwarded to ALB, CloudFront and API Gateway. Prevents SQL, XSS. Possible to block IP, Country, Values in header, regex strings, length of requests. App level firewall. ACL allows to block IP addresses
+- AWS shield against DDoS.
+- DynamoDB On-Demand backup, doesn't hit performance. Point in time recovery: up to 35 days. Not enabled by default. About 5 mins to restore
+- DynamoDB Multi Master tables across different regions
+- DMS allows to migrate from different dbs to different sources db. MySQL -> Oracle
+- DynamoDB is encrypted in rest
+- EMR - big data platform similar to spark, hadoop, Petabyte scale to analyze, cheaper. Faster than spark
+- Enhanced computing for computing, EMR for big data
+- EMR consists of Master node, Task node and Core node. When Master finishes working the all data is erased. It's possible to set up storing logs in S3 bucket
+- Permissions boundaries allow to control a set of max amount of permissions given to somebody
+- RAM helps to share resources across different accounts
+- Geoproximity routing - your location + resources location
+- Gateway endpoints allows to get access to public resources like S3 and DynamoDB within AWS VPC
+- VPC Private Link allows to share one vpc for another vpc. Requires ENI in customer and ELB in Service
+- VPN CloudHub similar as AWS TransitGateway - allows to perform VPN connection to other networks 
+- Private IP is cheaper than Public IP
+- Communication within AZ is free
+- Security group can't span VPCs
+- NAT Gateway should be inside public subnet
+- DNS based traffic is not monitored by flow log
+- **ENI warm attach** is when ENI is stopped. **ENI hot attach** when it's running. **ENI cold attach** when it's being launched
+- DynamoDB good for session storing, storing metadata files. BLOB data is good for oracle DB
+- EBS snapshots don't affect anything. You can easily use it.
 
 What to refresh:
 - Elastic IP for instances
