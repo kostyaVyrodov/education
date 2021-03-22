@@ -70,7 +70,7 @@ Load balancing distributes incoming traffic for across a groups of servers or se
 - autoscaling group can't go the min
 - unhealthy instances will be terminated by autoscaling groups
 - Auto Scaling groups obtain high availability by: evenly distributing EC2 instances over multiple AZs and their subnets.
-- scaling policies: step, target, simple (TODO: Refresh scaling policies)
+- scaling policies: step, target, (TODO: Refresh scaling policies)
 
 Difference between classic LB and application LB:
 - CLBs support EC2 classic. ALBs does not support EC2 classic
