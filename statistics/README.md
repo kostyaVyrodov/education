@@ -29,4 +29,4 @@ Measurement levels: qualitative and quantitative
 
 Qualitative: nominal (spring, autumn, summer, winter. Nominal data can't be ordered) and ordinal (Ex: rating - Poor, Average, Good. Ordinal can be ordered)
 
-![data-categories](../images/3_5-data-catagories.png)
+![data-categories](../images/ 3_5-data-catagories.png)
