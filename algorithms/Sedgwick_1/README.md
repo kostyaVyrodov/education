@@ -6,6 +6,10 @@
 
 **Data structure:** method to store information
 
+## Week 1
+
+Overview, dynamic connectivity problem, analysis of algorithms
+
 ## Dynamic connectivity
 
 Problem: Maintain an undirected graph G so that edges may be inserted an deleted and connectivity queries may be answered efficiently.
@@ -30,3 +34,15 @@ Operations implementation:
 - find - check if items have the same number O(1)
 
 N^2 algorithms are too slow, they don't scale. Newer computers are more powerful, and they have more memory, which consequently leads to the larger number of operations.
+
+#### Quick union
+
+Data structure:
+- integer array id[] of size N
+- interpretation: p and q are connected iff (if and only if) they have the same id
+
+<b style="color: pink">Operations implementation:</b>
+- union - to merge components containing p and q, set the id of p's root to the id of q's root
+- find - check if p and q have the same root
+
+<img src="./images/quick-union.png" width="300" height="200" />
