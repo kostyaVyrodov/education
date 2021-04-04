@@ -41,8 +41,10 @@ Data structure:
 - integer array id[] of size N
 - interpretation: p and q are connected iff (if and only if) they have the same id
 
-<b style="color: pink">Operations implementation:</b>
-- union - to merge components containing p and q, set the id of p's root to the id of q's root
+Operations implementation:
+- union - to merge components containing p and q, set the id of p's root to the id of q's root.
 - find - check if p and q have the same root
+
+Root doesn't have a reference to other node
 
 <img src="./images/quick-union.png" width="300" height="200" />
