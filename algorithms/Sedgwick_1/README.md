@@ -39,12 +39,24 @@ N^2 algorithms are too slow, they don't scale. Newer computers are more powerful
 
 Data structure:
 - integer array id[] of size N
-- interpretation: p and q are connected iff (if and only if) they have the same id
+- interpretation: p and q are connected iff (if and only if) they have the same root id
 
 Operations implementation:
+- root - find root of the node
 - union - to merge components containing p and q, set the id of p's root to the id of q's root.
 - find - check if p and q have the same root
 
 Root doesn't have a reference to other node
 
-<img src="./images/quick-union.png" width="300" height="200" />
+#### Weighted union
+
+Data structure:
+- int arr id[] of size N, and int arr size
+- interpretation: p and q are connected iff (if and only if) they have the same root id. Optimization of quick union to avoid tall trees
+
+Operations implementation:
+- root - find root of the node
+- union - to merge components containing p and q, set the id of largest root to the id of smallest root
+- find - check if p and q have the same root
+
+<img src="./images/weights.png" width="300" height="200" />
