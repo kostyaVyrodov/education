@@ -14,6 +14,8 @@ public class WeightedQuickUnion {
 
     private int root(int e) {
         while (e != data[e]) {
+            // Path compression
+            data[e] = data[data[e]];
             e = data[e];
         }
 
