@@ -1,3 +1,5 @@
+// https://leetcode.com/explore/learn/card/fun-with-arrays/521/introduction/3238/
+
 class Solution {
     public int findMaxConsecutiveOnes(int[] nums) {
         int res = 0;

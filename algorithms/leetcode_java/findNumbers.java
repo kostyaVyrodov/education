@@ -1,3 +1,5 @@
+// https://leetcode.com/explore/learn/card/fun-with-arrays/521/introduction/3237/
+
 class Solution {
     public int findNumbers(int[] nums) {
         int res = 0;
