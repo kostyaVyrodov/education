@@ -80,7 +80,7 @@ Solution 2. Maintain a cache (queue\mailbox) of user's timelines. When somebody 
 
 1 user might have 30 million of users. 1 post should be delivered to 30M users. Twitter tries to do it in 5 sec.
 
-> The final twist of the Twitter anecdote: now that approach 2 is robustly implemented, Twitter is moving to a hybrid of both approaches.
+> The final twist of the Twitter anecdote: now that approach 2 is robustly implemented, Twitter is moving to a hybrid of both approaches. Many followers -> mailbox. An average user - db.
 
 #### Describing performance
 
@@ -92,8 +92,12 @@ Different systems different accents:
 - Hadoop (batch processing) - throughput (the number of records we can process per second)
 - WebApp - response time (that is, the time between a client sending a request and receiving a response)
 
-**Response time vs latency**
 
-Response time - what the client sees: besides the actual time to process the request (the service time), it includes network delays and queueing delays.
+### Maintainability
 
-Latency is the duration that a request is waiting to be handled.
+Maintainability has many facets, but in essence it’s about making life better for the engineering and operations teams who need to work with the system.
+
+Properties of maintainability:
+- Operability - make it easy for operations teams to keep the system running smoothly. Logging, monitoring, easy to update and etc.
+- Simplicity - make it easy for new engineers to understand the system, by removing as much complexity as possible from the system. 
+- Evolvability - make it easy for engineers to make changes to the system in the future
