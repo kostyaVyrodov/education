@@ -101,3 +101,27 @@ Properties of maintainability:
 - Operability - make it easy for operations teams to keep the system running smoothly. Logging, monitoring, easy to update and etc.
 - Simplicity - make it easy for new engineers to understand the system, by removing as much complexity as possible from the system. 
 - Evolvability - make it easy for engineers to make changes to the system in the future
+
+
+## Data Models and Query Languages
+
+### History of relational and document model
+
+- relational model in 1970. Edgar Codd suggested to organize data into relations (tables), where each relation (table) has a collection of tuples (rows)
+- relational model became popular due to business data processing. Transactions (entering bank or airlines sales) and batches (reporting, payrolls)
+- goal of relational dbs - hide implementation detail behind a cleaner interface. Other DBs for that moment didn't provide it.
+- In the 2010s, NoSQL is the latest attempt to overthrow the relational model’s dominance
+- NoSQL drivers: greater scalability than relational databases, widespread preference for free and open source software, a desire for a more
+dynamic data model
+
+### Relation vs Document
+
+### NoSQL types
+
+Key value
+
+Wide Column Stores
+
+Document databases 
+
+Graph databases

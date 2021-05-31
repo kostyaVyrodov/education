@@ -8,6 +8,8 @@
 
 **Maintainability** describes the ease with which a product can be maintained in order to: correct defects or their cause, repair or replace faulty or worn-out components without having to replace still working parts.
 
+**BASE** - Basically Available (the system does guarantee availability, in terms of the CAP theorem), Soft state (the state of the system may change over time, even without input), Eventual consistency (the system will become consistent over time, given that the system doesn't receive input during that time)
+
 ## SLA vs SLO vs SLI
 
 **SLA** (service level agreement) is an agreement between provider and client about measurable metrics like uptime, responsiveness, and responsibilities. 
@@ -27,3 +29,5 @@ SLI -> SLO -> SLA
 Response time might be represented as percentiles and it's better sometimes. It's when you have a list of all requests and defines what's percentage is finished less then 100ms.
 
 > Amazon observed that a 100 ms increase in response time reduces sales by 1%, and others report that a 1-second slowdown reduces a customer satisfaction metric by 16%
+
+
