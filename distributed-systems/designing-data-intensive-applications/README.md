@@ -114,7 +114,97 @@ Properties of maintainability:
 - NoSQL drivers: greater scalability than relational databases, widespread preference for free and open source software, a desire for a more
 dynamic data model
 
+### The Object-Relational Mismatch
+
+- OO languages are common today. They don't match to the relational model, so it's necessary to implement a data translation layer, which is awkward
+- ORM allows to solve the problem above
+- removing duplications is normalization
+- document DB doesn't support joins well. So one-many relationship is difficult in such DBs. In this case you need write joins in your code
+- network model. Each row might have 1+ parent. Accessing different rows ~ going through paths. Problem: need to get an item -> go through a path link in a linked list
+
 ### Relation vs Document
+
+- pros of document: schema flexibility (no migrations), better performance (locality), data is closer to app schema. Good for data with 1-1 relation.
+- cons\limitation of document: can't refer to a nested item of a document. First read Nth item, and then access to it property. No joins.
+- pros of relational: joins, good support of 1-M and M-M
+- cons\limitation of relational: migrating of schema is slow and requires downtime
+- a document is usually stored as a long string encoded as JSON\XMl. relational dbs store data is a sequence of tuples
+- relational databases like mysql, psql support working with JSON\XML documents. Possible: modify, query properties from documents
+- some document dbs supports joins
+
+> A hybrid of the relational and document models is a good route for databases to take in the future
+
+### Query languages for data
+
+- SQL follows the structure of relational algebra
+- Imperative way -> specifies each step. Declarative -> specifies pattern. You don't specify HOW to achieve the goal
+- declarative is easier to parallel. Because it doesn't use concrete steps. 
+> Imperative code is very hard to parallelize across multiple cores and multiple machines, because it specifies instructions that must be performed in a particular order.
+
+### MapReduce Querying
+
+- MapReduce is a programming model for processing large amounts of data in bulk across many machines, popularized by Google
+- MapReduce is neither a declarative query language nor a fully imperative query API. It's somewhere in between. Query expressed by code snippets.
+- MapReduce is a fairly low-level programming model for distributed execution on a cluster of machines.
+
+```js
+db.observations.mapReduce(
+    function map() { // 2
+        // Call each time when family is 'shark'
+        var year = this.observationTimestamp.getFullYear();
+        var month = this.observationTimestamp.getMonth() + 1;
+        emit(year + "-" + month, this.numAnimals); // 3
+    },
+    function reduce(key, values) { // 4
+        // Called once
+        return Array.sum(values); // 5
+    },
+    {
+        query: { family: "Sharks" }, // 1
+        out: "monthlySharkReport" // 6
+    }
+);
+
+// 1. The filter to consider only shark species can be specified declaratively (this is a MongoDB-specific extension to MapReduce).
+// 2. The JavaScript function map is called once for every document that matches query, with this set to the document object.
+// 3. The map function emits a key (a string consisting of year and month, such as "2013-12" or "2014-1") and a value (the number of animals in that observation).
+// 4. The key-value pairs emitted by map are grouped by key. For all key-value pairs with the same key (i.e., the same month and year), the reduce function is called once.
+// 5. The reduce function adds up the number of animals from all observations in a particular month.
+// 6. The final output is written to the collection monthlySharkReport.
+
+// Same in mongo but using declarative way
+db.observations.aggregate([
+    { $match: { family: "Sharks" } },
+    { $group: {
+            _id: {
+                year:  { $year:  "$observationTimestamp" },
+                month: { $month: "$observationTimestamp" }
+            },
+            totalAnimals: { $sum: "$numAnimals" } 
+        }
+    }
+]);
+```
+
+### Graph like data models
+
+- Many to Many is not good for document db. Graph based dbs are good for it.
+- A graph db consists of vertices (nodes) and edge (relationship)
+    - Social graph. Vertices - people. Edge - which people know each other.
+    - Web graph. Vertices - web pages. Edge - links to other html pages.
+    - Road\rail network. Vertices - junctions. Edge - a road.
+- Each vertex consist of:
+    - a unique identifier
+    - a set of outgoing edges
+    - a set of incoming edges
+    - a collection of properties
+- Each edge consists of:
+    - A unique identifier
+    - The vertex at which the edge starts
+    - The vertex at which the edge ends 
+    - A label to describe the kind of relationship between the two vertices
+    - A collection of properties
+- You can think of a graph store as consisting of two relational tables, one for vertices and one for edges
 
 ### NoSQL types
 
