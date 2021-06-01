@@ -193,25 +193,27 @@ db.observations.aggregate([
     - Social graph. Vertices - people. Edge - which people know each other.
     - Web graph. Vertices - web pages. Edge - links to other html pages.
     - Road\rail network. Vertices - junctions. Edge - a road.
-- Each vertex consist of:
-    - a unique identifier
-    - a set of outgoing edges
-    - a set of incoming edges
-    - a collection of properties
-- Each edge consists of:
-    - A unique identifier
-    - The vertex at which the edge starts
-    - The vertex at which the edge ends 
-    - A label to describe the kind of relationship between the two vertices
-    - A collection of properties
-- You can think of a graph store as consisting of two relational tables, one for vertices and one for edges
+- Types of data organization in graph oriented databases: property graph and triple stores
 
-### NoSQL types
+### Property graphs
 
-Key value
+Each vertex consist of:
+- a unique identifier
+- a set of outgoing edges
+- a set of incoming edges
+- a collection of properties
 
-Wide Column Stores
+Each edge consists of:
+- A unique identifier
+- The vertex at which the edge starts
+- The vertex at which the edge ends 
+- A label to describe the kind of relationship between the two vertices
+- A collection of properties
 
-Document databases 
+> You can think of a graph store as consisting of two relational tables, one for vertices and one for edges
 
-Graph databases
+No schema restriction:
+
+- any vertex is connected to any vertex
+- from any vertex you can find outgoing and incoming edges. As well you can traverse
+- labels for edges allow to store different types of relationships between entities (lives_in, born_in)
