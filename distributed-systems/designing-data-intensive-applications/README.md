@@ -217,3 +217,38 @@ No schema restriction:
 - any vertex is connected to any vertex
 - from any vertex you can find outgoing and incoming edges. As well you can traverse
 - labels for edges allow to store different types of relationships between entities (lives_in, born_in)
+
+An appropriate schema in the db:
+
+```sql
+CREATE TABLE vertices (
+    vertex_id integerPRIMARYKEY, properties json
+);
+
+CREATE TABLE edges (
+    edge_id integer PRIMARY KEY,
+    tail_vertex integer REFERENCES vertices (vertex_id), head_vertex integer REFERENCES vertices (vertex_id), label text,
+    properties json
+);
+
+CREATE INDEX edges_tails ON edges (tail_vertex);
+
+CREATE INDEX edges_heads ON edges (head_vertex);
+```
+
+### Triple-store
+
+Triple-store stores data as a three-part statement: subject, predicate, object. Example: Jim likes bananas
+
+Resource Description Framework (RDF) is a data formate intended to organize websites to publish data in a consistent format, allowing data from different websites to be automatically combined into a web of data—a kind of internet-wide "database of everything." It's one of possible data formats for representing triple store.
+
+SPARQL is a query language for triple-stores using the RDF data model
+
+### Network DB vs Graph DB
+
+- In the network model, the database had a schema that specified which record type could be nested within which other record type. In a graph database, there is no such restriction: any vertex can have an edge to any other vertex. This gives much greater flexibility for applications to adapt to changing requirements.
+- In the network model, the only way to reach a particular record was to traverse one of the access paths to it. In a graph database, you can refer directly to any vertex by its unique ID, or you can use an index to find vertices with a particular value.
+- In the network model, the children of a record were an ordered set, so the database had to maintain that ordering (which had consequences for the storage layout) and applications that inserted new records into the database had to worry about the positions of the new records in these sets. In a graph database, vertices and edges are not ordered (you can only sort the results when making a query).
+- In the network model, all queries were imperative, difficult to write and easily broken by changes in the schema. In a graph database, you can write your traversal in imperative code if you want to, but most graph databases also support high-level, declarative query languages such as Cypher or SPARQL.
+
+Initially we had a hierarchial data model. After this relational model was created. After relational is document, which leads to graph oriented dbs.
