@@ -31,7 +31,7 @@ Horizontal - more instances. Horizontal is more difficult to achieve. Easier to 
 - send a message to other processes, to be handled later (stream processing)
 - periodically crunch a large amount of accumulated data (batch processing)
 
-## Primary concerts
+## Primary concepts
 
 Reliability - work correctly (performance + features) even in case of faults (hardware, software, human faults)
 
@@ -105,22 +105,50 @@ Properties of maintainability:
 
 ## Data Models and Query Languages
 
-### History of relational and document model
+Primary data models: hierarchical, relational, document and graph.
 
-- relational model in 1970. Edgar Codd suggested to organize data into relations (tables), where each relation (table) has a collection of tuples (rows)
-- relational model became popular due to business data processing. Transactions (entering bank or airlines sales) and batches (reporting, payrolls)
-- goal of relational dbs - hide implementation detail behind a cleaner interface. Other DBs for that moment didn't provide it.
-- In the 2010s, NoSQL is the latest attempt to overthrow the relational model’s dominance
-- NoSQL drivers: greater scalability than relational databases, widespread preference for free and open source software, a desire for a more
-dynamic data model
+### Relational data model
 
-### The Object-Relational Mismatch
+History:
+- Edgar Codd in 1970 proposed a relational model data is organized into *relations* (tables) and each relation is an unordered collection of tuples (rows)
+- Relational model became popular due to business data processing. Transactions (entering bank or airlines sales) and batches (reporting, payrolls)
+- Over years, other models competed to the relational model. Most promising ones were network and hierarchical, but relational model remained the most popular one.
 
-- OO languages are common today. They don't match to the relational model, so it's necessary to implement a data translation layer, which is awkward
-- ORM allows to solve the problem above
-- removing duplications is normalization
+Pros:
+- The normalization is available due to joins. So it's possible to remove duplicated data.
+
+Cons:
+- Object relational mismatch. Most programming languages are different from relational model, so it's necessary to implement a data translation layer for it. ORMs come to solve this problem.
+
+Notes:
+- 
+
+### Document data models
+
+History:
+- In the 2010s is the latest attempt to overthrow relational model by document
+- Drivers: need for greater scalability (with larger volume and larger write throughput), widespread preference for free and open source software, a desire for a more dynamic data model
+
+Pros: 
+
+Cons:
 - document DB doesn't support joins well. So one-many relationship is difficult in such DBs. In this case you need write joins in your code
+
+### Graph data model
+
+### Network data model
+
 - network model. Each row might have 1+ parent. Accessing different rows ~ going through paths. Problem: need to get an item -> go through a path link in a linked list
+
+### Other notes
+
+
+
+
+
+
+
+
 
 ### Relation vs Document
 
