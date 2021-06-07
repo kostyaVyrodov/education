@@ -116,12 +116,10 @@ History:
 
 Pros:
 - The normalization is available due to joins. So it's possible to remove duplicated data.
+- Good support of 1-M and M-M (using associate table)
 
 Cons:
-- Object relational mismatch. Most programming languages are different from relational model, so it's necessary to implement a data translation layer for it. ORMs come to solve this problem.
-
-Notes:
-- 
+- Object relational mismatch. Most programming languages are different from relational model, so it's necessary to implement a data translation layer for it. ORMs come to solve this problem. So instead of manipulation objects, you manipulate columns and rows.
 
 ### Document data models
 
@@ -129,10 +127,13 @@ History:
 - In the 2010s is the latest attempt to overthrow relational model by document
 - Drivers: need for greater scalability (with larger volume and larger write throughput), widespread preference for free and open source software, a desire for a more dynamic data model
 
-Pros: 
+Pros:
+- schema flexibility (no migrations), better performance (locality), data is closer to app schema
+- Good for data with 1-1 relation
 
 Cons:
 - document DB doesn't support joins well. So one-many relationship is difficult in such DBs. In this case you need write joins in your code
+- can't refer to a nested item of a document. First, fully read Nth item, and then access to it property.
 
 ### Graph data model
 
@@ -141,13 +142,6 @@ Cons:
 - network model. Each row might have 1+ parent. Accessing different rows ~ going through paths. Problem: need to get an item -> go through a path link in a linked list
 
 ### Other notes
-
-
-
-
-
-
-
 
 
 ### Relation vs Document
@@ -166,7 +160,7 @@ Cons:
 
 - SQL follows the structure of relational algebra
 - Imperative way -> specifies each step. Declarative -> specifies pattern. You don't specify HOW to achieve the goal
-- declarative is easier to parallel. Because it doesn't use concrete steps. 
+- declarative is easier to parallel. Because it doesn't use concrete steps.
 > Imperative code is very hard to parallelize across multiple cores and multiple machines, because it specifies instructions that must be performed in a particular order.
 
 ### MapReduce Querying
