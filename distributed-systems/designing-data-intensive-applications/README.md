@@ -120,6 +120,12 @@ Pros:
 
 Cons:
 - Object relational mismatch. Most programming languages are different from relational model, so it's necessary to implement a data translation layer for it. ORMs come to solve this problem. So instead of manipulation objects, you manipulate columns and rows.
+- migrating of schema is slow and requires downtime
+
+Notes:
+- relational dbs store data is a sequence of tuples
+- relational databases like mysql, psql support working with JSON\XML documents. Possible: modify, query properties from documents
+- SQL follows the structure of relational algebra
 
 ### Document data models
 
@@ -135,35 +141,9 @@ Cons:
 - document DB doesn't support joins well. So one-many relationship is difficult in such DBs. In this case you need write joins in your code
 - can't refer to a nested item of a document. First, fully read Nth item, and then access to it property.
 
-### Graph data model
-
-### Network data model
-
-- network model. Each row might have 1+ parent. Accessing different rows ~ going through paths. Problem: need to get an item -> go through a path link in a linked list
-
-### Other notes
-
-
-### Relation vs Document
-
-- pros of document: schema flexibility (no migrations), better performance (locality), data is closer to app schema. Good for data with 1-1 relation.
-- cons\limitation of document: can't refer to a nested item of a document. First read Nth item, and then access to it property. No joins.
-- pros of relational: joins, good support of 1-M and M-M
-- cons\limitation of relational: migrating of schema is slow and requires downtime
-- a document is usually stored as a long string encoded as JSON\XMl. relational dbs store data is a sequence of tuples
-- relational databases like mysql, psql support working with JSON\XML documents. Possible: modify, query properties from documents
+Notes:
+- a document is usually stored as a long string encoded as JSON\XMl
 - some document dbs supports joins
-
-> A hybrid of the relational and document models is a good route for databases to take in the future
-
-### Query languages for data
-
-- SQL follows the structure of relational algebra
-- Imperative way -> specifies each step. Declarative -> specifies pattern. You don't specify HOW to achieve the goal
-- declarative is easier to parallel. Because it doesn't use concrete steps.
-> Imperative code is very hard to parallelize across multiple cores and multiple machines, because it specifies instructions that must be performed in a particular order.
-
-### MapReduce Querying
 
 - MapReduce is a programming model for processing large amounts of data in bulk across many machines, popularized by Google
 - MapReduce is neither a declarative query language nor a fully imperative query API. It's somewhere in between. Query expressed by code snippets.
@@ -208,7 +188,7 @@ db.observations.aggregate([
 ]);
 ```
 
-### Graph like data models
+### Graph data model
 
 - Many to Many is not good for document db. Graph based dbs are good for it.
 - A graph db consists of vertices (nodes) and edge (relationship)
@@ -217,7 +197,7 @@ db.observations.aggregate([
     - Road\rail network. Vertices - junctions. Edge - a road.
 - Types of data organization in graph oriented databases: property graph and triple stores
 
-### Property graphs
+#### Property graph
 
 Each vertex consist of:
 - a unique identifier
@@ -258,7 +238,7 @@ CREATE INDEX edges_tails ON edges (tail_vertex);
 CREATE INDEX edges_heads ON edges (head_vertex);
 ```
 
-### Triple-store
+#### Triple store
 
 Triple-store stores data as a three-part statement: subject, predicate, object. Example: Jim likes bananas
 
@@ -266,7 +246,18 @@ Resource Description Framework (RDF) is a data formate intended to organize webs
 
 SPARQL is a query language for triple-stores using the RDF data model
 
-### Network DB vs Graph DB
+### Network data model
+
+- network model. Each row might have 1+ parent. Accessing different rows ~ going through paths. Problem: need to get an item -> go through a path link in a linked list
+
+### Other notes
+
+- A hybrid of the relational and document models is a good route for databases to take in the future
+- Imperative way -> specifies each step. Declarative -> specifies pattern. You don't specify HOW to achieve the goal
+- declarative is easier to parallel. Because it doesn't use concrete steps.
+- Imperative code is very hard to parallelize across multiple cores and multiple machines, because it specifies instructions that must be performed in a particular order.
+
+#### Network DB vs Graph DB
 
 - In the network model, the database had a schema that specified which record type could be nested within which other record type. In a graph database, there is no such restriction: any vertex can have an edge to any other vertex. This gives much greater flexibility for applications to adapt to changing requirements.
 - In the network model, the only way to reach a particular record was to traverse one of the access paths to it. In a graph database, you can refer directly to any vertex by its unique ID, or you can use an index to find vertices with a particular value.
