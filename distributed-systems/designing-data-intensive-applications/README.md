@@ -117,10 +117,12 @@ History:
 Pros:
 - The normalization is available due to joins. So it's possible to remove duplicated data.
 - Good support of 1-M and M-M (using associate table)
+- To delete a column - just write a migration removing the column
 
 Cons:
 - Object relational mismatch. Most programming languages are different from relational model, so it's necessary to implement a data translation layer for it. ORMs come to solve this problem. So instead of manipulation objects, you manipulate columns and rows.
 - migrating of schema is slow and requires downtime
+- joins usually requires more time because data is split in different tables that might be in RAM and in disk
 
 Notes:
 - relational dbs store data is a sequence of tuples
@@ -136,15 +138,16 @@ History:
 Pros:
 - schema flexibility (no migrations), better performance (locality), data is closer to app schema
 - Good for data with 1-1 relation
+- to add a new column - just add a property to object
+- when you read an object it's usually inside 1 place on a disk
 
 Cons:
 - document DB doesn't support joins well. So one-many relationship is difficult in such DBs. In this case you need write joins in your code
 - can't refer to a nested item of a document. First, fully read Nth item, and then access to it property.
+- absence of normalization requires excessive number of write operations
 
 Notes:
 - a document is usually stored as a long string encoded as JSON\XMl
-- some document dbs supports joins
-
 - MapReduce is a programming model for processing large amounts of data in bulk across many machines, popularized by Google
 - MapReduce is neither a declarative query language nor a fully imperative query API. It's somewhere in between. Query expressed by code snippets.
 - MapReduce is a fairly low-level programming model for distributed execution on a cluster of machines.
@@ -248,14 +251,17 @@ SPARQL is a query language for triple-stores using the RDF data model
 
 ### Network data model
 
-- network model. Each row might have 1+ parent. Accessing different rows ~ going through paths. Problem: need to get an item -> go through a path link in a linked list
+- Each row might have 1+ parent. Accessing different rows ~ going through paths. Problem: need to get an item -> go through a path link in a linked list
+- links between records were not foreign keys, but more like pointers in a programming language. way accessing a record - follow from a root record along these chains of links
+- M-M: several path might lead to the same edge. A developer has keep the track of them.
 
 ### Other notes
 
 - A hybrid of the relational and document models is a good route for databases to take in the future
-- Imperative way -> specifies each step. Declarative -> specifies pattern. You don't specify HOW to achieve the goal
+- Imperative way -> specifies each step. Declarative -> specifies pattern. You don't specify HOW to achieve the goal. SQL is declarative.
 - declarative is easier to parallel. Because it doesn't use concrete steps.
 - Imperative code is very hard to parallelize across multiple cores and multiple machines, because it specifies instructions that must be performed in a particular order.
+- some document dbs supports joins (RethinkDB) and some relational dbs supports storing of objects
 
 #### Network DB vs Graph DB
 
