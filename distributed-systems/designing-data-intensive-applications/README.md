@@ -271,3 +271,35 @@ SPARQL is a query language for triple-stores using the RDF data model
 - In the network model, all queries were imperative, difficult to write and easily broken by changes in the schema. In a graph database, you can write your traversal in imperative code if you want to, but most graph databases also support high-level, declarative query languages such as Cypher or SPARQL.
 
 Initially we had a hierarchial data model. After this relational model was created. After relational is document, which leads to graph oriented dbs.
+
+## Storage and retrieval
+
+Simplest DB:
+
+```sh
+# Put by key
+# Just append to a log data. A log is an abstraction to which we always add data
+db_set () {
+    echo "$1,$2" >> database
+}
+
+# Get by key
+# Complexity O(N) because it's necessary to read whole file
+db_get () {
+    grep "^$1," database | sed -e "s/^$1,//" | tail -n 1
+}
+```
+
+- reading: O(N) complexity is not good for reading because it's pure performance for reading. Indexes and other stuff helps.
+- writing: O(1) just append to the end
+
+**Indexes** 
+
+- index is a thing that keeps metadata on the side, which acts as a signpost and helps you to locate the data you want.
+- 1 index - 1 way to search data.
+- an index must be maintained on writes. Do a write -> do update of an index -> slower performance on writes
+- db usually doesn't index everything. A developer should choose right index
+
+### Hash indexes
+
+
