@@ -302,4 +302,26 @@ db_get () {
 
 ### Hash indexes
 
+Based on key we know the place where to find data. It's fast.
 
+**Log structure hash-table:**
+- when you add - you append. When you read - you know offset and you can quickly find necessary data. `key-valueKey`, `value: bytes offset`
+- data stored in segments (logs)
+- problem: somebody hits a like button - need to count a number of likes. Each we add a new row, which leads to memory overrun. Solution: compaction. Find duplicates and keep only the latest value
+- during compaction, it's also possible to merge logs
+
+**Important questions:**
+- File format. CSV is not good. Binary is better: length of string in bytes + raw string.
+- Deleting a key. Add a tombstone label. During merging the value will be discard.
+- Crash recovery. Hash map is stored in memory, and in case of restart it will be lost. Restoring approach: read whole log and generate hash-map. But it will be too long for long logs. Optimization: save snapshots and load them.
+- Partially written records. Crash anytime, even during writing. Add checksums to detect corrupted rows and ignore them.
+- Concurrency control. Append only - 1 writer thread. Many read threads.
+
+**Wny not to overwrite?**
+- Appending and segment merging are sequential write operations, which are generally much faster than random writes. Especially on magnetic spinning-hard drives.
+- Simple concurrency and crash reporting. No case when data overwritten partially because of crash
+- Merges avoid fragmentation.
+
+**Limitations**
+- The hash table must fit in memory. A lot of keys - sorry :). Storing on disk leads to a lot of random I\O, hash collisions (some data in RAM, some on Disk) require fiddly logic.
+- Range queries are not efficient. Can't easily scan over all keys between kitty00000 and kitty99999—you’d have to look up each key individually in the hash maps
