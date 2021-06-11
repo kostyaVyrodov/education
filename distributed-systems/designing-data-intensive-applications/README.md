@@ -307,6 +307,9 @@ Based on key we know the place where to find data. It's fast.
 **Log structure hash-table:**
 - when you add - you append. When you read - you know offset and you can quickly find necessary data. `key-valueKey`, `value: bytes offset`
 - data stored in segments (logs)
+- in memory hash table. in disk data. Data is broken down into log segments. Data is written into a segment. If a segment is too big - write to another.
+- each segment has its own in-memory hash table, mapping keys to file offsets.
+- look up process: we first check the most recent segment’s hash map; if the key is not present we check the second-most-recent segment, and so on
 - problem: somebody hits a like button - need to count a number of likes. Each we add a new row, which leads to memory overrun. Solution: compaction. Find duplicates and keep only the latest value
 - during compaction, it's also possible to merge logs
 
@@ -325,3 +328,11 @@ Based on key we know the place where to find data. It's fast.
 **Limitations**
 - The hash table must fit in memory. A lot of keys - sorry :). Storing on disk leads to a lot of random I\O, hash collisions (some data in RAM, some on Disk) require fiddly logic.
 - Range queries are not efficient. Can't easily scan over all keys between kitty00000 and kitty99999—you’d have to look up each key individually in the hash maps
+
+### SSTables and LSM-Trees
+
+Sorted String Tables and LSM-Trees - data sorted by a key
+
+SSTables advantages:
+- merging is simple - use merge sort
+- read is quick because we know that a key might be somewhere between 2 keys
