@@ -355,3 +355,27 @@ If DB crashes during read, restore using a log of operations.
 
 - The basic idea of **LSM-trees** — keeping a cascade of SSTables that are merged in the background
 - LSM storages are based on this principle of merging and compacting sorted files
+
+Types of compaction:
+- size-tiered - newer and smaller SSTables are successively merged into older and larger SSTables
+- leveled compaction - the key range is split up into smaller SSTables and older data is moved into separate “levels,” which allows the compaction to proceed more incrementally and use less disk space
+
+### B-Trees
+
+- B-trees are more common indexes. It's a tree. 
+- B-tree breaks down into fixed-size blocks or pages, traditionally 4 KB in size. 
+- Each page is identified via an address, which allows one page to refer to another—similar to a pointer, but on disk instead of in memory.
+- 1 page is a root of the B-tree; whenever you want to look up a key in the index, you start here
+- Update a key: O(NLogN). Find a leaf, update it.
+- Insert\Remove a new item: find right spot and balance tree to keep O(NLogN)
+
+> Most DB can fit into a B-tree that is 3 or 4 levels deep, so you don’t need to follow many page references to find the page you are looking for. (A four-level tree of 4 KB pages with a branching factor of 500 can store up to 256 TB
+
+**B-trees vs Log-structured index**
+
+**Difference:**
+- The log-structured indexes break the database down into variable-size segments, typically **several megabytes**, and always write a segment sequentially.
+- The B-trees break the database down into fixed-size blocks or pages, traditionally 4 KB in size (sometimes bigger), and read or write one page at a time. The design in closed to hardware design.
+
+**Common:** keep key-value pairs sorted by key, which allows efficient key- value lookups and range queries. 
+
