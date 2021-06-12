@@ -306,12 +306,13 @@ Based on key we know the place where to find data. It's fast.
 
 **Log structure hash-table:**
 - when you add - you append. When you read - you know offset and you can quickly find necessary data. `key-valueKey`, `value: bytes offset`
+- add -> write to file -> receive offset -> update value in hash table
 - data stored in segments (logs)
 - in memory hash table. in disk data. Data is broken down into log segments. Data is written into a segment. If a segment is too big - write to another.
 - each segment has its own in-memory hash table, mapping keys to file offsets.
 - look up process: we first check the most recent segment’s hash map; if the key is not present we check the second-most-recent segment, and so on
-- problem: somebody hits a like button - need to count a number of likes. Each we add a new row, which leads to memory overrun. Solution: compaction. Find duplicates and keep only the latest value
-- during compaction, it's also possible to merge logs
+- problem: somebody hits a like button - need to count a number of likes. Each we add a new row, which leads to memory overrun. Solution: compaction. Find duplicates and keep only the latest value. Compaction is done within 1 log.
+- during compaction, it's also possible to merge logs. Merge logs - merge MULTIPLE logs (data segments)
 
 **Important questions:**
 - File format. CSV is not good. Binary is better: length of string in bytes + raw string.
@@ -331,8 +332,26 @@ Based on key we know the place where to find data. It's fast.
 
 ### SSTables and LSM-Trees
 
-Sorted String Tables and LSM-Trees - data sorted by a key
+**SSM** - Sorted String Tables 
+**LSM-Trees** - Log-Structured Merge-Tree
 
-SSTables advantages:
-- merging is simple - use merge sort
+The things above are data segments sorted by a key. Each key must appear only once within each merge segment.
+
+**SSTables advantages:**
+- merging is simple - use merge sort. When merge save the most recent value.
 - read is quick because we know that a key might be somewhere between 2 keys
+- possible not to keep all keys in memory. Because you can find range in hash table and find the key inside a segment.
+- B-Trees helps to keep data sorted. So it's easy to add a new item and then transform into a SSTable and save it to disk
+- Examples for B-Trees: red-black, AVL trees.
+
+**Implementation of storage engine:**
+- Write into an in-memory tree (keeps keys sorted). Sometimes the tree is called memtable
+- When the tree is too big -> convert to SSTable and save to disk
+- Tree is already sorted, and it's newer version of a index. It's necessary to just overwrite the existing one.
+- Serving read: go to a memtable, go to a data segment
+- From time to time, run merging + compaction.
+
+If DB crashes during read, restore using a log of operations.
+
+- The basic idea of **LSM-trees** — keeping a cascade of SSTables that are merged in the background
+- LSM storages are based on this principle of merging and compacting sorted files
