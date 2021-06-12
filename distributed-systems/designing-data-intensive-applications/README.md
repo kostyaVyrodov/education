@@ -367,15 +367,43 @@ Types of compaction:
 - Each page is identified via an address, which allows one page to refer to another—similar to a pointer, but on disk instead of in memory.
 - 1 page is a root of the B-tree; whenever you want to look up a key in the index, you start here
 - Update a key: O(NLogN). Find a leaf, update it.
-- Insert\Remove a new item: find right spot and balance tree to keep O(NLogN)
+- Insert\Remove a new item: find right spot and balance tree to keep O(NLogN). Overwrite doesn't change the location of a page -> all references to that page remains the same
+- To make DB resilient to crashes, it uses WAL (write ahead log) from which it's possible to restore the db
+- possible write improvement: overwrite whole page when write data. Like pure function -> copy whole state with updated thing
 
 > Most DB can fit into a B-tree that is 3 or 4 levels deep, so you don’t need to follow many page references to find the page you are looking for. (A four-level tree of 4 KB pages with a branching factor of 500 can store up to 256 TB
 
 **B-trees vs Log-structured index**
 
-**Difference:**
+Difference:
 - The log-structured indexes break the database down into variable-size segments, typically **several megabytes**, and always write a segment sequentially.
 - The B-trees break the database down into fixed-size blocks or pages, traditionally 4 KB in size (sometimes bigger), and read or write one page at a time. The design in closed to hardware design.
 
-**Common:** keep key-value pairs sorted by key, which allows efficient key- value lookups and range queries. 
+Common: keep key-value pairs sorted by key, which allows efficient key- value lookups and range queries. 
 
+**B-trees vs LSM-trees**
+
+- LSM-trees - faster for writes.
+    - Reads are slower due to checking different data structures and SSTables at different stages of compaction
+    - Log-structured indexes rewrite data multiple times due to repeated compaction and merging of SSTables
+- B-trees - faster for reads
+
+- in heave write apps, the bottleneck might be rate at which the db can write to disk -> LSM usually can handle more then B-trees. LSM writes sequentially (good for HDD)
+- LSM-trees can be compressed better, and thus often produce smaller files on disk than B-trees. 
+- B-trees sometime unused space due to fragmentation. LSM-trees fragment disk less due to compaction and merging 
+- Compaction process of LSM-trees sometimes can interfere with the performance of ongoing writes and reads
+- LSM-trees requires saving to disk log, data segment and sometime compaction with merging. It overuses throughput of disk
+
+### Other notes
+
+- primary index - clustered index. Created for PK of a table. Doesn't have duplicates in keys. Value is data.
+- secondary index - non clustered index. Created for other columns of a table. MIGHT have duplicates in keys. Value is reference.
+- A clustered index organizes data. An item of index contains data;
+- A non clustered index points to concrete data. An item of index has a link to data;
+- The key in an index is the thing that queries search for, but the value can be one of two things: the actual row (document, vertex) in question, or a reference to the row stored elsewhere.
+- place for values of secondary index is called heap file. It stores data without a particular order. Heap file is common because allows to avoid duplicating of data between 2 different indexes.
+- A compromise between a clustered index and a nonclustered - covering index or index with included columns. Part of value is refer and part is data 
+- Multi-column indexes (concatenated indexes) allow to query data from multiple columns in an index instead of key-value
+- Full-text search and fuzzy indexes allow to find data based on misspelled words. Lucene is a good example.
+- These days RAM is quite affordable, so sometimes it's better to keep a db in memory.
+- today's in memory DBs can handle more data than RAM's volume. The mechanism is similar to virtual memory
