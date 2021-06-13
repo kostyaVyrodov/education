@@ -394,7 +394,7 @@ Common: keep key-value pairs sorted by key, which allows efficient key- value lo
 - Compaction process of LSM-trees sometimes can interfere with the performance of ongoing writes and reads
 - LSM-trees requires saving to disk log, data segment and sometime compaction with merging. It overuses throughput of disk
 
-### Other notes
+**Other notes**
 
 - primary index - clustered index. Created for PK of a table. Doesn't have duplicates in keys. Value is data.
 - secondary index - non clustered index. Created for other columns of a table. MIGHT have duplicates in keys. Value is reference.
@@ -407,3 +407,25 @@ Common: keep key-value pairs sorted by key, which allows efficient key- value lo
 - Full-text search and fuzzy indexes allow to find data based on misspelled words. Lucene is a good example.
 - These days RAM is quite affordable, so sometimes it's better to keep a db in memory.
 - today's in memory DBs can handle more data than RAM's volume. The mechanism is similar to virtual memory
+
+### Transaction Processing or Analytics
+
+- Online transaction processing (OLTP) - an average app that writes and read data
+- Online analytic processing (OLAP) - analytics that query a lot of data
+
+| Property             | Transaction processing systems (OLTP)             | Analytic systems (OLAP)                   |
+|----------------------|---------------------------------------------------|-------------------------------------------|
+| Main read pattern    | Small number of records per query, fetched by key | Aggregate over large number of records    |
+| Main write pattern   | Random-access, low-latency writes from user input | Bulk import (ETL) or event stream         |
+| Primarily used by    | End user/customer, via web application            | Internal analyst, for decision support    |
+| What data represents | Latest state of data (current point in time)      | History of events that happened over time |
+| Dataset size         | Gigabytes to terabytes                            | Terabytes to petabytes                    |
+
+- **Data warehouse** is a separate database that analysts can query to their hearts’ content, without affecting OLTP operations. The data warehouse contains a read-only copy of the data in all the various OLTP systems in the company. All data from whole system goes into the warehouse.
+- Data warehouse can be optimized for analytic access pattern.
+- The data model of a data warehouse is most commonly relational, because SQL is generally a good fit for analytic queries.
+- Column oriented storages - store all the values from each column together instead. If you need to read a column - you read a single file.
+- Sorting columns mights have improve read queries and compression since common data will be closer
+- Writing might be a problem for sorted column data, but LSM trees might help - keep in memory sorted tree and then merge them into a disk when you have a lot of accumulated writes
+- Warehouses are not always based on column stores
+- materialized view is a view from SQL. But view in sql just represents a query while materialized views represent real data -> when base data is changed, view needs to be changed as well
