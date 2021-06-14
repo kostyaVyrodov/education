@@ -429,3 +429,20 @@ Common: keep key-value pairs sorted by key, which allows efficient key- value lo
 - Writing might be a problem for sorted column data, but LSM trees might help - keep in memory sorted tree and then merge them into a disk when you have a lot of accumulated writes
 - Warehouses are not always based on column stores
 - materialized view is a view from SQL. But view in sql just represents a query while materialized views represent real data -> when base data is changed, view needs to be changed as well
+
+## Encoding and Evolution
+
+- Backward compatibility - newer code can read data that was written by older code
+- Forward compatibility - older code can read data that was written by newer code
+- Encoding (serialization or marshalling) is translation from the in-memory representation to a byte sequence. Decoding (parsing, deserialization, unmarshalling) - reverse
+- for a small dataset, the gains are negligible, but once you get into the terabytes, the choice of data format can have a big impact.
+- Binary encoding formats Protocol Buffers, Thrift, and Avro
+- RPC (Remote Procedure Call) tries to make a request to a remote net‐ work service look the same as calling a function or method in your programming language, within the same process
+
+**Network call vs Function call**
+- **function** call is predictable and either succeeds or fails, depending only on parameters that are under your control.
+- **network** request is unpredictable: the request or response may be lost due to a network problem, or the remote machine may be slow or unavailable
+- local **function** call either returns a result, or throws an exception, or never returns 
+- Every time you call a local function, it normally takes about the same time to exe‐ cute. A network request is much slower than a function call, and its latency is also wildly variable: at good times it may complete in less than a millisecond, but when the network is congested or the remote service is overloaded it may take many seconds to do exactly the same thing.
+- If you retry a failed network request, it could happen that the requests are actually getting through, and only the responses are getting lost. In that case, retrying will cause the action to be performed multiple times, unless you build a mechanism for deduplication (idempotence) into the protocol.
+- The client and the service may be implemented in different programming lan‐ guages, so the RPC framework must translate datatypes from one language into another.
